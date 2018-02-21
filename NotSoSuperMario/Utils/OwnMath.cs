@@ -13,13 +13,5 @@ namespace NotSoSuperMario.Utilities
             return distance;
 
         }
-
-        public static float CalculateAngleBetweenPoints(Point p1, Point p2)
-        {
-            float deltaX = p2.X - p1.X;
-            float deltaY = p2.Y - p1.Y;
-            float res = (float)(Math.Atan2(deltaY, deltaX));
-            return res;
-        }
     }
 }

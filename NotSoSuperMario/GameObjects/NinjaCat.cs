@@ -58,7 +58,7 @@
             }
 
             // Rotation
-            this.rotation = OwnMath.CalculateAngleBetweenPoints(this.position.ToPoint(), mouse.Position);
+            //this.rotation = OwnMath.CalculateAngleBetweenPoints(this.position.ToPoint(), mouse.Position);
         }
 
         private void Move(int gameWidth, int gameHeight, KeyboardState keyboard)
