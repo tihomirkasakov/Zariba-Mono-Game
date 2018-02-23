@@ -1,1 +1,5 @@
-# Zariba-Mono-Game
+Ninja Cat Game
+
+Team: Todor
+      Meglena
+      Tihomir
