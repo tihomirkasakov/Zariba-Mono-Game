@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="sprites.png">
+	<!--
+	Created with ShoeBox
+	http://renderhjs.net/shoebox/
+	-->
+	<SubTexture name="NinjaCat_01.png"	x="376"	y="0"	width="123"	height="195" frameX="-7" frameY="-18" frameWidth="256" frameHeight="222"/>
+	<SubTexture name="NinjaCat_02.png"	x="748"	y="0"	width="123"	height="197" frameX="-7" frameY="-16" frameWidth="256" frameHeight="222"/>
+	<SubTexture name="NinjaCat_03.png"	x="624"	y="0"	width="123"	height="199" frameX="-7" frameY="-14" frameWidth="256" frameHeight="222"/>
+	<SubTexture name="NinjaCat_04.png"	x="872"	y="0"	width="123"	height="198" frameX="-7" frameY="-16" frameWidth="256" frameHeight="222"/>
+	<SubTexture name="NinjaCat_05.png"	x="0"	y="0"	width="127"	height="195" frameX="-7" frameY="-18" frameWidth="256" frameHeight="222"/>
+	<SubTexture name="NinjaCat_06.png"	x="252"	y="0"	width="123"	height="199" frameX="-7" frameY="-15" frameWidth="256" frameHeight="222"/>
+	<SubTexture name="NinjaCat_07.png"	x="128"	y="0"	width="123"	height="202" frameX="-7" frameY="-13" frameWidth="256" frameHeight="222"/>
+	<SubTexture name="NinjaCat_08.png"	x="500"	y="0"	width="123"	height="199" frameX="-7" frameY="-15" frameWidth="256" frameHeight="222"/>
+</TextureAtlas>
