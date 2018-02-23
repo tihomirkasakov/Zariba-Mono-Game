@@ -14,9 +14,9 @@
         private const int BORDER_OFFSET = 50;
         private const double SHOOT_DELAY = 50;
 
-        private const string IDLE_ANIMATION_KEY = "idleAnimation";
-        private const string SHOOT_ANIMATION_KEY = "shootAnimation";
-        private const string MOVE_ANIMATION_KEY = "catninja_walk";
+        //private const string IDLE_ANIMATION_KEY = "idleAnimation";
+        //private const string SHOOT_ANIMATION_KEY = "shootAnimation";
+        //private const string MOVE_ANIMATION_KEY = "moveAnimation";
 
 
         private double shootDelayTimer;
@@ -34,7 +34,7 @@
             MouseState mouse = Mouse.GetState();
             KeyboardState keyboard = Keyboard.GetState();
             this.Move(gameWidth, gameHeight, keyboard);
-            this.currentAnimationKey = MOVE_ANIMATION_KEY;
+            //this.currentAnimationKey = MOVE_ANIMATION_KEY;
             foreach (var pair in this.animations)
             {
                 pair.Value.Update(gameTime);
@@ -43,12 +43,12 @@
             // Shoot
             if (mouse.LeftButton == ButtonState.Pressed)
             {
-                this.currentAnimationKey = SHOOT_ANIMATION_KEY;
+                //this.currentAnimationKey = SHOOT_ANIMATION_KEY;
                 this.shootDelayTimer += gameTime.ElapsedGameTime.Milliseconds;
-                if (this.shootDelayTimer>SHOOT_DELAY)
+                if (this.shootDelayTimer > SHOOT_DELAY)
                 {
-                this.shootDelayTimer = 0;
-                this.shootSignal.Invoke();
+                    this.shootDelayTimer = 0;
+                    this.shootSignal.Invoke();
                 }
             }
 
@@ -100,13 +100,13 @@
 
         protected override void CreateAnimations(ContentManager Content)
         {
-            var idleAnimation = Content.Load<Texture2D>(IDLE_ANIMATION_KEY);
-            var moveAnimation = Content.Load<Texture2D>(MOVE_ANIMATION_KEY);
-            var shootAnimation = Content.Load<Texture2D>(SHOOT_ANIMATION_KEY);
+            //var idleAnimation = Content.Load<Texture2D>(IDLE_ANIMATION_KEY);
+            //var moveAnimation = Content.Load<Texture2D>(MOVE_ANIMATION_KEY);
+            //var shootAnimation = Content.Load<Texture2D>(SHOOT_ANIMATION_KEY);
 
             //this.animations.Add(IDLE_ANIMATION_KEY, new Animation(idleAnimation, 20, 4, 5, 313, 207));
-            this.animations.Add(MOVE_ANIMATION_KEY, new Animation(moveAnimation, 8, 3, 3, 256, 222));
-            this.animations.Add(SHOOT_ANIMATION_KEY, new Animation(shootAnimation, 3, 1, 3, 312, 206));
+            //this.animations.Add(MOVE_ANIMATION_KEY, new Animation(moveAnimation, 8, 3, 3, 256, 222));
+            //this.animations.Add(SHOOT_ANIMATION_KEY, new Animation(shootAnimation, 3, 1, 3, 312, 206));
 
 
         }
