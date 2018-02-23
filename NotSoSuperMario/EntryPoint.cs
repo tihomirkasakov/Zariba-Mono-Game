@@ -1,17 +1,18 @@
-﻿using System;
-
-namespace NotSoSuperMario
+﻿namespace NotSoSuperMario
 {
+    using System;
+
 #if WINDOWS || LINUX
 
     public static class EntryPoint
     {
-
         [STAThread]
-        static void Main()
+        public static void Main()
         {
-            using (var game = new NotSoSuperMario())
+            using (var game = new NinjaCat())
+            {
                 game.Run();
+            }
         }
     }
 #endif

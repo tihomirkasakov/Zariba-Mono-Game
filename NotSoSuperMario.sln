@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotSoSuperMario", "NotSoSuperMario\NotSoSuperMario.csproj", "{8B7DF42E-F13B-479D-AA7B-522C7A8DA0CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaCat", "NotSoSuperMario\NinjaCat.csproj", "{8B7DF42E-F13B-479D-AA7B-522C7A8DA0CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,6 +5,7 @@
 
     public class Animation
     {
+        //check duration!
         private const int DEFAULT_DURATION = 20;
 
         private Texture2D texture;
@@ -16,7 +17,6 @@
         private int cols;
         private double frameDuration;
         private double timeSinceLastChange;
-        // width and height per frame
         private int width;
         private int height;
 
