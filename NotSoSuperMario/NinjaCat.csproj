@@ -41,12 +41,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controller\StateMachine.cs" />
+    <Compile Include="Controller\States\GameState.cs" />
+    <Compile Include="Controller\States\State.cs" />
     <Compile Include="GameObjects\Entity.cs" />
     <Compile Include="GameObjects\Player.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="NinjaCat.cs" />
-    <Compile Include="EntryPoint.cs" />
+    <Compile Include="Controller\NinjaCat.cs" />
+    <Compile Include="Controller\EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Animation.cs" />
     <Compile Include="Utils\OwnMath.cs" />
@@ -66,7 +69,6 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controller\" />
     <Folder Include="Model\" />
     <Folder Include="View\" />
   </ItemGroup>
