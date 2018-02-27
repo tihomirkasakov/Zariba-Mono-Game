@@ -20,7 +20,7 @@
             this.Texture = texture;
             this.Position = position;
             this.Scale = scale;
-            this.CollisionRectangle = new Rectangle((int)position.X, (int)position.Y, (int)(texture.Width * this.Scale));
+            this.CollisionRectangle = new Rectangle((int)position.X, (int)position.Y, (int)(texture.Width * this.Scale), (int)(texture.Height * this.Scale));
             this.SourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
             this.Tint = Color.White;
             this.IsFacingRight = true;

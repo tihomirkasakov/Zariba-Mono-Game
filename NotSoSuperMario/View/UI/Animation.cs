@@ -16,6 +16,7 @@
             this.SourceRectangle = new Rectangle(0, 0, (int)frameDimensions.X, (int)frameDimensions.Y);
             this.Texture = spriteSheet;
             this.IsFacingRight = true;
+            this.Scale = 1f;
             this.SwitchFrameTimer = switchFrameTimer;
         }
 
@@ -52,7 +53,7 @@
 
         public void ChangeAnimation(string nameOfAction)
         {
-            foreach (AnimationState state in this.AnimationStates)
+            foreach (AnimationState state in this.AnimationState)
             {
                 if (state.Name == nameOfAction && state != this.CurrentAnimationState)
                 {
@@ -65,12 +66,15 @@
 
         public void Update()
         {
-            this.ElapsedMiliseconds += Globals.GameTime.ElapsedGameTime.Miliseconds;
+            this.ElapsedMiliseconds += Globals.GameTime.ElapsedGameTime.Milliseconds;
             if (this.ElapsedMiliseconds >= this.SwitchFrameTimer)
             {
                 this.ElapsedMiliseconds = 0;
-
-                this.SourceRectangle = new Rectangle(this.SourceRectangle.X + this.SourceRectangle.Width - 1, this.SourceRectangle)
+                this.SourceRectangle = new Rectangle(this.SourceRectangle.X + this.SourceRectangle.Width - 1, this.SourceRectangle.Y, this.SourceRectangle.Width, this.SourceRectangle.Height);
+                if (this.SourceRectangle.X >= this.CurrentAnimationState.RowOfFrames.Width)
+                {
+                    this.SourceRectangle = new Rectangle(0, this.SourceRectangle.Y, this.SourceRectangle.Width, this.SourceRectangle.Height);
+                }
             }
         }
 

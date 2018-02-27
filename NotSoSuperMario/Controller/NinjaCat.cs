@@ -6,7 +6,7 @@
     using NotSoSuperMario.Controller;
     using NotSoSuperMario.Controller.States;
     using NotSoSuperMario.Controller.Utils;
-    using NotSoSuperMario.GameObjects;
+    using NotSoSuperMario.Model.GameObjects;
     using NotSoSuperMario.View;
 
     public class NinjaCat : Game

@@ -31,17 +31,18 @@
         private Vector2 velocity;
         private bool isMoving;
 
-        public Player(Keys moveLeft, Keys moveRight, Keys jump, Vector2 position, bool isFacingRight)
+        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys shoot, Vector2 position, bool isFacingRight)
         {
             this.State = PlayerStates.IDLE;
             this.IsFacingRight = isFacingRight;
             this.jumpHeight = 0;
 
-            this.controls = new Dictionary<string, Keys>;
+
+            this.controls = new Dictionary<string, Keys>();
             this.controls.Add("Move Left", moveLeft);
             this.controls.Add("Move Right", moveRight);
             this.controls.Add("Jump", jump);
-            //attack
+            this.controls.Add("Shoot", shoot);
 
             this.Position = position;
             this.isGrounded = false;
@@ -54,7 +55,7 @@
         public PlayerStates State { get; private set; }
         public bool IsFacingRight { get; set; }
 
-        public void Move(List<Block> blocks, List<KeyboarButtonState> activeKeys)
+        public void Move(List<Block> blocks, List<KeyboardButtonState> activeKeys)
         {
             this.State = PlayerStates.IDLE;
             // Checking for collision with blocks underneath the player
@@ -68,7 +69,7 @@
             // this.HandleJumping(blocks);
 
             // Side Collision
-            this.HandleCollisiton(blocks);
+            this.HandleSideCollisiton(blocks);
 
         }
 

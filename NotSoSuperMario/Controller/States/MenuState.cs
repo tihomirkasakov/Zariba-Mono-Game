@@ -15,7 +15,7 @@
         public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager) 
             : base(inputHandler, uiFactory, soundManager)
         {
-            this.SpriteInState.Add(this.uiFactory.MenuBackgorund);
+            //this.SpriteInState.Add(this.uiFactory.MenuBackground);
             this.SpriteInState.Add(this.uiFactory.StartButton.Sprite);
             this.SpriteInState.Add(this.uiFactory.OptionButton.Sprite);
             this.SpriteInState.Add(this.uiFactory.ExitButton.Sprite);

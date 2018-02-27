@@ -1,4 +1,4 @@
-﻿namespace NotSoSuperMario.GameObjects
+﻿/*namespace NotSoSuperMario.GameObjects
 {
     using global::NotSoSuperMario.Utilities;
     using Microsoft.Xna.Framework;
@@ -51,4 +51,4 @@
         protected abstract void CreateAnimations(ContentManager Content);
 
     }
-}
+}*/
