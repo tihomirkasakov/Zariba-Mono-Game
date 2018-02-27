@@ -47,7 +47,7 @@
         public static Sprite CreateSprite(string fileName)
         {
             var texture = Globals.Content.Load<Texture2D>(fileName);
-            Sprite sprite = new Sprite(texture, new Vector2(0, 0), 0.4f);
+            Sprite sprite = new Sprite(texture, new Vector2(0, 0), 1f);
             return sprite;
         }
     }
