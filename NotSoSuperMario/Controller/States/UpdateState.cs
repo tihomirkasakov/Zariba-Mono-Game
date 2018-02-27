@@ -5,7 +5,6 @@
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.Model.GameObjects;
     using NotSoSuperMario.Model.Level;
-    using NotSoSuperMario.Utilities;
     using Model.Player;
     using NotSoSuperMario.View;
     using NotSoSuperMario.View.UI;

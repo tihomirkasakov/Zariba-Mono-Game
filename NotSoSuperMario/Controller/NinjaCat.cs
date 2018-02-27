@@ -1,9 +1,8 @@
-﻿namespace NotSoSuperMario
+﻿namespace NotSoSuperMario.Controller
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
-    using NotSoSuperMario.Controller;
     using NotSoSuperMario.Controller.States;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.Model.GameObjects;
@@ -52,16 +51,17 @@
         protected override void LoadContent()
         {
             Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
-
             //this.soundManager.LoadContent();
         }
 
         protected override void UnloadContent()
         {
+            base.UnloadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
+            Globals.GameTime = gameTime;
             this.stateMachine.Update();
 
             base.Update(gameTime);
@@ -69,8 +69,7 @@
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.TransparentBlack);
-
+            //GraphicsDevice.Clear(Color.TransparentBlack);
             this.stateMachine.Draw(renderer);
 
             base.Draw(gameTime);

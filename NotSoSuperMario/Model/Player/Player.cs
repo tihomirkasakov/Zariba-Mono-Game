@@ -10,8 +10,9 @@
     public enum PlayerStates
     {
         IDLE,
-        RUNNING,
-        WALKING
+        WALK,
+        JUMP,
+        ATTACK
     }
     public class Player
     {
@@ -154,14 +155,14 @@
             {
                 if (key.Button == this.controls["Move Left"] && key.ButtonState == Controller.Utils.KeyState.Held && !this.isMoving)
                 {
-                    this.State = PlayerStates.RUNNING;
+                    this.State = PlayerStates.WALK;
                     this.isMoving = true;
 
                     this.MoveLeft();
                 }
                 else if (key.Button == this.controls["Move Right"] && key.ButtonState == Controller.Utils.KeyState.Held && !this.isMoving)
                 {
-                    this.State = PlayerStates.RUNNING;
+                    this.State = PlayerStates.WALK;
                     this.isMoving = true;
 
                     this.MoveRight();
@@ -184,12 +185,12 @@
             if (this.velocity.X > FRICTION_FORCE)
             {
                 this.velocity = new Vector2(this.velocity.X - FRICTION_FORCE, this.velocity.Y);
-                this.State = PlayerStates.WALKING;
+                this.State = PlayerStates.WALK;
             }
             else if(this.velocity.X < -FRICTION_FORCE)
             {
                 this.velocity = new Vector2(this.velocity.X + FRICTION_FORCE, this.velocity.Y);
-                this.State = PlayerStates.WALKING;
+                this.State = PlayerStates.WALK;
             }
             else
             {

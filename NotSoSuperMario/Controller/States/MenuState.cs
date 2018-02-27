@@ -1,5 +1,6 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
+    using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.View;
@@ -86,7 +87,9 @@
         private void Options()
         {
             // Go full Screen
-            Globals.Graphics.ToggleFullScreen();
+            Globals.Graphics.IsFullScreen = true;
+            Globals.Graphics.ApplyChanges();
+
             // Sounds
             // Controls
 

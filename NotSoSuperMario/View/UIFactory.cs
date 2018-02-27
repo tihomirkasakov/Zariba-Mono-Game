@@ -24,7 +24,7 @@
 
         public UIFactory()
         {
-            this.MenuBackground = CreateSprite("Backgrounds\\menuBackground");
+            this.MenuBackground = CreateSprite("Backgrounds/menuBackground");
             this.StartButton = CreateButton("Controls/StartNormal", "Controls/StartHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 100));
             //this.StartButton = CreateButton("ResumeNormal", "ResumeHover", new Vector2(Globals.Graphics.PreferredBackBufferHeight / 2, 150));
             this.OptionButton = CreateButton("Controls/OptionsNormal", "Controls/OptionsHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 200));
@@ -47,7 +47,7 @@
         public static Sprite CreateSprite(string fileName)
         {
             var texture = Globals.Content.Load<Texture2D>(fileName);
-            Sprite sprite = new Sprite(texture);
+            Sprite sprite = new Sprite(texture, new Vector2(0, 0), 0.4f);
             return sprite;
         }
     }
