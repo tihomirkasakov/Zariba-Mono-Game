@@ -18,13 +18,13 @@
         private Player player;
         private Animation playerAnimation;
 
-        private List<Sprite> shurikenSpite;
+        private List<Sprite> shurikenSprites;
 
         public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             :base(inputHandler, uiFactory, soundManager)
         {
             this.level = new LevelOne();     
-            this.player = new Player(Keys.A, Keys.D, Keys.W, Keys.S, new Vector2(1000, 100), false);
+            this.player = new Player(Keys.A, Keys.D, Keys.W, Keys.S, new Vector2(1100, 800), false);
 
             this.Initialize();
         }

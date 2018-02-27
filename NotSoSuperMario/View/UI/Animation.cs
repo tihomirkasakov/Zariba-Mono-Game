@@ -30,7 +30,7 @@
 
         public Rectangle SourceRectangle { get; set; }
 
-        public List<AnimationState> AnimationState { get; set; }
+        public List<AnimationState> AnimationStates { get; set; }
 
         public Texture2D Texture
         {
@@ -49,11 +49,11 @@
 
         private int SwitchFrameTimer { get; set; }
 
-        private int ElapsedMiliseconds { get; set; }
+        private int ElapsedMilliseconds { get; set; }
 
         public void ChangeAnimation(string nameOfAction)
         {
-            foreach (AnimationState state in this.AnimationState)
+            foreach (AnimationState state in this.AnimationStates)
             {
                 if (state.Name == nameOfAction && state != this.CurrentAnimationState)
                 {
@@ -66,10 +66,11 @@
 
         public void Update()
         {
-            this.ElapsedMiliseconds += Globals.GameTime.ElapsedGameTime.Milliseconds;
-            if (this.ElapsedMiliseconds >= this.SwitchFrameTimer)
+            this.ElapsedMilliseconds += Globals.GameTime.ElapsedGameTime.Milliseconds;
+            if (this.ElapsedMilliseconds >= this.SwitchFrameTimer)
             {
-                this.ElapsedMiliseconds = 0;
+                this.ElapsedMilliseconds = 0;
+
                 this.SourceRectangle = new Rectangle(this.SourceRectangle.X + this.SourceRectangle.Width - 1, this.SourceRectangle.Y, this.SourceRectangle.Width, this.SourceRectangle.Height);
                 if (this.SourceRectangle.X >= this.CurrentAnimationState.RowOfFrames.Width)
                 {

@@ -53,11 +53,7 @@
     <Compile Include="Controller\Utils\KeyboardButtonState.cs" />
     <Compile Include="Controller\Utils\SoundManager.cs" />
     <Compile Include="Model\GameObjects\Block.cs" />
-    <Compile Include="Model\GameObjects\Entity.cs" />
     <Compile Include="Model\GameObjects\GameObject.cs" />
-    <Compile Include="Model\GameObjects\Player.cs">
-      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="Controller\NinjaCat.cs" />
     <Compile Include="Controller\EntryPoint.cs" />
     <Compile Include="Model\GameObjects\Shuriken.cs" />

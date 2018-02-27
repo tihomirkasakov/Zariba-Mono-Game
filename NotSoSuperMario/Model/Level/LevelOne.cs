@@ -8,7 +8,7 @@
     {
         public LevelOne()
         {
-            this.LevelBackground = UIFactory.CreateSprite("LevelBackground");
+            this.LevelBackground = UIFactory.CreateSprite("background");
             this.Blocks = new List<Block>
             {
                 // Blocks
