@@ -3,47 +3,57 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
+    using NotSoSuperMario.Controller;
     using NotSoSuperMario.Controller.States;
+    using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.GameObjects;
+    using NotSoSuperMario.View;
 
     public class NinjaCat : Game
     {
-        private const int GAME_WIDTH = 1030;
-        private const int GAME_HEIGHT = 579;
+        private MonoGameRenderer renderer;
 
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private Texture2D background;
+        private StateMachine stateMachine;
 
-        GameState CurrentGameState = GameState.MainMenu;
-        private Player player;
+        private UIFactory uiFactory;
+
+        private InputHandler inputHandler;
+
+        private SoundManager soundManager;
 
         public NinjaCat()
         {
-            this.graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Globals.Graphics = new GraphicsDeviceManager(this);
+            Globals.Content = this.Content;
+            Globals.Content.RootDirectory = "Content";
+
+            IsMouseVisible = false;
+
+            Window.Title = "Ninja Cat";
+
+            Globals.Graphics.PreferredBackBufferWidth = 1030;
+            Globals.Graphics.PreferredBackBufferHeight = 579;
+
+            MenuState.OnExitPressed += this.QuitGame;
         }
 
         protected override void Initialize()
         {
-            this.graphics.PreferredBackBufferWidth = GAME_WIDTH;
-            this.graphics.PreferredBackBufferHeight = GAME_HEIGHT;
-            this.graphics.ApplyChanges();
+            this.renderer = new MonoGameRenderer();
+            this.soundManager = new SoundManager();
+            this.inputHandler = new InputHandler();
+            this.uiFactory = new UIFactory();
+
+            this.stateMachine = new StateMachine(this.inputHandler, this.uiFactory, this.soundManager);
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            this.background = Content.Load<Texture2D>("background");
+            Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            this.spriteBatch = new SpriteBatch(GraphicsDevice);
-        }
-
-        public NinjaCat(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Texture2D background)
-        {
-            this.graphics = graphics;
-            this.spriteBatch = spriteBatch;
-            this.background = background;
+            //this.soundManager.LoadContent();
         }
 
         protected override void UnloadContent()
@@ -52,20 +62,23 @@
 
         protected override void Update(GameTime gameTime)
         {
+            this.stateMachine.Update();
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.TransparentBlack);
-            
-            this.spriteBatch.Begin();
-            this.spriteBatch.Draw(this.background, Vector2.Zero, Color.AliceBlue);
-            
 
-            this.spriteBatch.End();
+            this.stateMachine.Draw(renderer);
 
             base.Draw(gameTime);
+        }
+
+        private void QuitGame()
+        {
+            this.Exit();
         }
     }
 }

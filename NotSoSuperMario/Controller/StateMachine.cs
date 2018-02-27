@@ -1,15 +1,29 @@
 ﻿namespace NotSoSuperMario.Controller
 {
     using NotSoSuperMario.Controller.States;
+    using NotSoSuperMario.Controller.Utils;
+    using NotSoSuperMario.View;
 
-    public static class StateMachine
+    public class StateMachine
     {
-        public static State CurrentState;
-        public static State NextState;
+        public State CurrentState { get; set; }
 
-        public static void ChangeState()
+        public StateMachine(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
         {
-            CurrentState = CurrentState.NextState;
+
+            // Initialize starting state
+            this.CurrentState = new MenuState(inputHandler, uiFactory, soundManager);
+        }
+
+        public void Update()
+        {
+            this.CurrentState.Update();
+            this.CurrentState = this.CurrentState.NextState;
+        }
+
+        public void Draw(MonoGameRenderer renderer)
+        {
+            this.CurrentState.Draw(renderer);
         }
     }
 }
