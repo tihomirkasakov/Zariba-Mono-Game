@@ -13,6 +13,6 @@
 
         public Rectangle Bounds { get; set; }
 
-        public abstract void ActOnCollisition();
+        public abstract void ActOnCollision();
     }
 }

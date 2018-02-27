@@ -10,21 +10,22 @@
     using NotSoSuperMario.View.UI;
     using System.Collections.Generic;
     using System;
+    using Microsoft.Xna.Framework.Graphics;
 
     class UpdateState : State
     {
         private Level level;
         private Player player;
         private Animation playerAnimation;
-
         private List<Sprite> shurikenSprites;
+        private List<Animation> listOfPlayerAnimations;
 
         public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
-            :base(inputHandler, uiFactory, soundManager)
+            : base(inputHandler, uiFactory, soundManager)
         {
-            this.level = new LevelOne();     
-            this.player = new Player(Keys.A, Keys.D, Keys.W, Keys.S, new Vector2(1100, 800), false);
-
+            this.level = new LevelOne();
+            this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(40, 40), true);
+            this.shurikenSprites = new List<Sprite>();
             this.Initialize();
         }
 
@@ -34,9 +35,9 @@
 
             foreach (var block in this.level.Blocks)
             {
-                Sprite sprite = UIFactory.CreateSprite(block.Type.ToString());
+                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(), 0.3f);
                 sprite.Position = block.Position;
-                block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y, 
+                block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y,
                     sprite.Texture.Width, sprite.Texture.Height);
                 this.SpriteInState.Add(sprite);
             }
@@ -51,34 +52,33 @@
             if (!this.isDone)
             {
                 this.UpdatePlayer();
-                this.PlayerShoot();
+                this.PlayerAttack();
             }
 
-            //FIXME for (int i = 0; i < this.level.ListOfShurikens.Count; i++)
-            //FIXME {
-            //FIXME     this.UpdateShuriken(shuriken);
-            //FIXME }
+            for (int i = 0; i < this.level.ListOfShurikens.Count; i++)
+            {
+                this.UpdateShuriken(i);
+            }
         }
 
-        //FIXMEprivate void UpdateShuriken(Shuriken shuriken)
-        //FIXME{
-        //FIXME Shuriken shuriken = this.level.ListOfShurikens[i];
-        //FIXME 
-        //FIXME if (!shuriken.IsMelting)
-        //FIXME {
-        //FIXME     this.shuriken.Move();
-        //FIXME     this.shurikenSpite[i].Position = shuriken.Position;
-        //FIXME     shuriken.Bounds = new Rectangle((int)shuriken.Position.X,
-        //FIXME         (int)shuriken.Position.Y,
-        //FIXME         this.shurikenSpite[i].Texture.Height);
-        //FIXME }
-        //FIXME else
-        //FIXME {
-        //FIXME     this.SpritesInState.Remove(this.shurikenSpites[i]);
-        //FIXME     this.level.ListOfShuriekns.Remove(shuriken);
-        //FIXME     this.shurikenSpites.Remove(this.shurikenSpites[i]);
-        //FIXME }
-        //FIXME}
+        private void UpdateShuriken(int i)
+        {
+            Shuriken shuriken = this.level.ListOfShurikens[i];
+
+            if (!shuriken.IsFalling)
+            {
+                shuriken.Move();
+                shurikenSprites[i].Position = shuriken.Position;
+                shuriken.Bounds = new Rectangle((int)shuriken.Position.X, (int)shuriken.Position.Y, 
+                    shurikenSprites[i].Texture.Width, shurikenSprites[i].Texture.Height);
+            }
+            else
+            {
+                SpriteInState.Remove(shurikenSprites[i]);
+                this.level.ListOfShurikens.Remove(shuriken);
+                shurikenSprites.Remove(shurikenSprites[i]);
+            }
+        }
 
         public void UpdatePlayer()
         {
@@ -90,33 +90,32 @@
             this.playerAnimation.ChangeAnimation(this.player.State.ToString());
         }
 
-        private void PlayerShoot()
+        private void PlayerAttack()
         {
-            //FIXME if (this.player.IsShooting)
-            //FIXME {
-            //FIXME     this.player.IsShooting = false;
-            //FIXME 
-            //FIXME     Vector2 shurikenPosition = new Vector2();
-            //FIXME 
-            //FIXME     if (this.player.IsFacingRight)
-            //FIXME     {
-            //FIXME         shurikenPosition = new Vector2(this.player.Bounds.Right,
-            //FIXME             this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
-            //FIXME     }
-            //FIXME     else
-            //FIXME     {
-            //FIXME         shurikenPosition = new Vector2(this.player.Bounds.Left - 40,
-            //FIXME             this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
-            //FIXME     }
-            //FIXME 
-            //FIXME     Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.isFacingRight);
-            //FIXME 
-            //FIXME     this.level.ListOfShurikens.Add(newShuriken);
-            //FIXME 
-            //FIXME     Sprite shurikenSprite = UIFactory.CreateSprite("Shuriken");
-            //FIXME     this.shurikenSpite.Add(shurikenSpite);
-            //FIXME     this.SpriteInState.Add(shurikenSpite);
-            //FIXME }
+            if (this.player.IsAttacking)
+            {
+                this.player.IsAttacking = false;
+
+                Vector2 shurikenPosition = new Vector2();
+
+                if (this.player.IsFacingRight)
+                {
+                    shurikenPosition = new Vector2(this.player.Bounds.Right,
+                        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
+                }
+                else
+                {
+                    shurikenPosition = new Vector2(this.player.Bounds.Left - 40,
+                        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
+                }
+
+                Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.IsFacingRight);
+                this.level.ListOfShurikens.Add(newShuriken);
+
+                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken", 0.1f);
+                this.shurikenSprites.Add(shurikenSprite);
+                this.SpriteInState.Add(shurikenSprite);
+            }
         }
     }
 }

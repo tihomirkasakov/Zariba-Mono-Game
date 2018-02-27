@@ -5,7 +5,6 @@
     using Microsoft.Xna.Framework.Input;
     using NotSoSuperMario.Controller.States;
     using NotSoSuperMario.Controller.Utils;
-    using NotSoSuperMario.Model.GameObjects;
     using NotSoSuperMario.View;
 
     public class NinjaCat : Game
@@ -30,7 +29,7 @@
 
             Window.Title = "Ninja Cat";
 
-            Globals.Graphics.PreferredBackBufferWidth = 1500;
+            Globals.Graphics.PreferredBackBufferWidth = 1280;
             Globals.Graphics.PreferredBackBufferHeight = 917;
 
             MenuState.OnExitPressed += this.QuitGame;

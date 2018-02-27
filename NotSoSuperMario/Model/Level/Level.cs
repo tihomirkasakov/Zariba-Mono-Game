@@ -9,7 +9,7 @@
         public Sprite LevelBackground { get; set; }
 
         public List<Block> Blocks { get; set; }
-        // Shurikens
+        public List<Shuriken> ListOfShurikens { get; set; }
 
     }
 }

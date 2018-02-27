@@ -4,8 +4,7 @@
 
     public enum BlockType
     {
-        IceCube,
-        IceBlock
+        tile_1
     }
 
     public class Block : GameObject
@@ -18,9 +17,9 @@
 
         public BlockType Type { get; set; }
 
-        public override void ActOnCollisition()
+        public override void ActOnCollision()
         {
-            
+            throw new System.NotImplementedException();
         }
     }
 }

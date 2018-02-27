@@ -16,16 +16,17 @@
     }
     public class Player
     {
-        private const float FRICTION_FORCE = 0.08f;
-        private const float MAX_PLAYER_SPEED = 8;
+        private const float FRICTION_FORCE = 0.8f;
+        private const float MAX_PLAYER_SPEED = 3;
         private const float PLAYER_ACCEERATION = 0.1f;
-        private const int JUMP_VELOCITY = 9;
+        private const int JUMP_VELOCITY = 12;
+        private const int TEMP_DISTANCE = 3;
 
         private const int LEFT_BOUND = 0;
         private const int RIFGHT_BOUND = 1280;
-        // max health
+        private const int DEFAULT_SHURIKEN = 3;
+        private const int MAX_HEALTH = 100;
 
-        private Vector2 acceleration;
         private Dictionary<string, Keys> controls;
         private bool isGrounded;
         private float jumpHeight;
@@ -46,6 +47,7 @@
             this.controls.Add("Shoot", shoot);
 
             this.Position = position;
+            this.Shurikens = DEFAULT_SHURIKEN;
             this.isGrounded = false;
 
 
@@ -55,19 +57,21 @@
         public Rectangle Bounds { get; set; }
         public PlayerStates State { get; private set; }
         public bool IsFacingRight { get; set; }
+        public bool IsAttacking { get; set; }
+        public int Health { get; set; }
+        public int Shurikens { get; set; }
 
         public void Move(List<Block> blocks, List<KeyboardButtonState> activeKeys)
         {
             this.State = PlayerStates.IDLE;
-            // Checking for collision with blocks underneath the player
 
+            // Checking for collision with blocks underneath the player
             this.HandleTopCollisiton(blocks);
             this.Position += this.velocity;
 
             // Movement
             this.HandleMovement(blocks, activeKeys);
-            // Jumping check
-            // this.HandleJumping(blocks);
+            this.HandleBottomCollision(blocks);
 
             // Side Collision
             this.HandleSideCollisiton(blocks);
@@ -93,8 +97,8 @@
         {
             return (this.Bounds.Bottom + this.velocity.Y >= rect.Top - 10) &&
                 this.Bounds.Bottom + this.velocity.Y <= rect.Top &&
-                this.Bounds.Right >= rect.Left +4 && 
-                this.Bounds.Left <= rect.Right -4;
+                this.Bounds.Right >= rect.Left + 4 &&
+                this.Bounds.Left <= rect.Right - 4;
         }
 
         private void HandleBottomCollision(List<Block> blocks)
@@ -116,22 +120,22 @@
         {
             if ((this.Bounds.Left + (this.Bounds.Width / 2)) + this.velocity.X < LEFT_BOUND)
             {
-                this.Position = new Vector2(RIFGHT_BOUND - (this.Bounds.Width / 2), this.Position.Y);
+                this.Position = new Vector2(-(this.Bounds.Width/2), this.Position.Y);
             }
             else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > RIFGHT_BOUND)
             {
-                this.Position = new Vector2(LEFT_BOUND - (this.Bounds.Width / 2), this.Position.Y);
+                this.Position = new Vector2(RIFGHT_BOUND- (this.Bounds.Width / 2), this.Position.Y);
             }
             else
             {
                 int tempDistance;
                 if (this.velocity.X > 0)
                 {
-                    tempDistance = 4;
+                    tempDistance = TEMP_DISTANCE;
                 }
                 else
                 {
-                    tempDistance = -4;
+                    tempDistance = -TEMP_DISTANCE;
                 }
 
                 Rectangle tempRect = new Rectangle((int)(this.Bounds.X + (this.velocity.Y + tempDistance)),
@@ -167,10 +171,17 @@
 
                     this.MoveRight();
                 }
-                // else if (Move right) ...
-                // jump ... KeyState.Held
-                // Atack .. KeyState.Clicked
+                else if (key.Button == this.controls["Jump"] && key.ButtonState == Controller.Utils.KeyState.Held)
+                {
+                    this.State = PlayerStates.JUMP;
+                    this.Jump();
+                }
+                else if (key.Button == this.controls["Shoot"] && key.ButtonState == Controller.Utils.KeyState.Clicked)
+                {
+                     this.Attack();
+                }
             }
+
 
             if (!this.isMoving)
             {
@@ -187,7 +198,7 @@
                 this.velocity = new Vector2(this.velocity.X - FRICTION_FORCE, this.velocity.Y);
                 this.State = PlayerStates.WALK;
             }
-            else if(this.velocity.X < -FRICTION_FORCE)
+            else if (this.velocity.X < -FRICTION_FORCE)
             {
                 this.velocity = new Vector2(this.velocity.X + FRICTION_FORCE, this.velocity.Y);
                 this.State = PlayerStates.WALK;
@@ -201,7 +212,7 @@
 
         private void ApplyGravity()
         {
-            this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.15f);
+            this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.5f);
 
         }
 
@@ -213,36 +224,42 @@
                 this.velocity = new Vector2(this.velocity.X, -JUMP_VELOCITY);
             }
         }
-        
-        //private void Attack()
-        //{
-            
-        //}
 
-        private void MoveLeft()
+        private void Attack()
         {
-            if (!Keyboard.GetState().IsKeyDown(this.controls["Move Right"]))
+            if (this.Shurikens > 0)
             {
-                this.IsFacingRight = false;
-            }
-
-            if (this.velocity.X > -MAX_PLAYER_SPEED)
-            {
-                this.velocity = new Vector2(this.velocity.X - PLAYER_ACCEERATION, this.velocity.Y);
+                this.IsAttacking = true;
+                this.Shurikens--;
             }
         }
 
-        private void MoveRight()
-        {
-            if (!Keyboard.GetState().IsKeyDown(this.controls["Move Left"]))
+
+
+            private void MoveLeft()
             {
-                this.IsFacingRight = true;
+                if (!Keyboard.GetState().IsKeyDown(this.controls["Move Right"]))
+                {
+                    this.IsFacingRight = false;
+                }
+
+                if (this.velocity.X > -MAX_PLAYER_SPEED)
+                {
+                    this.velocity = new Vector2(this.velocity.X - PLAYER_ACCEERATION, this.velocity.Y);
+                }
             }
 
-            if (this.velocity.X < MAX_PLAYER_SPEED)
+            private void MoveRight()
             {
-                this.velocity = new Vector2(this.velocity.X + PLAYER_ACCEERATION, this.velocity.Y);
+                if (!Keyboard.GetState().IsKeyDown(this.controls["Move Left"]))
+                {
+                    this.IsFacingRight = true;
+                }
+
+                if (this.velocity.X < MAX_PLAYER_SPEED)
+                {
+                    this.velocity = new Vector2(this.velocity.X + PLAYER_ACCEERATION, this.velocity.Y);
+                }
             }
         }
     }
-}
