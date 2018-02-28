@@ -1,25 +1,21 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
-    using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.View;
 
-    public delegate void OnGameQuit();
-
-    public class MenuState : State
+    public class OptionsState : State
     {
-        public static event OnGameQuit OnExitPressed;
+        public int menuId;
 
-        private int menuId;
-
-        public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
+        public OptionsState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
             this.SpriteInState.Add(this.uiFactory.MenuBackground);
-            this.SpriteInState.Add(this.uiFactory.StartButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.OptionButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.ExitButton.Sprite);
+            this.SpriteInState.Add(this.uiFactory.VolumeButton.Sprite);
+            this.SpriteInState.Add(this.uiFactory.FullscreenButton.Sprite);
+            this.SpriteInState.Add(this.uiFactory.Checkbox.Sprite);
+            this.SpriteInState.Add(this.uiFactory.BackButton.Sprite);
             this.menuId = 1;
         }
 
@@ -54,14 +50,11 @@
                     {
                         switch (this.menuId)
                         {
-                            case 1:
-                                this.PlayGame();
-                                break;
                             case 2:
-                                this.GoToOptions();
+                                this.ToggleFullscreen();
                                 break;
                             case 3:
-                                this.ExitGame();
+                                this.GoBack();
                                 break;
                         }
                     }
@@ -70,42 +63,35 @@
             this.ChangeButtonState();
         }
 
-        private void ExitGame()
+        private void GoBack()
         {
             this.isDone = true;
-            // Stop Sounds
-            MenuState.OnExitPressed.Invoke();
+            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager);
         }
 
-        private void PlayGame()
+        private void ToggleFullscreen()
         {
-            this.isDone = true;
-            // Pause Sound
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager);
-        }
-
-        private void GoToOptions()
-        {
-            this.isDone = true;
-            this.NextState = new OptionsState(inputHandler, uiFactory, soundManager);
+            Globals.Graphics.IsFullScreen = true;
+            Globals.Graphics.ApplyChanges();
+            this.uiFactory.Checkbox.ChangeToHoverImage();
         }
 
         private void ChangeButtonState()
         {
-            this.uiFactory.StartButton.ChangeToNormalImage();
-            this.uiFactory.OptionButton.ChangeToNormalImage();
-            this.uiFactory.ExitButton.ChangeToNormalImage();
+            this.uiFactory.VolumeButton.ChangeToNormalImage();
+            this.uiFactory.FullscreenButton.ChangeToNormalImage();
+            this.uiFactory.BackButton.ChangeToNormalImage();
 
             switch (this.menuId)
             {
                 case 1:
-                    this.uiFactory.StartButton.ChangeToHoverImage();
+                    this.uiFactory.VolumeButton.ChangeToHoverImage();
                     break;
                 case 2:
-                    this.uiFactory.OptionButton.ChangeToHoverImage();
+                    this.uiFactory.FullscreenButton.ChangeToHoverImage();
                     break;
                 case 3:
-                    this.uiFactory.ExitButton.ChangeToHoverImage();
+                    this.uiFactory.BackButton.ChangeToHoverImage();
                     break;
             }
         }

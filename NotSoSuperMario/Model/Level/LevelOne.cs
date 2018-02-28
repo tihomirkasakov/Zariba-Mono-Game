@@ -11,7 +11,7 @@
         {
             this.ListOfShurikens = new List<Shuriken>();
 
-            this.LevelBackground = UIFactory.CreateSprite("Backgrounds/background", 1f);
+            this.LevelBackground = UIFactory.CreateSprite("Backgrounds/background");
             this.Blocks = new List<Block>
             {
                 // Blocks

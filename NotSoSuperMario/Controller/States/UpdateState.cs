@@ -35,7 +35,7 @@
 
             foreach (var block in this.level.Blocks)
             {
-                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(), 0.3f);
+                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString());
                 sprite.Position = block.Position;
                 block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y,
                     sprite.Texture.Width, sprite.Texture.Height);
@@ -53,6 +53,14 @@
             {
                 this.UpdatePlayer();
                 this.PlayerAttack();
+            }
+
+            foreach (KeyboardButtonState key in this.inputHandler.ActiveKeys)
+            {
+                if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
+                {
+                    ExitGame();
+                }
             }
 
             for (int i = 0; i < this.level.ListOfShurikens.Count; i++)
@@ -112,10 +120,16 @@
                 Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.IsFacingRight);
                 this.level.ListOfShurikens.Add(newShuriken);
 
-                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken", 0.1f);
+                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken");
                 this.shurikenSprites.Add(shurikenSprite);
                 this.SpriteInState.Add(shurikenSprite);
             }
+        }
+        private void ExitGame()
+        {
+            this.isDone = true;
+            // Stop Sounds
+            Environment.Exit(0);
         }
     }
 }

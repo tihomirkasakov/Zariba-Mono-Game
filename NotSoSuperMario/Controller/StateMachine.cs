@@ -12,7 +12,7 @@
         {
 
             // Initialize starting state
-            this.CurrentState = new MenuState(inputHandler, uiFactory, soundManager);
+            this.CurrentState = new IntroState(inputHandler, uiFactory, soundManager);
         }
 
         public void Update()
