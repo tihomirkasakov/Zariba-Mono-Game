@@ -253,6 +253,7 @@
             {
                 if (!Keyboard.GetState().IsKeyDown(this.controls["Move Left"]))
                 {
+
                     this.IsFacingRight = true;
                 }
 
