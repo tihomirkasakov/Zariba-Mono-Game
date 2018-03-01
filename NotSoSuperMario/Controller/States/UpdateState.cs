@@ -14,7 +14,7 @@
 
     class UpdateState : State
     {
-        private const int TILE_SIZE = 128;
+        private const int TILE_SIZE = 64;
 
         private Camera camera;
         private Level level;
@@ -27,7 +27,7 @@
             : base(inputHandler, uiFactory, soundManager)
         {
             this.level = new LevelOne();
-            this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(40, 40), true);
+            this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(160, 40), true);
             this.shurikenSprites = new List<Sprite>();
             this.Initialize();
         }
@@ -36,7 +36,7 @@
         {
             //camera = new Camera(Globals.GraphicsDevice.Viewport);
             this.SpriteInState.Add(this.level.LevelBackground);
-            this.level.LoadContent("test.txt");
+            this.level.LoadContent("../../../../Content/map.txt");
             this.level.GenerateMap(level.mapTiles, TILE_SIZE);
 
             foreach (var block in this.level.Blocks)
