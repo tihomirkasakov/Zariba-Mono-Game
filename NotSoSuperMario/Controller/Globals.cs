@@ -16,5 +16,7 @@
         public static ContentManager Content { get; set; }
 
         public static GameTime GameTime { get; set; }
+
+        public static GraphicsDevice GraphicsDevice { get; set; }
     }
 }

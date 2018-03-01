@@ -14,6 +14,9 @@
 
     class UpdateState : State
     {
+        private const int TILE_SIZE = 128;
+
+        private Camera camera;
         private Level level;
         private Player player;
         private Animation playerAnimation;
@@ -31,11 +34,14 @@
 
         public void Initialize()
         {
+            //camera = new Camera(Globals.GraphicsDevice.Viewport);
             this.SpriteInState.Add(this.level.LevelBackground);
+            this.level.LoadContent("test.txt");
+            this.level.GenerateMap(level.mapTiles, TILE_SIZE);
 
             foreach (var block in this.level.Blocks)
             {
-                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString());
+                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(),1f);
                 sprite.Position = block.Position;
                 block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y,
                     sprite.Texture.Width, sprite.Texture.Height);
@@ -52,6 +58,7 @@
             if (!this.isDone)
             {
                 this.UpdatePlayer();
+                //this.camera.Update(player.Position, level.Width, level.Height);
                 this.PlayerAttack();
             }
 
@@ -120,7 +127,7 @@
                 Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.IsFacingRight);
                 this.level.ListOfShurikens.Add(newShuriken);
 
-                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken");
+                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken",0.15f);
                 this.shurikenSprites.Add(shurikenSprite);
                 this.SpriteInState.Add(shurikenSprite);
             }

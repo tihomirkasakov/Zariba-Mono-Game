@@ -10,13 +10,9 @@
     public class NinjaCat : Game
     {
         private MonoGameRenderer renderer;
-
         private StateMachine stateMachine;
-
         private UIFactory uiFactory;
-
         private InputHandler inputHandler;
-
         private SoundManager soundManager;
 
         public NinjaCat()

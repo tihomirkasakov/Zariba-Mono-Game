@@ -61,6 +61,7 @@
     <Compile Include="Model\Level\Level.cs" />
     <Compile Include="Model\Level\LevelOne.cs" />
     <Compile Include="Model\Player\Player.cs" />
+    <Compile Include="View\Camera.cs" />
     <Compile Include="View\IRenderable.cs" />
     <Compile Include="View\MonoGameRenderer.cs" />
     <Compile Include="View\UIFactory.cs" />
