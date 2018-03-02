@@ -23,7 +23,7 @@
         private const int TEMP_DISTANCE = 3;
 
         private const int LEFT_BOUND = 0;
-        private const int RIGHT_BOUND = 1280;
+        private const int RIGHT_BOUND = 1820;
         private const int DEFAULT_SHURIKEN = 3;
         private const int MAX_HEALTH = 100;
 

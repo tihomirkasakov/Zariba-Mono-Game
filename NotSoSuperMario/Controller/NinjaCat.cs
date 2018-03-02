@@ -25,8 +25,8 @@
 
             Window.Title = "Ninja Cat";
 
-            Globals.Graphics.PreferredBackBufferWidth = 1280;
-            Globals.Graphics.PreferredBackBufferHeight = 917;
+            Globals.Graphics.PreferredBackBufferWidth = 1820;
+            Globals.Graphics.PreferredBackBufferHeight = 1080;
 
             MenuState.OnExitPressed += this.QuitGame;
         }

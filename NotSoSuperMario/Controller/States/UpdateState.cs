@@ -14,7 +14,7 @@
 
     class UpdateState : State
     {
-        private const int TILE_SIZE = 64;
+        private const int TILE_SIZE = 45;
 
         private Camera camera;
         private Level level;
@@ -41,10 +41,10 @@
 
             foreach (var block in this.level.Blocks)
             {
-                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(),1f);
+                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(),(float)TILE_SIZE/128);
                 sprite.Position = block.Position;
                 block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y,
-                    sprite.Texture.Width, sprite.Texture.Height);
+                    sprite.Texture.Width*(TILE_SIZE/ sprite.Texture.Width), sprite.Texture.Height*(TILE_SIZE/sprite.Texture.Height));
                 this.SpriteInState.Add(sprite);
             }
             this.playerAnimation = AnimationFactory.CreatePlayerAnimation(Color.AliceBlue);
