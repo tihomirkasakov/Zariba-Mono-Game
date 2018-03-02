@@ -43,8 +43,10 @@
             {
                 Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(),(float)TILE_SIZE/128);
                 sprite.Position = block.Position;
+                double spriteWidth = sprite.Texture.Width * ((double)TILE_SIZE / (double)sprite.Texture.Width);
+                double spriteHeight = sprite.Texture.Height * ((double)TILE_SIZE / (double)sprite.Texture.Height);
                 block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y,
-                    sprite.Texture.Width*(TILE_SIZE/ sprite.Texture.Width), sprite.Texture.Height*(TILE_SIZE/sprite.Texture.Height));
+                    (int)spriteWidth, (int)spriteHeight);
                 this.SpriteInState.Add(sprite);
             }
             this.playerAnimation = AnimationFactory.CreatePlayerAnimation(Color.AliceBlue);

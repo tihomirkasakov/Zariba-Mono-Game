@@ -7,6 +7,7 @@
     public class OptionsState : State
     {
         public int menuId;
+        private bool isChanged = false;
 
         public OptionsState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
@@ -71,8 +72,19 @@
 
         private void ToggleFullscreen()
         {
-            Globals.Graphics.IsFullScreen = true;
-            Globals.Graphics.ApplyChanges();
+            if (Globals.Graphics.IsFullScreen&&!isChanged)
+            {
+                isChanged = true;
+                Globals.Graphics.IsFullScreen = false;
+                Globals.Graphics.ApplyChanges();
+            }
+            else if(!Globals.Graphics.IsFullScreen && !isChanged)
+            {
+                isChanged = true;
+                Globals.Graphics.IsFullScreen = true;
+                Globals.Graphics.ApplyChanges();
+            }
+            isChanged = false;
             this.uiFactory.Checkbox.ChangeToHoverImage();
         }
 

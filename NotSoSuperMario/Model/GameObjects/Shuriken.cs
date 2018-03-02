@@ -10,7 +10,7 @@
     public class Shuriken : GameObject
     {
         private const int LEFT_BOUND = -40;
-        private const int RIGHT_BOUND = 1240;
+        private const int RIGHT_BOUND = 2000;
 
         private const int SHURIKEN_SPEED = 16;
         private const float FALL_VELOCITY = 0.8f;
