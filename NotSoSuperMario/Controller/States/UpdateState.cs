@@ -10,13 +10,10 @@
     using NotSoSuperMario.View.UI;
     using System.Collections.Generic;
     using System;
-    using Microsoft.Xna.Framework.Graphics;
 
     class UpdateState : State
     {
         private const int TILE_SIZE = 45;
-
-        private Camera camera;
         private Level level;
         private Player player;
         private Animation playerAnimation;
@@ -26,6 +23,7 @@
         public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
+            isPlaying = true;
             this.level = new LevelOne();
             this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(160, 40), true);
             this.shurikenSprites = new List<Sprite>();
@@ -34,14 +32,13 @@
 
         public void Initialize()
         {
-            //camera = new Camera(Globals.GraphicsDevice.Viewport);
             this.SpriteInState.Add(this.level.LevelBackground);
             this.level.LoadContent("../../../../Content/map.txt");
             this.level.GenerateMap(level.mapTiles, TILE_SIZE);
 
             foreach (var block in this.level.Blocks)
             {
-                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(),(float)TILE_SIZE/128);
+                Sprite sprite = UIFactory.CreateSprite("Blocks/" + block.Type.ToString(), (float)TILE_SIZE / 128);
                 sprite.Position = block.Position;
                 double spriteWidth = sprite.Texture.Width * ((double)TILE_SIZE / (double)sprite.Texture.Width);
                 double spriteHeight = sprite.Texture.Height * ((double)TILE_SIZE / (double)sprite.Texture.Height);
@@ -57,10 +54,12 @@
         {
             base.Update();
 
+
+
             if (!this.isDone)
             {
                 this.UpdatePlayer();
-                //this.camera.Update(player.Position, level.Width, level.Height);
+                camera.Update(player.Position, level.Width, level.Height);
                 this.PlayerAttack();
             }
 
@@ -86,7 +85,7 @@
             {
                 shuriken.Move();
                 shurikenSprites[i].Position = shuriken.Position;
-                shuriken.Bounds = new Rectangle((int)shuriken.Position.X, (int)shuriken.Position.Y, 
+                shuriken.Bounds = new Rectangle((int)shuriken.Position.X, (int)shuriken.Position.Y,
                     shurikenSprites[i].Texture.Width, shurikenSprites[i].Texture.Height);
             }
             else
@@ -103,7 +102,9 @@
             this.playerAnimation.Update();
             this.playerAnimation.Position = this.player.Position;
             this.playerAnimation.IsFacingRight = this.player.IsFacingRight;
-            this.player.Bounds = new Rectangle((int)this.player.Position.X, (int)this.player.Position.Y, (int)this.playerAnimation.SourceRectangle.Width, (int)this.playerAnimation.SourceRectangle.Height);
+            this.player.Bounds = new Rectangle((int)this.player.Position.X, (int)this.player.Position.Y,
+                (int)(this.playerAnimation.SourceRectangle.Width * 0.5),
+                (int)(this.playerAnimation.SourceRectangle.Height * 0.8));
             this.playerAnimation.ChangeAnimation(this.player.State.ToString());
         }
 
@@ -129,7 +130,7 @@
                 Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.IsFacingRight);
                 this.level.ListOfShurikens.Add(newShuriken);
 
-                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken",0.15f);
+                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken", 0.15f);
                 this.shurikenSprites.Add(shurikenSprite);
                 this.SpriteInState.Add(shurikenSprite);
             }

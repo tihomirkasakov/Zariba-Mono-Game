@@ -22,8 +22,8 @@
         private const int JUMP_VELOCITY = 12;
         private const int TEMP_DISTANCE = 3;
 
-        private const int LEFT_BOUND = 0;
-        private const int RIGHT_BOUND = 1820;
+        private const int SCREEN_LEFT_BOUND = 0;
+        private const int SCREEN_RIGHT_BOUND = 1820;
         private const int DEFAULT_SHURIKEN = 3;
         private const int MAX_HEALTH = 100;
 
@@ -101,13 +101,13 @@
 
         private void HandleSideCollision(List<Block> blocks)
         {
-            if ((this.Bounds.Left + (this.Bounds.Width / 2)) + this.velocity.X < LEFT_BOUND)
+            if ((this.Bounds.Left + (this.Bounds.Width / 2)) + this.velocity.X < SCREEN_LEFT_BOUND)
             {
                 this.Position = new Vector2(- (this.Bounds.Width / 2), this.Position.Y);
             }
-            else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > RIGHT_BOUND)
+            else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > SCREEN_RIGHT_BOUND)
             {
-                this.Position = new Vector2(RIGHT_BOUND - (this.Bounds.Width / 2), this.Position.Y);
+                this.Position = new Vector2(SCREEN_RIGHT_BOUND - (this.Bounds.Width / 2), this.Position.Y);
             }
             else
             {
@@ -210,7 +210,7 @@
 
         private void ApplyGravity()
         {
-            this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.5f);
+            this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.3f);
 
         }
 
