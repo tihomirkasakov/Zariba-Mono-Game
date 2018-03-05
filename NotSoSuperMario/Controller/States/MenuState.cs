@@ -2,6 +2,7 @@
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework.Media;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.View;
 
@@ -12,14 +13,18 @@
         public static event OnGameQuit OnExitPressed;
 
         private int menuId;
+        private Song song;
 
         public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
             this.SpriteInState.Add(this.uiFactory.MenuBackground);
             this.SpriteInState.Add(this.uiFactory.StartButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.OptionButton.Sprite);
+            this.SpriteInState.Add(this.uiFactory.OptionsButton.Sprite);
             this.SpriteInState.Add(this.uiFactory.ExitButton.Sprite);
+            //this.song = Globals.Content.Load<Song>("Sounds/mainMenu");
+            //MediaPlayer.Play(song);
+
             this.menuId = 1;
         }
 
@@ -93,7 +98,7 @@
         private void ChangeButtonState()
         {
             this.uiFactory.StartButton.ChangeToNormalImage();
-            this.uiFactory.OptionButton.ChangeToNormalImage();
+            this.uiFactory.OptionsButton.ChangeToNormalImage();
             this.uiFactory.ExitButton.ChangeToNormalImage();
 
             switch (this.menuId)
@@ -102,7 +107,7 @@
                     this.uiFactory.StartButton.ChangeToHoverImage();
                     break;
                 case 2:
-                    this.uiFactory.OptionButton.ChangeToHoverImage();
+                    this.uiFactory.OptionsButton.ChangeToHoverImage();
                     break;
                 case 3:
                     this.uiFactory.ExitButton.ChangeToHoverImage();

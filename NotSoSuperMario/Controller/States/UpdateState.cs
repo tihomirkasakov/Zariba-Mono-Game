@@ -20,12 +20,20 @@
         private List<Sprite> shurikenSprites;
         private List<Animation> listOfPlayerAnimations;
 
-        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
+        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData = null)
             : base(inputHandler, uiFactory, soundManager)
         {
             isPlaying = true;
             this.level = new LevelOne();
-            this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(160, 40), true);
+            if (playerData == null)
+            {
+                this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(160, 40), true);
+            }
+            else
+            {
+                this.player = playerData;
+            }
+            
             this.shurikenSprites = new List<Sprite>();
             this.Initialize();
         }
@@ -59,6 +67,7 @@
             if (!this.isDone)
             {
                 this.UpdatePlayer();
+                this.PauseGame();
                 camera.Update(player.Position, level.Width, level.Height);
                 this.PlayerAttack();
             }
@@ -135,6 +144,19 @@
                 this.SpriteInState.Add(shurikenSprite);
             }
         }
+
+        private void PauseGame()
+        {
+            foreach (var key in this.inputHandler.ActiveKeys)
+            {
+                if (key.Button == Keys.P && key.ButtonState == Utils.KeyState.Clicked)
+                {
+                    this.isDone = true;
+                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player);
+                }
+            }
+        }
+
         private void ExitGame()
         {
             this.isDone = true;

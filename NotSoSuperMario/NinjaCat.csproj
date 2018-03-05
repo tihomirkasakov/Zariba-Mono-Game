@@ -47,7 +47,7 @@
     <Compile Include="Controller\States\IntroState.cs" />
     <Compile Include="Controller\States\MenuState.cs" />
     <Compile Include="Controller\States\OptionsState.cs" />
-    <Compile Include="Controller\States\Pause.cs" />
+    <Compile Include="Controller\States\PauseState.cs" />
     <Compile Include="Controller\States\State.cs" />
     <Compile Include="Controller\States\UpdateState.cs" />
     <Compile Include="Controller\Utils\InputHandler.cs" />
