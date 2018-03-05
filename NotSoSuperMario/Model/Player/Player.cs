@@ -2,10 +2,9 @@
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
-    using System.Collections.Generic;
-    using System;
-    using NotSoSuperMario.Model.GameObjects;
     using NotSoSuperMario.Controller.Utils;
+    using NotSoSuperMario.Model.GameObjects;
+    using System.Collections.Generic;
 
     public enum PlayerStates
     {
@@ -20,10 +19,9 @@
         private const float MAX_PLAYER_SPEED = 2;
         private const float PLAYER_ACCELERATION = 0.1f;
         private const int JUMP_VELOCITY = 8;
-        private const int TEMP_DISTANCE = -3;
 
         private const int SCREEN_LEFT_BOUND = 0;
-        private const int SCREEN_RIGHT_BOUND = 2020;
+        private const int SCREEN_RIGHT_BOUND = 50 * 45;
         private const int DEFAULT_SHURIKEN = 3;
         private const int MAX_HEALTH = 100;
 
@@ -79,21 +77,14 @@
 
             foreach (var block in blocks)
             {
-                if (this.IsOnTopOf(block.Bounds))
+
+                Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Bottom + this.velocity.Y), this.Bounds.Width, this.Bounds.Height / 3);
+                if (tempRect.Intersects(block.Bounds))
                 {
-                    this.isGrounded = true;
+                    isGrounded = true;
                     this.velocity = new Vector2(this.velocity.X, 0);
                 }
             }
-        }
-
-        private bool IsOnTopOf(Rectangle rect)
-        {
-            return (this.Bounds.Bottom + this.velocity.Y >= rect.Top - 10) && 
-                this.Bounds.Bottom + this.velocity.Y >= rect.Top - 11 &&
-                this.Bounds.Bottom + this.velocity.Y <= rect.Top + 2 &&
-                this.Bounds.Right >= rect.Left + 2 &&
-                this.Bounds.Left <= rect.Right - 2;
         }
 
         private void HandleSideCollision(List<Block> blocks)
@@ -108,25 +99,32 @@
             }
             else
             {
-                int tempDistance = 0;
-                if (this.velocity.X > 0)
+                if (IsFacingRight)
                 {
-                    tempDistance = TEMP_DISTANCE;
+                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width + this.velocity.X),
+                        (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
+
+                    foreach (var block in blocks)
+                    {
+                        if (tempRect.Intersects(block.Bounds))
+                        {
+                            this.velocity = new Vector2(0, this.velocity.Y);
+                        }
+                    }
                 }
                 else
                 {
-                    tempDistance = -TEMP_DISTANCE;
-                }
+                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + (this.velocity.X)),
+                        (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
 
-                Rectangle tempRect = new Rectangle((int)(this.Bounds.X + (this.velocity.X + tempDistance)),
-                    (int)(this.Bounds.Y), this.Bounds.Width, this.Bounds.Height);
-
-                foreach (var block in blocks)
-                {
-                    if (tempRect.Intersects(block.Bounds))
+                    foreach (var block in blocks)
                     {
-                        this.velocity = new Vector2(0, this.velocity.Y);
+                        if (tempRect.Intersects(block.Bounds))
+                        {
+                            this.velocity = new Vector2(0, this.velocity.Y);
+                        }
                     }
+
                 }
             }
         }
@@ -137,8 +135,7 @@
             {
                 foreach (var block in blocks)
                 {
-                    Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Y + this.velocity.Y),
-                        this.Bounds.Width, 20);
+                    Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
                     if (tempRect.Intersects(block.Bounds))
                     {
                         this.velocity = new Vector2(this.velocity.X, 0.5f);
