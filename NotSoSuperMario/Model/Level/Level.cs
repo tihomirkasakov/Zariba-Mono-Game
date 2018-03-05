@@ -2,6 +2,7 @@
 {
     using Microsoft.Xna.Framework;
     using NotSoSuperMario.Model.GameObjects;
+    using NotSoSuperMario.Model.Enemy;
     using NotSoSuperMario.View.UI;
     using System.Collections.Generic;
     using System.IO;
@@ -14,6 +15,7 @@
         private int row = 0;
         private int width;
         private int height;
+        private List<Enemy> enemies = new List<Enemy>();
 
         public Level()
         {
@@ -76,6 +78,9 @@
                             break;
                         case 4:
                             this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_4));
+                            break;
+                        case 5:
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.enemyPig));
                             break;
                     }
                     width = (col + 1) * size;

@@ -29,7 +29,7 @@
         {
             isPlaying = true;
             this.level = new LevelOne();
-            this.enemy = new Enemy(new Vector2(45, 800), true);
+            this.enemy = new Enemy(new Vector2(45, 900), new Rectangle(50, 0, 300, 0), true);
             if (playerData == null)
             {
                 this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(45, 760), true);
@@ -75,7 +75,7 @@
                 this.UpdatePlayer();
                 this.PauseGame();
                 camera.Update(player.Position, Globals.Graphics.PreferredBackBufferWidth, Globals.Graphics.PreferredBackBufferHeight);
-                this.PlayerAttack();
+                //this.PlayerAttack();
             }
 
             foreach (KeyboardButtonState key in this.inputHandler.ActiveKeys)
@@ -128,6 +128,12 @@
             this.enemyAnimation.Update();
             this.enemyAnimation.Position = this.enemy.Position;
             this.enemyAnimation.IsFacingRight = this.enemy.IsFacingRight;
+            this.enemy.Bounds = new Rectangle((int)this.enemy.Position.X, (int)this.enemy.Position.Y,
+                (int)(this.enemyAnimation.SourceRectangle.Width),
+                (int)(this.enemyAnimation.SourceRectangle.Height * 0.9));
+            this.enemyAnimation.ChangeAnimation(this.enemy.State.ToString());
+            this.enemy.Patrolling(this.level.Blocks);
+
         }
 
         private void PlayerAttack()
@@ -135,26 +141,26 @@
             if (this.player.IsAttacking)
             {
                 this.player.IsAttacking = false;
-        
-                //Vector2 shurikenPosition = new Vector2();
-        
-                //if (this.player.IsFacingRight)
-                //{
-                //    shurikenPosition = new Vector2(this.player.Bounds.Right,
-                //        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
-                //}
-                //else
-                //{
-                //    shurikenPosition = new Vector2(this.player.Bounds.Left - 40,
-                //        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
-                //}
-        
-                //Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.IsFacingRight);
-                //this.level.ListOfShurikens.Add(newShuriken);
-                //
-                //Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken", 0.15f);
-                //this.shurikenSprites.Add(shurikenSprite);
-                //this.SpriteInState.Add(shurikenSprite);
+
+                Vector2 shurikenPosition = new Vector2();
+
+                if (this.player.IsFacingRight)
+                {
+                    shurikenPosition = new Vector2(this.player.Bounds.Right,
+                        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
+                }
+                else
+                {
+                    shurikenPosition = new Vector2(this.player.Bounds.Left - 40,
+                        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
+                }
+
+                Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.IsFacingRight);
+                this.level.ListOfShurikens.Add(newShuriken);
+
+                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken", 0.15f);
+                this.shurikenSprites.Add(shurikenSprite);
+                this.SpriteInState.Add(shurikenSprite);
             }
         }
 
