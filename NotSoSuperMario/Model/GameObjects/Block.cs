@@ -4,7 +4,10 @@
 
     public enum BlockType
     {
-        tile_1
+        tile_1,
+        tile_2,
+        tile_3,
+        tile_4
     }
 
     public class Block : GameObject

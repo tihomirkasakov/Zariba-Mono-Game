@@ -14,6 +14,7 @@
     class UpdateState : State
     {
         private const int TILE_SIZE = 45;
+        private int currentLevel = 1;
         private Level level;
         private Player player;
         private Animation playerAnimation;
@@ -27,7 +28,7 @@
             this.level = new LevelOne();
             if (playerData == null)
             {
-                this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(360, 640), true);
+                this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(45, 760), true);
             }
             else
             {
@@ -41,7 +42,7 @@
         public void Initialize()
         {
             this.SpriteInState.Add(this.level.LevelBackground);
-            this.level.LoadContent("../../../../Content/map.txt");
+            this.level.LoadContent($"../../../../Content/Level{currentLevel}.txt");
             this.level.GenerateMap(level.mapTiles, TILE_SIZE);
 
             foreach (var block in this.level.Blocks)

@@ -5,12 +5,12 @@
 
     public class Camera
     {
+        private const int CENTER_COEFF_X = 300;
+        private const int CENTER_COEFF_Y = 500;
+
         private Matrix transform;
         private Vector2 center;
         private Viewport viewport;
-        private int CENTER_COEFF_X = 300;
-        private int CENTER_COEFF_Y = 500;
-
         public Matrix Transform
         {
             get { return transform; }

@@ -63,10 +63,20 @@
                 for (int col = 0; col < map.GetLength(1); col++)
                 {
                     int cellValue = map[row, col];
-
-                    if (cellValue > 0)
+                    switch (cellValue)
                     {
-                        this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_1));
+                        case 1:
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_1));
+                            break;
+                        case 2:
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_2));
+                            break;
+                        case 3:
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_3));
+                            break;
+                        case 4:
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_4));
+                            break;
                     }
                     width = (col + 1) * size;
                     height = (row + 1) * size;

@@ -10,12 +10,12 @@
     {
         public static Animation CreatePlayerAnimation(Color tint)
         {
-            Animation currentAnimation = new Animation(new Vector2(104, 98), Globals.Content.Load<Texture2D>("Hero/hero_sword"), 60);
+            Animation currentAnimation = new Animation(new Vector2(56,80), Globals.Content.Load<Texture2D>("Hero/hero"), 60);
             currentAnimation.AnimationStates = new List<AnimationState>();
-            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.IDLE.ToString(), new Vector2(104, 98), 1, 0));
-            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.WALK.ToString(), new Vector2(104, 98), 7, 1));
-            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.JUMP.ToString(), new Vector2(104, 98), 5, 2));
-            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.ATTACK.ToString(), new Vector2(104, 98), 3, 3));
+            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.IDLE.ToString(), new Vector2(56, 80), 4, 0));
+            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.WALK.ToString(), new Vector2(56, 80), 8, 1));
+            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.JUMP.ToString(), new Vector2(56, 80), 6, 2));
+            currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.ATTACK.ToString(), new Vector2(56, 80), 4, 3));
 
             currentAnimation.Tint = tint;
             currentAnimation.ChangeAnimation("IDLE");

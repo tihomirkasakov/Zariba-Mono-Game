@@ -17,13 +17,13 @@
     public class Player
     {
         private const float FRICTION_FORCE = 0.8f;
-        private const float MAX_PLAYER_SPEED = 3;
+        private const float MAX_PLAYER_SPEED = 2;
         private const float PLAYER_ACCELERATION = 0.1f;
         private const int JUMP_VELOCITY = 8;
         private const int TEMP_DISTANCE = -3;
 
         private const int SCREEN_LEFT_BOUND = 0;
-        private const int SCREEN_RIGHT_BOUND = 1820;
+        private const int SCREEN_RIGHT_BOUND = 2020;
         private const int DEFAULT_SHURIKEN = 3;
         private const int MAX_HEALTH = 100;
 
@@ -139,7 +139,7 @@
                     Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, 20);
                     if (tempRect.Intersects(block.Bounds))
                     {
-                        this.velocity = new Vector2(this.velocity.X, 5);
+                        this.velocity = new Vector2(this.velocity.X, 0.5f);
                     }
                 }
             }
