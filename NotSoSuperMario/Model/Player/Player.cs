@@ -89,10 +89,11 @@
 
         private bool IsOnTopOf(Rectangle rect)
         {
-            return (this.Bounds.Bottom + this.velocity.Y >= rect.Top - 10 && this.Bounds.Bottom + this.velocity.Y >= rect.Top - 11 &&
+            return (this.Bounds.Bottom + this.velocity.Y >= rect.Top - 10) && 
+                this.Bounds.Bottom + this.velocity.Y >= rect.Top - 11 &&
                 this.Bounds.Bottom + this.velocity.Y <= rect.Top + 2 &&
                 this.Bounds.Right >= rect.Left + 2 &&
-                this.Bounds.Left <= rect.Right - 2);
+                this.Bounds.Left <= rect.Right - 2;
         }
 
         private void HandleSideCollision(List<Block> blocks)
@@ -136,7 +137,8 @@
             {
                 foreach (var block in blocks)
                 {
-                    Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, 20);
+                    Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Y + this.velocity.Y),
+                        this.Bounds.Width, 20);
                     if (tempRect.Intersects(block.Bounds))
                     {
                         this.velocity = new Vector2(this.velocity.X, 0.5f);

@@ -5,6 +5,7 @@
     using NotSoSuperMario.Controller;
     using System.Collections.Generic;
     using NotSoSuperMario.Model.Player;
+    using NotSoSuperMario.Model.Enemy;
 
     public static class AnimationFactory
     {
@@ -16,6 +17,18 @@
             currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.WALK.ToString(), new Vector2(56, 80), 8, 1));
             currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.JUMP.ToString(), new Vector2(56, 80), 6, 2));
             currentAnimation.AnimationStates.Add(new AnimationState(PlayerStates.ATTACK.ToString(), new Vector2(56, 80), 4, 3));
+
+            currentAnimation.Tint = tint;
+            currentAnimation.ChangeAnimation("IDLE");
+            return currentAnimation;
+        }
+
+        public static Animation CreateEnemyAnimaton(Color tint)
+        {
+            Animation currentAnimation = new Animation(new Vector2(55, 84), Globals.Content.Load<Texture2D>("Enemies/EnemyPig"), 60);
+            currentAnimation.AnimationStates = new List<AnimationState>();
+            currentAnimation.AnimationStates.Add(new AnimationState(EnemyStates.IDLE.ToString(), new Vector2(55, 84), 2, 0));
+            currentAnimation.AnimationStates.Add(new AnimationState(EnemyStates.WALK.ToString(), new Vector2(55, 84), 2, 6));
 
             currentAnimation.Tint = tint;
             currentAnimation.ChangeAnimation("IDLE");

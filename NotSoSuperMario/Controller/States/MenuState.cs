@@ -1,6 +1,7 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Input;
     using Microsoft.Xna.Framework.Media;
     using NotSoSuperMario.Controller.Utils;
@@ -13,7 +14,6 @@
         public static event OnGameQuit OnExitPressed;
 
         private int menuId;
-        private Song song;
 
         public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
@@ -22,8 +22,7 @@
             this.SpriteInState.Add(this.uiFactory.StartButton.Sprite);
             this.SpriteInState.Add(this.uiFactory.OptionsButton.Sprite);
             this.SpriteInState.Add(this.uiFactory.ExitButton.Sprite);
-            //this.song = Globals.Content.Load<Song>("Sounds/mainMenu");
-            //MediaPlayer.Play(song);
+            //this.soundManager.Play("mainMenu");
 
             this.menuId = 1;
         }

@@ -10,6 +10,7 @@
     using NotSoSuperMario.View.UI;
     using System.Collections.Generic;
     using System;
+    using NotSoSuperMario.Model.Enemy;
 
     class UpdateState : State
     {
@@ -17,7 +18,9 @@
         private int currentLevel = 1;
         private Level level;
         private Player player;
+        private Enemy enemy;
         private Animation playerAnimation;
+        private Animation enemyAnimation;
         private List<Sprite> shurikenSprites;
         private List<Animation> listOfPlayerAnimations;
 
@@ -26,6 +29,7 @@
         {
             isPlaying = true;
             this.level = new LevelOne();
+            this.enemy = new Enemy(new Vector2(45, 800), true);
             if (playerData == null)
             {
                 this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(45, 760), true);
@@ -56,17 +60,18 @@
                 this.SpriteInState.Add(sprite);
             }
             this.playerAnimation = AnimationFactory.CreatePlayerAnimation(Color.AliceBlue);
+            this.enemyAnimation = AnimationFactory.CreateEnemyAnimaton(Color.White);
             this.SpriteInState.Add(this.playerAnimation);
+            this.SpriteInState.Add(this.enemyAnimation);
         }
 
         public override void Update()
         {
             base.Update();
 
-
-
             if (!this.isDone)
             {
+                this.UpdateEnemy();
                 this.UpdatePlayer();
                 this.PauseGame();
                 camera.Update(player.Position, Globals.Graphics.PreferredBackBufferWidth, Globals.Graphics.PreferredBackBufferHeight);
@@ -116,6 +121,13 @@
                 (int)(this.playerAnimation.SourceRectangle.Width * 0.5),
                 (int)(this.playerAnimation.SourceRectangle.Height * 0.8));
             this.playerAnimation.ChangeAnimation(this.player.State.ToString());
+        }
+
+        public void UpdateEnemy()
+        {
+            this.enemyAnimation.Update();
+            this.enemyAnimation.Position = this.enemy.Position;
+            this.enemyAnimation.IsFacingRight = this.enemy.IsFacingRight;
         }
 
         private void PlayerAttack()

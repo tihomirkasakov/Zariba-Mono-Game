@@ -16,8 +16,9 @@
         {
             SoundEffect menuSound = Globals.Content.Load<SoundEffect>("Sounds/mainMenu");
 
-
             this.Add("mainMenu", menuSound);
+
+            Play("mainMenu");
         }
 
         public void Add(string name, SoundEffect effect)

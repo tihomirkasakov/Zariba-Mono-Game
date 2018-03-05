@@ -53,6 +53,7 @@
     <Compile Include="Controller\Utils\InputHandler.cs" />
     <Compile Include="Controller\Utils\KeyboardButtonState.cs" />
     <Compile Include="Controller\Utils\SoundManager.cs" />
+    <Compile Include="Model\Enemy\Enemy.cs" />
     <Compile Include="Model\GameObjects\Block.cs" />
     <Compile Include="Model\GameObjects\GameObject.cs" />
     <Compile Include="Controller\NinjaCat.cs" />
