@@ -188,7 +188,7 @@
 		      if (player.Health <= 0)
 		      {
 		          this.isDone = true;
-		          this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
+		          this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
 		      }
 		      }
     }
