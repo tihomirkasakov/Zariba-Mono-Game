@@ -5,6 +5,7 @@
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.Model.GameObjects;
     using System.Collections.Generic;
+    using NotSoSuperMario.Controller;
 
     public enum PlayerStates
     {
@@ -19,11 +20,11 @@
         private const float MAX_PLAYER_SPEED = 2;
         private const float PLAYER_ACCELERATION = 0.1f;
         private const int JUMP_VELOCITY = 8;
-
+        private const float SCREEN_BOTTOM_BOUND = 1100;
         private const int SCREEN_LEFT_BOUND = 0;
         private const int SCREEN_RIGHT_BOUND = 50 * 45;
         private const int DEFAULT_SHURIKEN = 3;
-        private const int MAX_HEALTH = 100;
+        private const int MAX_PLAYER_HEALTH = 100;
 
         private Dictionary<string, Keys> controls;
         private bool isGrounded;
@@ -41,6 +42,7 @@
             this.controls.Add("Jump", jump);
             this.controls.Add("Attack", attack);
 
+            this.Health = MAX_PLAYER_HEALTH;
             this.Position = position;
             this.Shurikens = DEFAULT_SHURIKEN;
             this.isGrounded = false;
@@ -74,6 +76,11 @@
         private void HandleBottomCollision(List<Block> blocks)
         {
             this.isGrounded = false;
+
+            if (this.Bounds.Bottom + this.velocity.X >= SCREEN_BOTTOM_BOUND)
+            {
+                this.Health = 0;
+            }
 
             foreach (var block in blocks)
             {

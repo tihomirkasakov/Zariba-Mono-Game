@@ -10,6 +10,8 @@
     {
         public Sprite IntroBackground { get; set; }
 
+        public Sprite GameOverBackground { get; set; }
+
         public Sprite MenuBackground { get; set; }
 
         public Sprite PauseBackground { get; set; }
@@ -43,6 +45,7 @@
         public UIFactory()
         {
             this.IntroBackground = CreateSprite("Backgrounds/introBackground", 0.75f);
+            this.GameOverBackground = CreateSprite("Backgrounds/gameOverBackground", 1.2f);
             this.MenuBackground = CreateSprite("Backgrounds/menuBackground", 0.75f);
             this.PauseBackground = CreateSprite("Backgrounds/pausedBackground", 1f);
             this.PauseBackgroundTransperant = CreateSprite("Backgrounds/pausedBackgroundTransperant", 1f);

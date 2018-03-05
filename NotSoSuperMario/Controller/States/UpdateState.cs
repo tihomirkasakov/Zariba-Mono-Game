@@ -71,6 +71,7 @@
 
             if (!this.isDone)
             {
+                this.CheckGameOver();
                 this.UpdateEnemy();
                 this.UpdatePlayer();
                 this.PauseGame();
@@ -182,5 +183,13 @@
             // Stop Sounds
             Environment.Exit(0);
         }
+        private void CheckGameOver()
+		  {
+		      if (player.Health <= 0)
+		      {
+		          this.isDone = true;
+		          this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
+		      }
+		      }
     }
 }
