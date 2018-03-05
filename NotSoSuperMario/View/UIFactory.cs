@@ -42,8 +42,8 @@
 
         public UIFactory()
         {
-            this.IntroBackground = CreateSprite("Backgrounds/introBackground", 1f);
-            this.MenuBackground = CreateSprite("Backgrounds/menuBackground", 1f);
+            this.IntroBackground = CreateSprite("Backgrounds/introBackground", 0.75f);
+            this.MenuBackground = CreateSprite("Backgrounds/menuBackground", 0.75f);
             this.PauseBackground = CreateSprite("Backgrounds/pausedBackground", 1f);
             this.PauseBackgroundTransperant = CreateSprite("Backgrounds/pausedBackgroundTransperant", 1f);
             this.StartButton = CreateButton("Controls/StartNormal", "Controls/StartHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 100));

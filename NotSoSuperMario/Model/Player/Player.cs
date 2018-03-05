@@ -19,8 +19,8 @@
         private const float FRICTION_FORCE = 0.8f;
         private const float MAX_PLAYER_SPEED = 3;
         private const float PLAYER_ACCELERATION = 0.1f;
-        private const int JUMP_VELOCITY = 12;
-        private const int TEMP_DISTANCE = 3;
+        private const int JUMP_VELOCITY = 8;
+        private const int TEMP_DISTANCE = -3;
 
         private const int SCREEN_LEFT_BOUND = 0;
         private const int SCREEN_RIGHT_BOUND = 1820;
@@ -29,27 +29,23 @@
 
         private Dictionary<string, Keys> controls;
         private bool isGrounded;
-        private float jumpHeight;
         private Vector2 velocity;
         private bool isMoving;
 
-        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys shoot, Vector2 position, bool isFacingRight)
+        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys attack, Vector2 position, bool isFacingRight)
         {
             this.State = PlayerStates.IDLE;
             this.IsFacingRight = isFacingRight;
-            this.jumpHeight = 0;
-
 
             this.controls = new Dictionary<string, Keys>();
             this.controls.Add("Move Left", moveLeft);
             this.controls.Add("Move Right", moveRight);
             this.controls.Add("Jump", jump);
-            this.controls.Add("Shoot", shoot);
+            this.controls.Add("Attack", attack);
 
             this.Position = position;
             this.Shurikens = DEFAULT_SHURIKEN;
             this.isGrounded = false;
-
 
         }
 
@@ -93,9 +89,9 @@
 
         private bool IsOnTopOf(Rectangle rect)
         {
-            return (this.Bounds.Bottom + this.velocity.Y >= rect.Top - 10&& this.Bounds.Bottom + this.velocity.Y >= rect.Top - 11 &&
-                this.Bounds.Bottom + this.velocity.Y <= rect.Top+2 &&
-                this.Bounds.Right >= rect.Left + 2&&
+            return (this.Bounds.Bottom + this.velocity.Y >= rect.Top - 10 && this.Bounds.Bottom + this.velocity.Y >= rect.Top - 11 &&
+                this.Bounds.Bottom + this.velocity.Y <= rect.Top + 2 &&
+                this.Bounds.Right >= rect.Left + 2 &&
                 this.Bounds.Left <= rect.Right - 2);
         }
 
@@ -103,7 +99,7 @@
         {
             if ((this.Bounds.Left + (this.Bounds.Width / 2)) + this.velocity.X < SCREEN_LEFT_BOUND)
             {
-                this.Position = new Vector2(- (this.Bounds.Width / 2), this.Position.Y);
+                this.Position = new Vector2(-(this.Bounds.Width / 2), this.Position.Y);
             }
             else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > SCREEN_RIGHT_BOUND)
             {
@@ -111,7 +107,7 @@
             }
             else
             {
-                int tempDistance;
+                int tempDistance = 0;
                 if (this.velocity.X > 0)
                 {
                     tempDistance = TEMP_DISTANCE;
@@ -174,8 +170,9 @@
                     this.State = PlayerStates.JUMP;
                     this.Jump();
                 }
-                else if (key.Button == this.controls["Shoot"] && key.ButtonState == Controller.Utils.KeyState.Clicked)
+                else if (key.Button == this.controls["Attack"] && key.ButtonState == Controller.Utils.KeyState.Held)
                 {
+                    this.State = PlayerStates.ATTACK;
                     this.Attack();
                 }
             }
@@ -210,17 +207,15 @@
 
         private void ApplyGravity()
         {
-            this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.3f);
+            this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.2f);
 
         }
 
         private void Attack()
         {
-            if (this.Shurikens > 0)
-            {
-                this.IsAttacking = true;
-                this.Shurikens--;
-            }
+
+            //this.IsAttacking = true;
+
         }
 
         private void Jump()
