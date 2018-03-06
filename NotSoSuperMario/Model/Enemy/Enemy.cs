@@ -10,14 +10,15 @@
     public enum EnemyStates
     {
         IDLE,
-        WALK
+        WALK,
+        DEAD
     }
 
     public class Enemy
     {
         private const float MAX_WAIT_TIME = 0.5f;
         private const float MOVE_ACCELERATION = 0.15f;
-        private const float MAX_MOVE_SPEED = 2f;
+        private const float MOVE_SPEED = 0.5f;
 
         private float waitTime;
         private Vector2 velocity;
@@ -25,11 +26,10 @@
 
         public Enemy(Vector2 position, Rectangle boundingBounds, bool isFacingRight)
         {
-            this.State = EnemyStates.IDLE;
             this.Position = position;
             this.IsAlive = true;
             this.isGrounded = false;
-            this.BoundingBounds = boundingBounds;
+            this.BoundingRectangle = boundingBounds;
             this.IsFacingRight = isFacingRight;
         }
 
@@ -45,40 +45,47 @@
         {
             float elapsed = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds;
 
-            if (this.BoundingBounds == null)
+            if (!IsAlive)
             {
+                this.ActOnCollision();
                 return;
             }
 
-            if (this.Bounds.Left <= this.BoundingBounds.X)
+            if (this.Bounds.Left <= this.BoundingRectangle.X)
             {
                 // Wait for some amount of time.
-                this.waitTime = Math.Max(0.0f, waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
-                this.State = EnemyStates.IDLE;
+                if (waitTime > 0)
+                {
+                    this.State = EnemyStates.IDLE;
+                    this.waitTime = Math.Max(0.0f, waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
+                }
                 if (this.waitTime <= 0.0f)
                 {
                     // Then turn around.
                     this.State = EnemyStates.WALK;
                     this.IsFacingRight = true;
                 }
-                this.velocity = new Vector2(this.velocity.X + MAX_MOVE_SPEED, this.velocity.Y);
-                
+                this.velocity = new Vector2(this.velocity.X + MOVE_SPEED, this.velocity.Y);
             }
-            else if(this.Bounds.Right >= this.BoundingBounds.Right)
+            else if (this.Bounds.Right >= this.BoundingRectangle.Right)
             {
-                // Wait for some amount of time.
-                this.waitTime = Math.Max(0.0f, waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
-                this.State = EnemyStates.IDLE;
+                if (waitTime > 0)
+                {
+                    this.State = EnemyStates.IDLE;
+                    this.waitTime = Math.Max(0.0f, waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
+                }
                 if (this.waitTime <= 0.0f)
                 {
                     // Then turn around.
-                    this.IsFacingRight = false;      
+                    this.IsFacingRight = false;
                     this.State = EnemyStates.WALK;
                 }
-                this.velocity = new Vector2(this.velocity.X - MAX_MOVE_SPEED, this.velocity.Y);
-                
-            }           
-
+                this.velocity = new Vector2(this.velocity.X - MOVE_SPEED, this.velocity.Y);
+                if (this.Bounds.Left == this.BoundingRectangle.X)
+                {
+                    this.waitTime = MAX_WAIT_TIME;
+                }
+            }
         }
 
         private void HandleBottomCollision(List<Block> blocks)
@@ -107,13 +114,20 @@
         private void ApplyGravity()
         {
             this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.15f);
-        }        
+        }
+
+        public void ActOnCollision()
+        {
+            this.IsAlive = false;
+            this.State = EnemyStates.DEAD;
+            this.velocity = new Vector2(0, 0);
+        }
 
         public bool IsAlive { get; private set; }
 
         public Rectangle Bounds { get; set; }
 
-        public Rectangle BoundingBounds { get; set; }
+        public Rectangle BoundingRectangle { get; set; }
 
         public Vector2 Position { get; set; }
 

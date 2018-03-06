@@ -31,7 +31,7 @@
         {
             isPlaying = true;
             this.level = new LevelOne();
-            this.enemy = new Enemy(new Vector2(45, 900), new Rectangle(50, 0, 300, 0), true);
+            this.enemy = new Enemy(new Vector2(100, 900), new Rectangle(100, 0, 300, 0), true);
             if (playerData == null)
             {
                 this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(45, 760), true);
@@ -78,6 +78,7 @@
                 this.CheckGameOver();
                 this.UpdateEnemy();
                 this.UpdatePlayer();
+                this.CheckPlayerEnemyCollision();
                 camera.Update(player.Position, level.Width, level.Height);
                 this.PauseGame();
                 //this.PlayerAttack();
@@ -139,6 +140,15 @@
             this.enemyAnimation.ChangeAnimation(this.enemy.State.ToString());
             this.enemy.Patrolling(this.level.Blocks);
 
+        }
+
+        private void CheckPlayerEnemyCollision()
+        {
+            if (this.player.Bounds.Intersects(this.enemy.Bounds))
+            {
+                enemy.ActOnCollision();
+                this.enemyAnimation.Tint = new Color(Color.White, 0.1f);
+            }
         }
 
         private void PlayerAttack()

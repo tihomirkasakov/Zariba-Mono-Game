@@ -29,6 +29,7 @@
             currentAnimation.AnimationStates = new List<AnimationState>();
             currentAnimation.AnimationStates.Add(new AnimationState(EnemyStates.IDLE.ToString(), new Vector2(55, 84), 2, 0));
             currentAnimation.AnimationStates.Add(new AnimationState(EnemyStates.WALK.ToString(), new Vector2(55, 78), 2, 6));
+            currentAnimation.AnimationStates.Add(new AnimationState(EnemyStates.DEAD.ToString(), new Vector2(55, 81), 2, 8));
 
             currentAnimation.Tint = tint;
             currentAnimation.ChangeAnimation("IDLE");
