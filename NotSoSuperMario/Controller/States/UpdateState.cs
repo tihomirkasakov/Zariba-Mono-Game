@@ -19,14 +19,16 @@
         private int currentLevel = 1;
         private Level level;
         private Player player;
-        private Enemy enemy;
+
         private Animation playerAnimation;
-        private Animation enemyAnimation;
+
+        private List<Enemy> enemies;
+
         private List<Sprite> shurikenSprites;
-        private List<Animation> listOfPlayerAnimations;
+        private List<Animation> enemyAnimation;
         GraphicsDeviceManager graphics;
 
-        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData = null, Enemy enemyData = null)
+        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData = null, List<Enemy> enemiesData = null)
             : base(inputHandler, uiFactory, soundManager)
         {
             isPlaying = true;
@@ -39,13 +41,19 @@
             {
                 this.player = playerData;
             }
-            if (enemyData == null)
+            if (enemiesData == null)
             {
-                this.enemy = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), true);
+                Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
+                Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(100, 0, 250, 0), 0.8f, true);
+                Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                this.enemies = new List<Enemy>();
+                this.enemies.Add(enemyPigLow);
+                this.enemies.Add(enemyPigHigh);
+                this.enemies.Add(enemyPigMiddle);
             }
             else
             {
-                this.enemy = enemyData;
+                this.enemies = enemiesData;
             }
 
             this.shurikenSprites = new List<Sprite>();
@@ -56,7 +64,7 @@
         {
             graphics = Globals.Graphics;
             camera = new Camera(graphics.GraphicsDevice.Viewport);
-            this.SpriteInState.Add(this.level.LevelBackground);
+            this.SpritesInState.Add(this.level.LevelBackground);
             this.level.LoadContent($"../../../../Content/Level{currentLevel}.txt");
             this.level.GenerateMap(level.mapTiles, TILE_SIZE);
 
@@ -68,12 +76,24 @@
                 double spriteHeight = sprite.Texture.Height * ((double)TILE_SIZE / (double)sprite.Texture.Height);
                 block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y,
                     (int)spriteWidth, (int)spriteHeight);
-                this.SpriteInState.Add(sprite);
+                this.SpritesInState.Add(sprite);
             }
             this.playerAnimation = AnimationFactory.CreatePlayerAnimation(Color.AliceBlue);
-            this.enemyAnimation = AnimationFactory.CreateEnemyAnimaton(Color.White);
-            this.SpriteInState.Add(this.playerAnimation);
-            this.SpriteInState.Add(this.enemyAnimation);
+            this.SpritesInState.Add(this.playerAnimation);
+
+            this.enemyAnimation = new List<Animation>();
+
+            Animation enemyPigLow = AnimationFactory.CreateEnemyAnimaton(Color.White);
+            this.SpritesInState.Add(enemyPigLow);
+            this.enemyAnimation.Add(enemyPigLow);
+
+            Animation enemyPigHigh = AnimationFactory.CreateEnemyAnimaton(Color.White);
+            this.SpritesInState.Add(enemyPigHigh);
+            this.enemyAnimation.Add(enemyPigHigh);
+
+            Animation enemyPigMiddle = AnimationFactory.CreateEnemyAnimaton(Color.White);
+            this.SpritesInState.Add(enemyPigMiddle);
+            this.enemyAnimation.Add(enemyPigMiddle);
         }
 
         public override void Update()
@@ -83,11 +103,16 @@
             if (!this.isDone)
             {
                 this.CheckGameOver();
-                this.UpdateEnemy();
-                this.UpdatePlayer();
-                this.CheckPlayerEnemyCollision();
-                camera.Update(player.Position, level.Width, level.Height);
                 this.PauseGame();
+
+                for (int i = 0; i < this.enemies.Count; i++)
+                {
+                    this.UpdateEnemy(i);
+                    this.CheckPlayerEnemyCollision(i);
+                } 
+
+                this.UpdatePlayer();                
+                camera.Update(player.Position, level.Width, level.Height);
                 //this.PlayerAttack();
             }
 
@@ -110,7 +135,7 @@
             }
             else
             {
-                SpriteInState.Remove(shurikenSprites[i]);
+                SpritesInState.Remove(shurikenSprites[i]);
                 this.level.ListOfShurikens.Remove(shuriken);
                 shurikenSprites.Remove(shurikenSprites[i]);
             }
@@ -133,31 +158,30 @@
             this.playerAnimation.ChangeAnimation(this.player.State.ToString());
         }
 
-        public void UpdateEnemy()
+        public void UpdateEnemy(int i)
         {
-            this.enemyAnimation.Update();
-            this.enemyAnimation.Position = this.enemy.Position;
-            this.enemyAnimation.IsFacingRight = this.enemy.IsFacingRight;
-            this.enemy.Bounds = new Rectangle((int)this.enemy.Position.X, (int)this.enemy.Position.Y,
-                (int)(this.enemyAnimation.SourceRectangle.Width),
-                (int)(this.enemyAnimation.SourceRectangle.Height * 0.9));
-            this.enemyAnimation.ChangeAnimation(this.enemy.State.ToString());
-            this.enemy.Patrolling(this.level.Blocks);
+            this.enemies[i].Patrolling(this.level.Blocks);
+            this.enemyAnimation[i].Update();
+            this.enemyAnimation[i].Position = this.enemies[i].Position;
+            this.enemyAnimation[i].IsFacingRight = this.enemies[i].IsFacingRight;
+            this.enemies[i].Bounds = new Rectangle((int)this.enemies[i].Position.X, (int)this.enemies[i].Position.Y,
+                (int)(this.enemyAnimation[i].SourceRectangle.Width),
+                (int)(this.enemyAnimation[i].SourceRectangle.Height * 0.9));
+            this.enemyAnimation[i].ChangeAnimation(this.enemies[i].State.ToString());
 
         }
 
-        private void CheckPlayerEnemyCollision()
+        private void CheckPlayerEnemyCollision(int i)
         {
             if (this.player.IsHidden)
             {
                 this.playerAnimation.Tint = new Color(Color.White, 0.2f);
             }
-            if (this.player.Bounds.Intersects(this.enemy.Bounds) && !this.player.IsHidden)
+            if (this.player.Bounds.Intersects(this.enemies[i].Bounds) && !this.player.IsHidden)
             {
-                enemy.ActOnCollision();
+                enemies[i].ActOnCollision();
                 this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
             }
-
         }
 
         private void PlayerAttack()
@@ -184,7 +208,7 @@
 
                 Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken", 0.15f);
                 this.shurikenSprites.Add(shurikenSprite);
-                this.SpriteInState.Add(shurikenSprite);
+                this.SpritesInState.Add(shurikenSprite);
             }
         }
 
@@ -195,7 +219,7 @@
                 if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
                 {
                     this.isDone = true;
-                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemy);
+                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies);
                 }
             }
         }

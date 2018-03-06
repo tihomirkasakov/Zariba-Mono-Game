@@ -18,19 +18,20 @@
     {
         private const float MAX_WAIT_TIME = 0.5f;
         private const float MOVE_ACCELERATION = 0.15f;
-        private const float MOVE_SPEED = 0.5f;
 
+        private float moveSpeed;
         private float waitTime;
         private Vector2 velocity;
         private bool isGrounded;
 
-        public Enemy(Vector2 position, Rectangle boundingBounds, bool isFacingRight)
+        public Enemy(Vector2 position, Rectangle boundingBounds, float moveSpeed, bool isFacingRight)
         {
             this.Position = position;
             this.IsAlive = true;
             this.isGrounded = false;
             this.BoundingRectangle = boundingBounds;
             this.IsFacingRight = isFacingRight;
+            this.MoveSpeed = moveSpeed;
         }
 
         public void Patrolling(List<Block> blocks)
@@ -65,7 +66,7 @@
                     this.State = EnemyStates.WALK;
                     this.IsFacingRight = true;
                 }
-                this.velocity = new Vector2(this.velocity.X + MOVE_SPEED, this.velocity.Y);
+                this.velocity = new Vector2(this.velocity.X + MoveSpeed, this.velocity.Y);
             }
             else if (this.Bounds.Right >= this.BoundingRectangle.Right)
             {
@@ -80,7 +81,7 @@
                     this.IsFacingRight = false;
                     this.State = EnemyStates.WALK;
                 }
-                this.velocity = new Vector2(this.velocity.X - MOVE_SPEED, this.velocity.Y);
+                this.velocity = new Vector2(this.velocity.X - MoveSpeed, this.velocity.Y);
                 if (this.Bounds.Left == this.BoundingRectangle.X)
                 {
                     this.waitTime = MAX_WAIT_TIME;
@@ -128,6 +129,8 @@
         public Rectangle Bounds { get; set; }
 
         public Rectangle BoundingRectangle { get; set; }
+
+        public float MoveSpeed { get; set; }
 
         public Vector2 Position { get; set; }
 

@@ -18,10 +18,10 @@
         public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
-            this.SpriteInState.Add(this.uiFactory.MenuBackground);
-            this.SpriteInState.Add(this.uiFactory.StartButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.OptionsButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.ExitButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.MenuBackground);
+            this.SpritesInState.Add(this.uiFactory.StartButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.OptionsButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.ExitButton.Sprite);
             //this.soundManager.Play("mainMenu");
 
             this.menuId = 1;

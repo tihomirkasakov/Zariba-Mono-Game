@@ -12,11 +12,11 @@
         public OptionsState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
-            this.SpriteInState.Add(this.uiFactory.MenuBackground);
-            this.SpriteInState.Add(this.uiFactory.VolumeButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.FullscreenButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.Checkbox.Sprite);
-            this.SpriteInState.Add(this.uiFactory.BackButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.MenuBackground);
+            this.SpritesInState.Add(this.uiFactory.VolumeButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.FullscreenButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.Checkbox.Sprite);
+            this.SpritesInState.Add(this.uiFactory.BackButton.Sprite);
             this.menuId = 1;
         }
 

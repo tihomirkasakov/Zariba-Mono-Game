@@ -22,14 +22,14 @@
             this.uiFactory = uiFactory;
             this.soundManager = soundManager;
             this.NextState = this;
-            this.SpriteInState = new List<IRenderable>();
+            this.SpritesInState = new List<IRenderable>();
             this.isDone = false;
             this.isPlaying = false;
         }
 
         public State NextState { get; set; }
 
-        public List<IRenderable> SpriteInState { get; set; }
+        public List<IRenderable> SpritesInState { get; set; }
 
         public virtual void Update()
         {
@@ -43,11 +43,11 @@
         {
             if (!isPlaying)
             {
-                renderer.DrawMenuState(this.SpriteInState);
+                renderer.DrawMenuState(this.SpritesInState);
             }
             else
             {
-                renderer.DrawPlayState(this.SpriteInState, camera);
+                renderer.DrawPlayState(this.SpritesInState, camera);
             }
         }
     }

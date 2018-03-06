@@ -15,7 +15,6 @@
         private int row = 0;
         private int width;
         private int height;
-        private List<Enemy> enemies = new List<Enemy>();
 
         public Level()
         {
@@ -35,6 +34,7 @@
         public Sprite LevelBackground { get; set; }
         public List<Block> Blocks { get; set; }
         public List<Shuriken> ListOfShurikens { get; set; }
+        public List<Enemy> Enemies { get; set; }
 
         public void LoadContent(string filename)
         {
@@ -78,9 +78,6 @@
                             break;
                         case 4:
                             this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_4));
-                            break;
-                        case 5:
-                            this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.enemyPig));
                             break;
                     }
                     width = (col + 1) * size;

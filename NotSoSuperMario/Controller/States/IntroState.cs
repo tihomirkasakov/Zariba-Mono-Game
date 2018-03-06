@@ -11,7 +11,7 @@
         public IntroState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
-            this.SpriteInState.Add(this.uiFactory.IntroBackground);
+            this.SpritesInState.Add(this.uiFactory.IntroBackground);
         }
 
         public override void Update()

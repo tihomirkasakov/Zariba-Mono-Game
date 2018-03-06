@@ -8,7 +8,6 @@
         tile_2,
         tile_3,
         tile_4,
-        enemyPig,
     }
 
     public class Block : GameObject

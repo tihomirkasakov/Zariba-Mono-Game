@@ -11,7 +11,7 @@
         public GameOver(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
-            this.SpriteInState.Add(this.uiFactory.GameOverBackground);
+            this.SpritesInState.Add(this.uiFactory.GameOverBackground);
         }
 
         public override void Update()

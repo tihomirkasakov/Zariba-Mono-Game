@@ -11,20 +11,20 @@
     public class PauseState : State
     {
         private Player player;
-        private Enemy enemy;
+        private List<Enemy> enemies;
         private bool isChanged = false;
 
-        public PauseState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData, Enemy enemyData)
+        public PauseState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData, List<Enemy> enemiesData)
             : base(inputHandler, uiFactory, soundManager)
         {
             this.player = playerData;
-            this.enemy = enemyData;
+            this.enemies = enemiesData;
 
-            this.SpriteInState.Add(this.uiFactory.PauseBackground);
-            this.SpriteInState.Add(this.uiFactory.PauseBackgroundTransperant);
-            this.SpriteInState.Add(this.uiFactory.ResumeButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.ExitToMenuButton.Sprite);
-            this.SpriteInState.Add(this.uiFactory.ExitFromGame.Sprite);
+            this.SpritesInState.Add(this.uiFactory.PauseBackground);
+            this.SpritesInState.Add(this.uiFactory.PauseBackgroundTransperant);
+            this.SpritesInState.Add(this.uiFactory.ResumeButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.ExitToMenuButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.ExitFromGame.Sprite);
 
             this.MenuId = 1;
         }
@@ -95,7 +95,7 @@
         {
             //this.soundManager.Pause("MenuSound");
             this.isDone = true;
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemy);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies);
         }
 
         private void ExitFromGame()
