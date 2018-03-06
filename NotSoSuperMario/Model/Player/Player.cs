@@ -14,7 +14,7 @@
         JUMP,
         ATTACK
     }
-    public class Player
+    public class Player : Entity
     {
         private const float FRICTION_FORCE = 0.8f;
         private const float MAX_PLAYER_SPEED = 2;
@@ -31,7 +31,8 @@
         private Vector2 velocity;
         private bool isMoving;
 
-        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Keys attack, Vector2 position, bool isFacingRight)
+        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Keys attack, Vector2 position, bool isFacingRight) 
+            : base(position, isFacingRight)
         {
             this.State = PlayerStates.IDLE;
             this.IsFacingRight = isFacingRight;
@@ -48,16 +49,11 @@
             this.Shurikens = DEFAULT_SHURIKEN;
             this.isGrounded = false;
             this.IsHidden = false;
-
         }
 
-        public Vector2 Position { get; set; }
-        public Rectangle Bounds { get; set; }
         public PlayerStates State { get; private set; }
-        public bool IsFacingRight { get; set; }
         public bool IsAttacking { get; set; }
         public bool IsHidden { get; set; }
-        public int Health { get; set; }
         public int Shurikens { get; set; }
 
         public void Move(List<Block> blocks, List<KeyboardButtonState> activeKeys)
@@ -269,6 +265,11 @@
         private void Hide()
         {
             this.IsHidden = true;
+        }
+
+        public override void ActOnCollision()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

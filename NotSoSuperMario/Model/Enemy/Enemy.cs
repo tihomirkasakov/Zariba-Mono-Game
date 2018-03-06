@@ -14,7 +14,7 @@
         DEAD
     }
 
-    public class Enemy
+    public class Enemy : Entity
     {
         private const float MAX_WAIT_TIME = 0.5f;
         private const float MOVE_ACCELERATION = 0.15f;
@@ -24,7 +24,8 @@
         private Vector2 velocity;
         private bool isGrounded;
 
-        public Enemy(Vector2 position, Rectangle boundingBounds, float moveSpeed, bool isFacingRight)
+        public Enemy(Vector2 position, Rectangle boundingBounds, float moveSpeed, bool isFacingRight) 
+            : base(position, isFacingRight)
         {
             this.Position = position;
             this.IsAlive = true;
@@ -117,7 +118,9 @@
             this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.15f);
         }
 
-        public void ActOnCollision()
+
+
+        public override void ActOnCollision()
         {
             this.IsAlive = false;
             this.State = EnemyStates.DEAD;
@@ -126,18 +129,11 @@
 
         public bool IsAlive { get; private set; }
 
-        public Rectangle Bounds { get; set; }
-
         public Rectangle BoundingRectangle { get; set; }
 
         public float MoveSpeed { get; set; }
 
-        public Vector2 Position { get; set; }
-
-        public bool IsFacingRight { get; set; }
-
         public EnemyStates State { get; private set; }
-
 
     }
 }

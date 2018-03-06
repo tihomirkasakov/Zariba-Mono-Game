@@ -44,7 +44,7 @@
             if (enemiesData == null)
             {
                 Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
-                Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(100, 0, 250, 0), 0.8f, true);
+                Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 0.8f, true);
                 Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
                 this.enemies = new List<Enemy>();
                 this.enemies.Add(enemyPigLow);
