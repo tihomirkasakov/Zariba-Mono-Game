@@ -5,9 +5,6 @@
 
     public class Camera
     {
-        private const int CENTER_COEFF_X = 300;
-        private const int CENTER_COEFF_Y = 500;
-
         private Matrix transform;
         private Vector2 center;
         private Viewport viewport;
@@ -23,35 +20,35 @@
 
         public void Update(Vector2 position, int offSetX, int offSetY)
         {
-            if (position.X < viewport.Width / 2 )
+            if (position.X < viewport.Width / 2)
             {
-                center.X = viewport.Width / 2 - CENTER_COEFF_X;
+                center.X = viewport.Width / 2;
             }
             else if (position.X > offSetX - (viewport.Width / 2))
             {
-                center.X = offSetX - viewport.Width / 2 - CENTER_COEFF_X;
+                center.X = offSetX - viewport.Width / 2;
             }
             else
             {
-                center.X = position.X - CENTER_COEFF_X;
+                center.X = position.X;
             }
 
             if (position.Y < viewport.Height / 2)
             {
-                center.Y = viewport.Height / 2 - CENTER_COEFF_Y;
+                center.Y = viewport.Height / 2;
             }
             else if (position.Y > offSetY - (viewport.Height / 2))
             {
-                center.Y = offSetY - viewport.Height / 2 - CENTER_COEFF_Y;
+                center.Y = offSetY - viewport.Height / 2;
             }
             else
             {
-                center.Y = position.Y - CENTER_COEFF_Y;
+                center.Y = position.Y;
             }
 
 
-            transform = Matrix.CreateTranslation(new Vector3(-center.X + (viewport.Width/2), 
-                -center.Y + (viewport.Height/2), 0));
+            transform = Matrix.CreateTranslation(new Vector3(-center.X + (viewport.Width / 2),
+                -center.Y + (viewport.Height / 2), 0));
         }
 
     }

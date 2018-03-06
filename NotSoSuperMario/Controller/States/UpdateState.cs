@@ -11,6 +11,7 @@
     using System.Collections.Generic;
     using System;
     using NotSoSuperMario.Model.Enemy;
+    using Microsoft.Xna.Framework.Graphics;
 
     class UpdateState : State
     {
@@ -23,6 +24,7 @@
         private Animation enemyAnimation;
         private List<Sprite> shurikenSprites;
         private List<Animation> listOfPlayerAnimations;
+        GraphicsDeviceManager graphics;
 
         public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData = null)
             : base(inputHandler, uiFactory, soundManager)
@@ -38,13 +40,15 @@
             {
                 this.player = playerData;
             }
-            
+
             this.shurikenSprites = new List<Sprite>();
             this.Initialize();
         }
 
         public void Initialize()
         {
+            graphics = Globals.Graphics;
+            camera = new Camera(graphics.GraphicsDevice.Viewport);
             this.SpriteInState.Add(this.level.LevelBackground);
             this.level.LoadContent($"../../../../Content/Level{currentLevel}.txt");
             this.level.GenerateMap(level.mapTiles, TILE_SIZE);
@@ -74,8 +78,8 @@
                 this.CheckGameOver();
                 this.UpdateEnemy();
                 this.UpdatePlayer();
+                camera.Update(player.Position, level.Width, level.Height);
                 this.PauseGame();
-                camera.Update(player.Position, Globals.Graphics.PreferredBackBufferWidth, Globals.Graphics.PreferredBackBufferHeight);
                 //this.PlayerAttack();
             }
 
@@ -184,12 +188,12 @@
             Environment.Exit(0);
         }
         private void CheckGameOver()
-		  {
-		      if (player.Health <= 0)
-		      {
-		          this.isDone = true;
-		          this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
-		      }
-		      }
+        {
+            if (player.Health <= 0)
+            {
+                this.isDone = true;
+                this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
+            }
+        }
     }
 }
