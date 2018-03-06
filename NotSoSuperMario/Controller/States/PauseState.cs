@@ -2,6 +2,7 @@
 {
     using Microsoft.Xna.Framework.Input;
     using NotSoSuperMario.Controller.Utils;
+    using NotSoSuperMario.Model.Enemy;
     using NotSoSuperMario.Model.Player;
     using NotSoSuperMario.View;
     using System;
@@ -10,12 +11,14 @@
     public class PauseState : State
     {
         private Player player;
+        private Enemy enemy;
         private bool isChanged = false;
 
-        public PauseState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData)
+        public PauseState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData, Enemy enemyData)
             : base(inputHandler, uiFactory, soundManager)
         {
             this.player = playerData;
+            this.enemy = enemyData;
 
             this.SpriteInState.Add(this.uiFactory.PauseBackground);
             this.SpriteInState.Add(this.uiFactory.PauseBackgroundTransperant);
@@ -92,7 +95,7 @@
         {
             //this.soundManager.Pause("MenuSound");
             this.isDone = true;
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, this.player);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemy);
         }
 
         private void ExitFromGame()

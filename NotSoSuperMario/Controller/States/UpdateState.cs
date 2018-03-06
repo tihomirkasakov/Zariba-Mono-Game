@@ -26,12 +26,11 @@
         private List<Animation> listOfPlayerAnimations;
         GraphicsDeviceManager graphics;
 
-        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData = null)
+        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData = null, Enemy enemyData = null)
             : base(inputHandler, uiFactory, soundManager)
         {
             isPlaying = true;
             this.level = new LevelOne();
-            this.enemy = new Enemy(new Vector2(100, 900), new Rectangle(100, 0, 300, 0), true);
             if (playerData == null)
             {
                 this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(45, 760), true);
@@ -39,6 +38,14 @@
             else
             {
                 this.player = playerData;
+            }
+            if (enemyData == null)
+            {
+                this.enemy = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), true);
+            }
+            else
+            {
+                this.enemy = enemyData;
             }
 
             this.shurikenSprites = new List<Sprite>();
@@ -82,14 +89,6 @@
                 camera.Update(player.Position, level.Width, level.Height);
                 this.PauseGame();
                 //this.PlayerAttack();
-            }
-
-            foreach (KeyboardButtonState key in this.inputHandler.ActiveKeys)
-            {
-                if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
-                {
-                    ExitGame();
-                }
             }
 
             for (int i = 0; i < this.level.ListOfShurikens.Count; i++)
@@ -183,20 +182,14 @@
         {
             foreach (var key in this.inputHandler.ActiveKeys)
             {
-                if (key.Button == Keys.P && key.ButtonState == Utils.KeyState.Clicked)
+                if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
                 {
                     this.isDone = true;
-                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player);
+                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemy);
                 }
             }
         }
 
-        private void ExitGame()
-        {
-            this.isDone = true;
-            // Stop Sounds
-            Environment.Exit(0);
-        }
         private void CheckGameOver()
         {
             if (player.Health <= 0)
