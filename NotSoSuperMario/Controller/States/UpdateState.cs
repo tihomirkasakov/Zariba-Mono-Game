@@ -24,6 +24,7 @@
 
         private List<Enemy> enemies;
 
+        private List<Sprite> crateSprites;
         private List<Sprite> shurikenSprites;
         private List<Animation> enemyAnimation;
         GraphicsDeviceManager graphics;
@@ -78,6 +79,18 @@
                     (int)spriteWidth, (int)spriteHeight);
                 this.SpritesInState.Add(sprite);
             }
+
+            this.crateSprites = new List<Sprite>();
+            foreach (var crate in this.level.ListOfCrates)
+            {
+                Sprite crateSprite = UIFactory.CreateSprite("Blocks/Crate", 0.6f);
+                crateSprite.Position = crate.Position;
+                crate.Bounds = new Rectangle((int)crate.Position.X, (int)crate.Position.Y,
+                    crateSprite.Texture.Width, crateSprite.Texture.Height);
+                this.SpritesInState.Add(crateSprite);
+                this.crateSprites.Add(crateSprite);
+            }
+
             this.playerAnimation = AnimationFactory.CreatePlayerAnimation(Color.AliceBlue);
             this.SpritesInState.Add(this.playerAnimation);
 
@@ -109,7 +122,11 @@
                 {
                     this.UpdateEnemy(i);
                     this.CheckPlayerEnemyCollision(i);
-                } 
+                }
+                for (int i = 0; i < this.crateSprites.Count; i++)
+                {
+                    this.CheckPlayerCrateCollision(i);
+                }
 
                 this.UpdatePlayer();                
                 camera.Update(player.Position, level.Width, level.Height);
@@ -172,15 +189,31 @@
         }
 
         private void CheckPlayerEnemyCollision(int i)
-        {
-            if (this.player.IsHidden)
-            {
-                this.playerAnimation.Tint = new Color(Color.White, 0.2f);
-            }
+        {          
             if (this.player.Bounds.Intersects(this.enemies[i].Bounds) && !this.player.IsHidden)
             {
                 enemies[i].ActOnCollision();
                 this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
+            }
+        }
+
+        private void CheckPlayerCrateCollision(int i)
+        {
+            foreach (var crate in this.level.ListOfCrates)
+            {
+                if (crate.Bounds.Intersects(this.player.Bounds) && this.player.IsHidden)
+                {
+                    crate.ActOnCollision();
+                    this.SpritesInState.Remove(crateSprites[i]);
+                    this.SpritesInState.Add(crateSprites[i]);
+                    this.crateSprites[i].Tint = new Color(Color.White, 0.2f);
+                }
+                else
+                {
+                    this.SpritesInState.Remove(crateSprites[i]);
+                    this.SpritesInState.Add(crateSprites[i]);
+                    this.crateSprites[i].Tint = new Color(Color.White, 1f);
+                }
             }
         }
 

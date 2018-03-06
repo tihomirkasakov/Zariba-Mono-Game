@@ -55,6 +55,7 @@
     <Compile Include="Controller\Utils\SoundManager.cs" />
     <Compile Include="Model\Enemy\Enemy.cs" />
     <Compile Include="Model\GameObjects\Block.cs" />
+    <Compile Include="Model\GameObjects\Crate.cs" />
     <Compile Include="Model\GameObjects\Entity.cs" />
     <Compile Include="Model\GameObjects\GameObject.cs" />
     <Compile Include="Controller\NinjaCat.cs" />
