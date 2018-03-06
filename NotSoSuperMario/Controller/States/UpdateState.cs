@@ -33,7 +33,7 @@
             this.level = new LevelOne();
             if (playerData == null)
             {
-                this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Space, new Vector2(45, 760), true);
+                this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 760), true);
             }
             else
             {
@@ -143,11 +143,20 @@
 
         private void CheckPlayerEnemyCollision()
         {
-            if (this.player.Bounds.Intersects(this.enemy.Bounds))
+            if (this.player.IsHidden)
+            {
+                this.playerAnimation.Tint = new Color(Color.White, 0.2f);
+            }
+            else
+            {
+                this.playerAnimation.Tint = new Color(Color.White, 1f);
+            }
+            if (this.player.Bounds.Intersects(this.enemy.Bounds) && !this.player.IsHidden)
             {
                 enemy.ActOnCollision();
-                this.enemyAnimation.Tint = new Color(Color.White, 0.1f);
+                this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
             }
+
         }
 
         private void PlayerAttack()

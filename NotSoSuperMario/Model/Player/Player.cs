@@ -31,7 +31,7 @@
         private Vector2 velocity;
         private bool isMoving;
 
-        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys attack, Vector2 position, bool isFacingRight)
+        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Keys attack, Vector2 position, bool isFacingRight)
         {
             this.State = PlayerStates.IDLE;
             this.IsFacingRight = isFacingRight;
@@ -40,12 +40,14 @@
             this.controls.Add("Move Left", moveLeft);
             this.controls.Add("Move Right", moveRight);
             this.controls.Add("Jump", jump);
+            this.controls.Add("Hide", hide);
             this.controls.Add("Attack", attack);
 
             this.Health = MAX_PLAYER_HEALTH;
             this.Position = position;
             this.Shurikens = DEFAULT_SHURIKEN;
             this.isGrounded = false;
+            this.IsHidden = false;
 
         }
 
@@ -54,6 +56,7 @@
         public PlayerStates State { get; private set; }
         public bool IsFacingRight { get; set; }
         public bool IsAttacking { get; set; }
+        public bool IsHidden { get; set; }
         public int Health { get; set; }
         public int Shurikens { get; set; }
 
@@ -176,13 +179,17 @@
                     this.State = PlayerStates.JUMP;
                     this.Jump();
                 }
+                else if (key.Button == this.controls["Hide"] && key.ButtonState == Controller.Utils.KeyState.Held && !this.IsHidden)
+                {
+                    this.State = PlayerStates.IDLE;
+                    this.Hide();
+                }
                 else if (key.Button == this.controls["Attack"] && key.ButtonState == Controller.Utils.KeyState.Held)
                 {
                     this.State = PlayerStates.ATTACK;
                     this.Attack();
                 }
             }
-
 
             if (!this.isMoving)
             {
@@ -214,7 +221,6 @@
         private void ApplyGravity()
         {
             this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.2f);
-
         }
 
         private void Attack()
@@ -258,6 +264,11 @@
             {
                 this.velocity = new Vector2(this.velocity.X + PLAYER_ACCELERATION, this.velocity.Y);
             }
+        }
+
+        private void Hide()
+        {
+            this.IsHidden = true;
         }
     }
 }
