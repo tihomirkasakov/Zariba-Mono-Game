@@ -118,6 +118,11 @@
 
         public void UpdatePlayer()
         {
+            if (Keyboard.GetState().IsKeyUp(Keys.Down))
+            {
+                player.IsHidden = false;
+                this.playerAnimation.Tint = new Color(Color.White, 1f);
+            }
             this.player.Move(this.level.Blocks, this.inputHandler.ActiveKeys);
             this.playerAnimation.Update();
             this.playerAnimation.Position = this.player.Position;
@@ -146,10 +151,6 @@
             if (this.player.IsHidden)
             {
                 this.playerAnimation.Tint = new Color(Color.White, 0.2f);
-            }
-            else
-            {
-                this.playerAnimation.Tint = new Color(Color.White, 1f);
             }
             if (this.player.Bounds.Intersects(this.enemy.Bounds) && !this.player.IsHidden)
             {
