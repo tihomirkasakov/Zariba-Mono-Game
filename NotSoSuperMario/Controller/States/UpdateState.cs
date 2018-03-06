@@ -16,7 +16,9 @@
     class UpdateState : State
     {
         private const int TILE_SIZE = 45;
+        private const int GAME_TIME = 2000;
         private int currentLevel = 1;
+        private int timer;
         private Level level;
         private Player player;
 
@@ -33,6 +35,7 @@
             : base(inputHandler, uiFactory, soundManager)
         {
             isPlaying = true;
+            this.timer = GAME_TIME;
             this.level = new LevelOne();
             if (playerData == null)
             {
@@ -112,10 +115,14 @@
         public override void Update()
         {
             base.Update();
+            this.uiFactory.TimerUI.Position = new Vector2(camera.center.X - 550, camera.center.Y - 400);
+            this.SpritesInState.Add(this.uiFactory.TimerUI);
 
             if (!this.isDone)
             {
+                this.timer--;
                 this.CheckGameOver();
+                this.CheckGameWin();
                 this.PauseGame();
 
                 for (int i = 0; i < this.enemies.Count; i++)
@@ -128,7 +135,7 @@
                     this.CheckPlayerCrateCollision(i);
                 }
 
-                this.UpdatePlayer();                
+                this.UpdatePlayer();
                 camera.Update(player.Position, level.Width, level.Height);
                 //this.PlayerAttack();
             }
@@ -189,11 +196,11 @@
         }
 
         private void CheckPlayerEnemyCollision(int i)
-        {          
+        {
             if (this.player.Bounds.Intersects(this.enemies[i].Bounds) && !this.player.IsHidden)
             {
                 enemies[i].ActOnCollision();
-                this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
+                this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
             }
         }
 
@@ -259,10 +266,24 @@
 
         private void CheckGameOver()
         {
-            if (player.Health <= 0)
             {
-                this.isDone = true;
-                this.NextState = new GameOver(this.inputHandler, this.uiFactory, this.soundManager);
+                if (player.Health <= 0) if (player.Health <= 0 || this.timer == 0)
+                    {
+                        this.isDone = true;
+                        this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
+                    }
+            }
+        }
+
+        private void CheckGameWin()
+        {
+            if (player.Position.X == 0 && player.Position.Y == 790)
+            //if ()//the door has been reached
+            {
+                {
+                    this.isDone = true; this.isDone = true;
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager); this.NextState = new GameWinState(this.inputHandler, this.uiFactory, this.soundManager);
+                }
             }
         }
     }

@@ -43,7 +43,8 @@
   <ItemGroup>
     <Compile Include="Controller\Globals.cs" />
     <Compile Include="Controller\StateMachine.cs" />
-    <Compile Include="Controller\States\GameOver.cs" />
+    <Compile Include="Controller\States\GameOverState.cs" />
+    <Compile Include="Controller\States\GameWinState.cs" />
     <Compile Include="Controller\States\IntroState.cs" />
     <Compile Include="Controller\States\MenuState.cs" />
     <Compile Include="Controller\States\OptionsState.cs" />

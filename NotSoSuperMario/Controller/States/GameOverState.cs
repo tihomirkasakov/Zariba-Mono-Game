@@ -6,9 +6,9 @@
     using Controller.Utils;
     using View;
 
-    public class GameOver : State
+    public class GameOverState : State
     {
-        public GameOver(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
+        public GameOverState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
             : base(inputHandler, uiFactory, soundManager)
         {
             this.SpritesInState.Add(this.uiFactory.GameOverBackground);

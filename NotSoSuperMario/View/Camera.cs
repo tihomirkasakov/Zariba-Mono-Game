@@ -6,7 +6,7 @@
     public class Camera
     {
         private Matrix transform;
-        private Vector2 center;
+        public Vector2 center;
         private Viewport viewport;
         public Matrix Transform
         {

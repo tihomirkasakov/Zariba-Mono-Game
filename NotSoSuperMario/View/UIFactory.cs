@@ -12,11 +12,15 @@
 
         public Sprite GameOverBackground { get; set; }
 
+        public Sprite GameWinBackground { get; set; }
+
         public Sprite MenuBackground { get; set; }
 
         public Sprite PauseBackground { get; set; }
 
         public Sprite PauseBackgroundTransperant { get; set; }
+
+        public Sprite TimerUI { get; set; }
 
         public Button StartButton { get; set; }
 
@@ -42,13 +46,17 @@
 
         public Button ExitFromGame { get; set; }
 
+        public SpriteFont font;
+
         public UIFactory()
         {
             this.IntroBackground = CreateSprite("Backgrounds/introBackground", 0.75f);
             this.GameOverBackground = CreateSprite("Backgrounds/gameOverBackground", 1.2f);
+            this.GameWinBackground = CreateSprite("Backgrounds/gameWinBackground", 1.2f);
             this.MenuBackground = CreateSprite("Backgrounds/menuBackground", 0.75f);
             this.PauseBackground = CreateSprite("Backgrounds/pausedBackground", 1f);
             this.PauseBackgroundTransperant = CreateSprite("Backgrounds/pausedBackgroundTransperant", 1f);
+            this.TimerUI = CreateSprite("Controls/timer", 0.1f);
             this.StartButton = CreateButton("Controls/StartNormal", "Controls/StartHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 100));
             this.ResumeButton = CreateButton("Controls/ResumeNormal", "Controls/ResumeHover", new Vector2(Globals.Graphics.PreferredBackBufferHeight - 300 / 2, 100));
             this.OptionsButton = CreateButton("Controls/OptionsNormal", "Controls/OptionsHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 200));
@@ -61,7 +69,7 @@
             //this.StartButton = CreateButton("CreditsNormal", "CreditsHover", new Vector2((Globals.Graphics.PreferredBackBufferHeight)))
             this.ExitToMenuButton = CreateButton("Controls/ExitToMenuNormal", "Controls/ExitToMenuHover", new Vector2((Globals.Graphics.PreferredBackBufferHeight - 300 / 2), 450));
             this.ExitFromGame = CreateButton("Controls/ExitFromGameNormal", "Controls/ExitFromGameHover", new Vector2((Globals.Graphics.PreferredBackBufferHeight - 300 / 2), 550));
-
+            this.font = Globals.Content.Load<SpriteFont>("Fonts/Font");
         }
 
         private Button CreateButton(string buttonNormal, string buttonHover, Vector2 position)
