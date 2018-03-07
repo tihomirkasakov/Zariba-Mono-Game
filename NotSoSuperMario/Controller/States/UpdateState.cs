@@ -16,9 +16,7 @@
     class UpdateState : State
     {
         private const int TILE_SIZE = 45;
-        private const int GAME_TIME = 2000;
         private int currentLevel = 1;
-        private int timer;
         private Level level;
         private Player player;
 
@@ -29,13 +27,12 @@
         private List<Sprite> crateSprites;
         private List<Sprite> shurikenSprites;
         private List<Animation> enemyAnimation;
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
 
         public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel, Player playerData = null, List<Enemy> enemiesData = null)
             : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             isPlaying = true;
-            this.timer = GAME_TIME;
             this.level = new LevelOne();
             if (playerData == null)
             {
@@ -121,12 +118,9 @@
         public override void Update()
         {
             base.Update();
-            this.uiFactory.TimerUI.Position = new Vector2(camera.center.X - 550, camera.center.Y - 400);
-            this.SpritesInState.Add(this.uiFactory.TimerUI);
 
             if (!this.isDone)
             {
-                this.timer--;
                 this.CheckGameOver();
                 this.CheckGameWin();
                 this.PauseGame();
@@ -287,7 +281,7 @@
         private void CheckGameOver()
         {
             {
-                if (player.Health <= 0) if (player.Health <= 0 || this.timer == 0)
+                 if (player.Health <= 0 || this.timer == 0)
                     {
                         this.isDone = true;
                         this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);

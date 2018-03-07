@@ -22,7 +22,6 @@
                     Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle,
                     sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.FlipHorizontally, 0);
                 }
-                
             }
 
             Globals.SpriteBatch.End();
