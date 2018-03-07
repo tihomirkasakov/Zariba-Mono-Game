@@ -48,10 +48,10 @@
 
         public UIFactory()
         {
-            this.IntroBackground = CreateSprite("Backgrounds/introBackground", 0.75f);
+            this.IntroBackground = CreateSprite("Backgrounds/introBackground", 1.2f);
             this.GameOverBackground = CreateSprite("Backgrounds/gameOverBackground", 1.2f);
             this.GameWinBackground = CreateSprite("Backgrounds/gameWinBackground", 1.2f);
-            this.MenuBackground = CreateSprite("Backgrounds/menuBackground", 0.75f);
+            this.MenuBackground = CreateSprite("Backgrounds/menuBackground", 1.2f);
             this.PauseBackground = CreateSprite("Backgrounds/pausedBackground", 1f);
             this.PauseBackgroundTransperant = CreateSprite("Backgrounds/pausedBackgroundTransperant", 1f);
             this.TimerUI = CreateSprite("UI/timer", 0.1f);
