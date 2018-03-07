@@ -48,8 +48,8 @@
             if (enemiesData == null)
             {
                 Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
-                Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 0.8f, true);
-                Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
+                Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
                 Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
                 this.enemies = new List<Enemy>();
                 this.enemies.Add(enemyPigLow);
@@ -136,11 +136,8 @@
                     this.UpdateEnemy(i);
                     this.CheckPlayerEnemyCollision(i);
                 }
-                for (int i = 0; i < this.crateSprites.Count; i++)
-                {
-                    
-                }
-                this.CheckPlayerCrateCollision();
+
+                this.HidePlayer();
                 this.UpdatePlayer();
                 camera.Update(player.Position, level.Width, level.Height);
                 //this.PlayerAttack();
@@ -178,7 +175,7 @@
                 player.IsHidden = false;
                 this.playerAnimation.Tint = new Color(Color.White, 1f);
             }
-            this.player.Move(this.level.Blocks, this.inputHandler.ActiveKeys);
+            this.player.Move(this.level.Blocks, this.level.ListOfCrates, this.inputHandler.ActiveKeys);
             this.playerAnimation.Update();
             this.playerAnimation.Position = this.player.Position;
             this.playerAnimation.IsFacingRight = this.player.IsFacingRight;
@@ -199,6 +196,19 @@
                 (int)(this.enemyAnimation[i].SourceRectangle.Height * 0.75));
             this.enemyAnimation[i].ChangeAnimation(this.enemies[i].State.ToString());
 
+        }
+
+        private void HidePlayer()
+        {
+            if (this.player.IsHidden)
+            {
+                this.playerAnimation.Tint = new Color(Color.White, 0.2f);
+            }
+            else
+            {
+                this.player.IsHidden = false;
+                this.playerAnimation.Tint = new Color(Color.White, 1f);
+            }
         }
 
         private void CheckPlayerEnemyCollision(int i)

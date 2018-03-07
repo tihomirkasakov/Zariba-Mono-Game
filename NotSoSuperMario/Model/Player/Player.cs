@@ -56,9 +56,11 @@
         public bool IsHidden { get; set; }
         public int Shurikens { get; set; }
 
-        public void Move(List<Block> blocks, List<KeyboardButtonState> activeKeys)
+        public void Move(List<Block> blocks, List<Crate> crates, List<KeyboardButtonState> activeKeys)
         {
             this.State = PlayerStates.IDLE;
+
+            this.Hide(crates);
 
             // Checking for collision with blocks underneath the player
             this.HandleTopCollision(blocks);
@@ -70,6 +72,28 @@
 
             // Side Collision
             this.HandleSideCollision(blocks);
+        }
+
+        private void Hide(List<Crate> crates)
+        {
+            if (Keyboard.GetState().IsKeyDown(this.controls["Hide"]))
+            {
+                Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width),
+                    (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
+
+                foreach (var crate in crates)
+                {
+                    if (tempRect.Intersects(crate.Bounds))
+                    {
+                        this.velocity = new Vector2(0, 0);
+                        this.IsHidden = true;
+                    }
+                }
+            }
+            else
+            {
+                this.IsHidden = false;
+            }
         }
 
         private void HandleBottomCollision(List<Block> blocks)

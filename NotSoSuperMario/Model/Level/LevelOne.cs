@@ -13,7 +13,7 @@
             this.ListOfCrates = new List<Crate>
             {
                 new Crate(new Vector2(200, 969)),
-                new Crate(new Vector2(250, 474))
+                new Crate(new Vector2(170, 474))
 
             };
             this.LevelBackground = UIFactory.CreateSprite("Backgrounds/background", 1f);
