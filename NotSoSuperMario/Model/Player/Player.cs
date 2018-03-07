@@ -179,10 +179,9 @@
                     this.State = PlayerStates.JUMP;
                     this.Jump();
                 }
-                else if (key.Button == this.controls["Hide"] && key.ButtonState == Controller.Utils.KeyState.Held && !this.IsHidden)
+                else if (key.Button == this.controls["Hide"] && key.ButtonState == Controller.Utils.KeyState.Held)
                 {
                     this.State = PlayerStates.IDLE;
-                    this.Hide();
                 }
                 else if (key.Button == this.controls["Attack"] && key.ButtonState == Controller.Utils.KeyState.Held)
                 {
@@ -264,11 +263,6 @@
             {
                 this.velocity = new Vector2(this.velocity.X + PLAYER_ACCELERATION, this.velocity.Y);
             }
-        }
-
-        private void Hide()
-        {
-            this.IsHidden = true;
         }
 
         public override void ActOnCollision()

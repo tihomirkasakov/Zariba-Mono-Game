@@ -12,7 +12,9 @@
             this.ListOfShurikens = new List<Shuriken>();
             this.ListOfCrates = new List<Crate>
             {
-                new Crate(new Vector2(200, 970))
+                new Crate(new Vector2(200, 969)),
+                new Crate(new Vector2(250, 474))
+
             };
             this.LevelBackground = UIFactory.CreateSprite("Backgrounds/background", 1f);
         }

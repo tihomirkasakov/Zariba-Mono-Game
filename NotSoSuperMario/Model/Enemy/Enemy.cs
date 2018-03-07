@@ -11,6 +11,7 @@
     {
         IDLE,
         WALK,
+        TROW,
         DEAD
     }
 
@@ -37,7 +38,6 @@
 
         public void Patrolling(List<Block> blocks)
         {
-            this.State = EnemyStates.IDLE;
             this.HandleBottomCollision(blocks);
             this.CheckBounds();
             this.Position += this.velocity;

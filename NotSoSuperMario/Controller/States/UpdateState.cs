@@ -50,10 +50,12 @@
                 Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
                 Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 0.8f, true);
                 Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
                 this.enemies = new List<Enemy>();
                 this.enemies.Add(enemyPigLow);
                 this.enemies.Add(enemyPigHigh);
                 this.enemies.Add(enemyPigMiddle);
+                //this.enemies.Add(enemyNinjaGirlHigh);
             }
             else
             {
@@ -89,7 +91,7 @@
                 Sprite crateSprite = UIFactory.CreateSprite("Blocks/Crate", 0.6f);
                 crateSprite.Position = crate.Position;
                 crate.Bounds = new Rectangle((int)crate.Position.X, (int)crate.Position.Y,
-                    crateSprite.Texture.Width, crateSprite.Texture.Height);
+                    (int)(crateSprite.Texture.Width * 0.5), crateSprite.Texture.Height);
                 this.SpritesInState.Add(crateSprite);
                 this.crateSprites.Add(crateSprite);
             }
@@ -110,6 +112,10 @@
             Animation enemyPigMiddle = AnimationFactory.CreateEnemyAnimaton(Color.White);
             this.SpritesInState.Add(enemyPigMiddle);
             this.enemyAnimation.Add(enemyPigMiddle);
+
+            //Animation enemyNinjaGirlHigh = AnimationFactory.CrateEnemyNinjaGirlAnimation(Color.White);
+            //this.SpritesInState.Add(enemyNinjaGirlHigh);
+            //this.enemyAnimation.Add(enemyNinjaGirlHigh);
         }
 
         public override void Update()
@@ -132,9 +138,9 @@
                 }
                 for (int i = 0; i < this.crateSprites.Count; i++)
                 {
-                    this.CheckPlayerCrateCollision(i);
+                    
                 }
-
+                this.CheckPlayerCrateCollision();
                 this.UpdatePlayer();
                 camera.Update(player.Position, level.Width, level.Height);
                 //this.PlayerAttack();
@@ -189,38 +195,42 @@
             this.enemyAnimation[i].Position = this.enemies[i].Position;
             this.enemyAnimation[i].IsFacingRight = this.enemies[i].IsFacingRight;
             this.enemies[i].Bounds = new Rectangle((int)this.enemies[i].Position.X, (int)this.enemies[i].Position.Y,
-                (int)(this.enemyAnimation[i].SourceRectangle.Width),
-                (int)(this.enemyAnimation[i].SourceRectangle.Height * 0.9));
+                (int)(this.enemyAnimation[i].SourceRectangle.Width * 0.7),
+                (int)(this.enemyAnimation[i].SourceRectangle.Height * 0.75));
             this.enemyAnimation[i].ChangeAnimation(this.enemies[i].State.ToString());
 
         }
 
         private void CheckPlayerEnemyCollision(int i)
         {
-            if (this.player.Bounds.Intersects(this.enemies[i].Bounds) && !this.player.IsHidden)
+            foreach (var crate in this.level.ListOfCrates)
             {
-                enemies[i].ActOnCollision();
-                this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
-            }
+                if (this.player.Bounds.Intersects(this.enemies[i].Bounds)&& !crate.HiddenPlayer && !this.player.IsHidden )
+                {
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
+                }
+            }         
         }
 
-        private void CheckPlayerCrateCollision(int i)
+        private void CheckPlayerCrateCollision()
         {
             foreach (var crate in this.level.ListOfCrates)
             {
-                if (crate.Bounds.Intersects(this.player.Bounds) && this.player.IsHidden)
+                if (!this.player.IsHidden)
                 {
-                    crate.ActOnCollision();
-                    this.SpritesInState.Remove(crateSprites[i]);
-                    this.SpritesInState.Add(crateSprites[i]);
-                    this.crateSprites[i].Tint = new Color(Color.White, 0.2f);
-                }
-                else
-                {
-                    this.SpritesInState.Remove(crateSprites[i]);
-                    this.SpritesInState.Add(crateSprites[i]);
-                    this.crateSprites[i].Tint = new Color(Color.White, 1f);
-                }
+                    if (crate.Bounds.Intersects(this.player.Bounds))
+                    {
+                        crate.ActOnCollision();
+                        this.player.IsHidden = true;
+                        this.playerAnimation.Tint = new Color(Color.White, 0.2f);
+                    }
+                    else if(!crate.Bounds.Intersects(this.player.Bounds) && Keyboard.GetState().IsKeyDown(Keys.Down))
+                    {
+                        crate.HiddenPlayer = false;
+                        this.player.IsHidden = false;
+                        this.playerAnimation.Tint = new Color(Color.White, 1f);
+                    }
+                }                
             }
         }
 
