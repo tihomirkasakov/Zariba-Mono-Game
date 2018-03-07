@@ -8,11 +8,11 @@
     {
         public State CurrentState { get; set; }
 
-        public StateMachine(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
+        public StateMachine(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
         {
 
             // Initialize starting state
-            this.CurrentState = new IntroState(inputHandler, uiFactory, soundManager);
+            this.CurrentState = new IntroState(inputHandler, uiFactory, soundManager, currentLevel);
         }
 
         public void Update()

@@ -31,8 +31,8 @@
         private List<Animation> enemyAnimation;
         GraphicsDeviceManager graphics;
 
-        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData = null, List<Enemy> enemiesData = null)
-            : base(inputHandler, uiFactory, soundManager)
+        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel, Player playerData = null, List<Enemy> enemiesData = null)
+            : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             isPlaying = true;
             this.timer = GAME_TIME;
@@ -71,7 +71,7 @@
             graphics = Globals.Graphics;
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             this.SpritesInState.Add(this.level.LevelBackground);
-            this.level.LoadContent($"../../../../Content/Level{currentLevel}.txt");
+            this.level.LoadContent($"../../../../Content/Level{base.currentLevel}.txt");
             this.level.GenerateMap(level.mapTiles, TILE_SIZE);
 
             foreach (var block in this.level.Blocks)
@@ -207,7 +207,7 @@
             {
                 if (this.player.Bounds.Intersects(this.enemies[i].Bounds)&& !crate.HiddenPlayer && !this.player.IsHidden )
                 {
-                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);
                 }
             }         
         }
@@ -269,7 +269,7 @@
                 if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
                 {
                     this.isDone = true;
-                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies);
+                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies,this.currentLevel);
                 }
             }
         }
@@ -280,19 +280,27 @@
                 if (player.Health <= 0) if (player.Health <= 0 || this.timer == 0)
                     {
                         this.isDone = true;
-                        this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager);
+                        this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);
                     }
             }
         }
 
         private void CheckGameWin()
         {
-            if (player.Position.X == 0 && player.Position.Y == 790)
-            //if ()//the door has been reached
+            foreach (var block in level.Blocks)
             {
+                if (player.Bounds.Intersects(block.Bounds) && block.Type.ToString() == "exit")
                 {
-                    this.isDone = true; this.isDone = true;
-                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager); this.NextState = new GameWinState(this.inputHandler, this.uiFactory, this.soundManager);
+                    int nextLevel = ++base.currentLevel;
+                    if (base.currentLevel < 3)
+                    {
+                        this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, nextLevel);
+                    }
+                    else
+                    {
+                        this.isDone = true;
+                        this.NextState = new GameWinState(this.inputHandler, this.uiFactory, this.soundManager, base.currentLevel);
+                    }
                 }
             }
         }

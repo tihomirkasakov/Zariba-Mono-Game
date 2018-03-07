@@ -15,8 +15,8 @@
 
         private int menuId;
 
-        public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
-            : base(inputHandler, uiFactory, soundManager)
+        public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
+            : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             this.SpritesInState.Add(this.uiFactory.MenuBackground);
             this.SpritesInState.Add(this.uiFactory.StartButton.Sprite);
@@ -85,13 +85,13 @@
         {
             this.isDone = true;
             // Pause Sound
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);
         }
 
         private void GoToOptions()
         {
             this.isDone = true;
-            this.NextState = new OptionsState(inputHandler, uiFactory, soundManager);
+            this.NextState = new OptionsState(inputHandler, uiFactory, soundManager,this.currentLevel);
         }
 
         private void ChangeButtonState()

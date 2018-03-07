@@ -6,8 +6,8 @@
 
     public class GameWinState : State
     {
-        public GameWinState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
-            : base(inputHandler, uiFactory, soundManager)
+        public GameWinState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
+            : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             this.SpritesInState.Add(this.uiFactory.GameWinBackground);
         }
@@ -23,7 +23,7 @@
                     if ((key.Button == Keys.Enter || key.Button == Keys.Escape) && key.ButtonState == Utils.KeyState.Clicked)
                     {
                         this.isDone = true;
-                        this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager);
+                        this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);
                     }
                 }
             }

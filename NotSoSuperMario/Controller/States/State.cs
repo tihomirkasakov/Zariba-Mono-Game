@@ -7,6 +7,7 @@
 
     public abstract class State
     {
+        protected int currentLevel;
         protected InputHandler inputHandler;
         protected UIFactory uiFactory;
         protected SoundManager soundManager;
@@ -15,8 +16,9 @@
         public Camera camera;
         public Viewport viewport;
 
-        public State(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
+        public State(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
         {
+            this.currentLevel = currentLevel;
             camera = new Camera(viewport);
             this.inputHandler = inputHandler;
             this.uiFactory = uiFactory;

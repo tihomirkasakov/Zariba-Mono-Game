@@ -14,6 +14,7 @@
         private UIFactory uiFactory;
         private InputHandler inputHandler;
         private SoundManager soundManager;
+        private int currentLevel;
 
         public NinjaCat()
         {
@@ -33,12 +34,13 @@
 
         protected override void Initialize()
         {
+            currentLevel = 1;
             this.renderer = new MonoGameRenderer();
             this.soundManager = new SoundManager();
             this.inputHandler = new InputHandler();
             this.uiFactory = new UIFactory();
 
-            this.stateMachine = new StateMachine(this.inputHandler, this.uiFactory, this.soundManager);
+            this.stateMachine = new StateMachine(this.inputHandler, this.uiFactory, this.soundManager, currentLevel);
 
             base.Initialize();
         }

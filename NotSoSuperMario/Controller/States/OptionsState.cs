@@ -9,8 +9,8 @@
         public int menuId;
         private bool isChanged = false;
 
-        public OptionsState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager)
-            : base(inputHandler, uiFactory, soundManager)
+        public OptionsState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
+            : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             this.SpritesInState.Add(this.uiFactory.MenuBackground);
             this.SpritesInState.Add(this.uiFactory.VolumeButton.Sprite);
@@ -67,7 +67,7 @@
         private void GoBack()
         {
             this.isDone = true;
-            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager);
+            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
         }
 
         private void ToggleFullscreen()

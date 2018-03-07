@@ -83,6 +83,9 @@
                         case 5:
                             this.Blocks.Add(new Block(new Vector2(col * size, row * size + 17), BlockType.spike));
                             break;
+                        case 6:
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + 10), BlockType.exit));
+                            break;
                     }
                     width = (col + 1) * size;
                     height = (row + 1) * size;

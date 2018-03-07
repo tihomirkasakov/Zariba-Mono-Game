@@ -14,8 +14,8 @@
         private List<Enemy> enemies;
         private bool isChanged = false;
 
-        public PauseState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData, List<Enemy> enemiesData)
-            : base(inputHandler, uiFactory, soundManager)
+        public PauseState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData, List<Enemy> enemiesData, int currentLevel)
+            : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             this.player = playerData;
             this.enemies = enemiesData;
@@ -88,14 +88,14 @@
         private void ExitToMenu()
         {
             this.isDone = true;
-            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager);
+            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
         }
 
         private void ResumeGame()
         {
             //this.soundManager.Pause("MenuSound");
             this.isDone = true;
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel, this.player, this.enemies);
         }
 
         private void ExitFromGame()

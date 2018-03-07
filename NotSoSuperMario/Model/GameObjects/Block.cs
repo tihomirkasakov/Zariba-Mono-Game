@@ -10,6 +10,7 @@
         tile_4,
         spike,
         crate,
+        exit
     }
 
     public class Block : GameObject
