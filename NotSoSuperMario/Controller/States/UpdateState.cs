@@ -295,7 +295,7 @@
             {
                 if (player.Bounds.Intersects(block.Bounds) && block.Type.ToString() == "exit")
                 {
-                    int nextLevel = ++base.currentLevel;
+                    int nextLevel = base.currentLevel+1;
                     if (base.currentLevel < 3)
                     {
                         this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, nextLevel);
