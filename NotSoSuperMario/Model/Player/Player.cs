@@ -22,7 +22,7 @@
         private const int JUMP_VELOCITY = 8;
         private const float SCREEN_BOTTOM_BOUND = 1100;
         private const int SCREEN_LEFT_BOUND = 0;
-        private const int SCREEN_RIGHT_BOUND = 50 * 45;
+        private const int SCREEN_RIGHT_BOUND = 44 * 45;
         private const int DEFAULT_SHURIKEN = 3;
         private const int MAX_PLAYER_HEALTH = 100;
 
@@ -31,7 +31,7 @@
         private Vector2 velocity;
         private bool isMoving;
 
-        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Keys attack, Vector2 position, bool isFacingRight) 
+        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Keys attack, Vector2 position, bool isFacingRight)
             : base(position, isFacingRight)
         {
             this.State = PlayerStates.IDLE;
@@ -76,7 +76,7 @@
         {
             this.isGrounded = false;
 
-            if (this.Bounds.Bottom + this.velocity.X >= SCREEN_BOTTOM_BOUND)
+            if (this.Bounds.Bottom + this.velocity.Y >= SCREEN_BOTTOM_BOUND)
             {
                 this.Health = 0;
             }
@@ -84,7 +84,11 @@
             foreach (var block in blocks)
             {
 
-                Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Bottom + this.velocity.Y), this.Bounds.Width, this.Bounds.Height / 3);
+                Rectangle tempRect = new Rectangle((int)(this.Bounds.X + PLAYER_ACCELERATION + 1), (int)(this.Bounds.Bottom + this.velocity.Y), this.Bounds.Width, this.Bounds.Height / 3);
+                if (tempRect.Intersects(block.Bounds) && block.Type.ToString() == "spike")
+                {
+                    this.Health = 0;
+                }
                 if (tempRect.Intersects(block.Bounds))
                 {
                     isGrounded = true;
@@ -107,7 +111,7 @@
             {
                 if (IsFacingRight)
                 {
-                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width + this.velocity.X),
+                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width + this.velocity.X + PLAYER_ACCELERATION),
                         (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
 
                     foreach (var block in blocks)
@@ -120,7 +124,7 @@
                 }
                 else
                 {
-                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + (this.velocity.X)),
+                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.velocity.X + PLAYER_ACCELERATION),
                         (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
 
                     foreach (var block in blocks)
@@ -141,7 +145,7 @@
             {
                 foreach (var block in blocks)
                 {
-                    Rectangle tempRect = new Rectangle((int)this.Bounds.X, (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
+                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + PLAYER_ACCELERATION), (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
                     if (tempRect.Intersects(block.Bounds))
                     {
                         this.velocity = new Vector2(this.velocity.X, 0.5f);

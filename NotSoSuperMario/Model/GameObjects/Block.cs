@@ -8,6 +8,7 @@
         tile_2,
         tile_3,
         tile_4,
+        spike,
         crate,
     }
 

@@ -81,7 +81,7 @@
                             this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_4));
                             break;
                         case 5:
-                            this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.crate));
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + 17), BlockType.spike));
                             break;
                     }
                     width = (col + 1) * size;
