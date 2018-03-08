@@ -34,7 +34,7 @@
 
         protected override void Initialize()
         {
-            currentLevel = 2;
+            currentLevel = 1;
             this.renderer = new MonoGameRenderer();
             this.soundManager = new SoundManager();
             this.inputHandler = new InputHandler();

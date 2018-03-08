@@ -11,7 +11,6 @@
     using System.Collections.Generic;
     using System;
     using NotSoSuperMario.Model.Enemy;
-    using Microsoft.Xna.Framework.Graphics;
 
     class UpdateState : State
     {
@@ -24,7 +23,6 @@
         private List<Enemy> enemies;
 
         private List<Sprite> crateSprites;
-        private List<Sprite> shurikenSprites;
         private List<Animation> enemyAnimation;
         public GraphicsDeviceManager graphics;
 
@@ -32,7 +30,7 @@
             : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             isPlaying = true;
-            if (this.currentLevel==1)
+            if (this.currentLevel == 1)
             {
                 this.level = new LevelOne();
                 if (playerData == null)
@@ -46,44 +44,13 @@
                 }
                 if (enemiesData == null)
                 {
-                    Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
-                    Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
-                    Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
-                    Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                    Enemy firstPig = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
+                    Enemy secondPig = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
+                    Enemy thirdPig = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
                     this.enemies = new List<Enemy>();
-                    this.enemies.Add(enemyPigLow);
-                    this.enemies.Add(enemyPigHigh);
-                    this.enemies.Add(enemyPigMiddle);
-                    //this.enemies.Add(enemyNinjaGirlHigh);
-                }
-                else
-                {
-                    this.enemies = enemiesData;
-                }
-            }
-            if (this.currentLevel == 2)
-            {
-                this.level = new LevelTwo();
-                if (playerData == null)
-                {
-                    this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 1150), true);
-                    player.screenRightBound = level.Width;
-                }
-                else
-                {
-                    this.player = playerData;
-                }
-                if (enemiesData == null)
-                {
-                    Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
-                    Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
-                    Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
-                    Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
-                    this.enemies = new List<Enemy>();
-                    //this.enemies.Add(enemyPigLow);
-                    //this.enemies.Add(enemyPigHigh);
-                    //this.enemies.Add(enemyPigMiddle);
-                    //this.enemies.Add(enemyNinjaGirlHigh);
+                    this.enemies.Add(firstPig);
+                    this.enemies.Add(secondPig);
+                    this.enemies.Add(thirdPig);
                 }
                 else
                 {
@@ -91,33 +58,51 @@
                 }
             }
 
-            if (this.currentLevel == 3)
+            else
             {
-                this.level = new LevelThree();
-                if (playerData == null)
+                if (this.currentLevel == 2)
                 {
-                    this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 760), true);
-                    player.screenRightBound = level.Width;
-                }
-                else
-                {
-                    this.player = playerData;
-                }
-                if (enemiesData == null)
-                {
-                    Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
-                    Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
-                    Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
-                    Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                    this.level = new LevelTwo();
                     this.enemies = new List<Enemy>();
-                    this.enemies.Add(enemyPigLow);
-                    this.enemies.Add(enemyPigHigh);
-                    this.enemies.Add(enemyPigMiddle);
-                    //this.enemies.Add(enemyNinjaGirlHigh);
+                    if (playerData == null)
+                    {
+                        this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 1200), true);
+                        player.screenRightBound = level.Width;
+                    }
                 }
                 else
                 {
-                    this.enemies = enemiesData;
+                    this.level = new LevelThree();
+                    if (playerData == null)
+                    {
+                        this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 1200), true);
+                        player.screenRightBound = level.Width;
+                    }
+                    else
+                    {
+                        this.player = playerData;
+                    }
+                    if (enemiesData == null)
+                    {
+                        Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 2.6f, true);
+                        Enemy enemyPigHigh = new Enemy(new Vector2(550, 450), new Rectangle(550, 0, 100, 0), 0.4f, true);
+                        Enemy enemyPigMiddle = new Enemy(new Vector2(1400, 1200), new Rectangle(1400, 0, 200, 0), 4f, true);
+                        Enemy enemyPigOne = new Enemy(new Vector2(1650, 0), new Rectangle(1650, 0, 200, 0), 2f, true);
+                        Enemy enemyPigTwo = new Enemy(new Vector2(1980, 950), new Rectangle(1980, 950, 250, 0), 2.5f, true);
+                        Enemy enemyPigThree = new Enemy(new Vector2(2230, 950), new Rectangle(2230, 950, 300, 0), 4f, true);
+                        this.enemies = new List<Enemy>();
+                        this.enemies.Add(enemyPigLow);
+                        this.enemies.Add(enemyPigHigh);
+                        this.enemies.Add(enemyPigMiddle);
+                        this.enemies.Add(enemyPigOne);
+                        this.enemies.Add(enemyPigTwo);
+                        this.enemies.Add(enemyPigThree);
+                    }
+                    else
+                    {
+                        this.enemies = enemiesData;
+                    }
+
                 }
             }
 
@@ -160,21 +145,32 @@
 
             this.enemyAnimation = new List<Animation>();
 
-            Animation enemyPigLow = AnimationFactory.CreateEnemyAnimaton(Color.White);
-            this.SpritesInState.Add(enemyPigLow);
-            this.enemyAnimation.Add(enemyPigLow);
+            Animation firstPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
+            this.SpritesInState.Add(firstPig);
+            this.enemyAnimation.Add(firstPig);
 
-            Animation enemyPigHigh = AnimationFactory.CreateEnemyAnimaton(Color.White);
-            this.SpritesInState.Add(enemyPigHigh);
-            this.enemyAnimation.Add(enemyPigHigh);
+            Animation secondPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
+            this.SpritesInState.Add(secondPig);
+            this.enemyAnimation.Add(secondPig);
 
-            Animation enemyPigMiddle = AnimationFactory.CreateEnemyAnimaton(Color.White);
-            this.SpritesInState.Add(enemyPigMiddle);
-            this.enemyAnimation.Add(enemyPigMiddle);
+            Animation thirdPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
+            this.SpritesInState.Add(thirdPig);
+            this.enemyAnimation.Add(thirdPig);
 
-            //Animation enemyNinjaGirlHigh = AnimationFactory.CrateEnemyNinjaGirlAnimation(Color.White);
-            //this.SpritesInState.Add(enemyNinjaGirlHigh);
-            //this.enemyAnimation.Add(enemyNinjaGirlHigh);
+            if (currentLevel==3)
+            {
+                Animation forthPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
+                this.SpritesInState.Add(forthPig);
+                this.enemyAnimation.Add(forthPig);
+
+                Animation fifthPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
+                this.SpritesInState.Add(fifthPig);
+                this.enemyAnimation.Add(fifthPig);
+
+                Animation sixthPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
+                this.SpritesInState.Add(sixthPig);
+                this.enemyAnimation.Add(sixthPig);
+            }
         }
 
         public override void Update()
@@ -204,29 +200,6 @@
                 this.player.Health = 0;
             }
 
-            for (int i = 0; i < this.level.ListOfShurikens.Count; i++)
-            {
-                this.UpdateShuriken(i);
-            }
-        }
-
-        private void UpdateShuriken(int i)
-        {
-            Shuriken shuriken = this.level.ListOfShurikens[i];
-
-            if (!shuriken.IsFalling)
-            {
-                shuriken.Move();
-                shurikenSprites[i].Position = shuriken.Position;
-                shuriken.Bounds = new Rectangle((int)shuriken.Position.X, (int)shuriken.Position.Y,
-                    shurikenSprites[i].Texture.Width, shurikenSprites[i].Texture.Height);
-            }
-            else
-            {
-                SpritesInState.Remove(shurikenSprites[i]);
-                this.level.ListOfShurikens.Remove(shuriken);
-                shurikenSprites.Remove(shurikenSprites[i]);
-            }
         }
 
         public void UpdatePlayer()
@@ -302,34 +275,6 @@
                         this.playerAnimation.Tint = new Color(Color.White, 1f);
                     }
                 }
-            }
-        }
-
-        private void PlayerAttack()
-        {
-            if (this.player.IsAttacking)
-            {
-                this.player.IsAttacking = false;
-
-                Vector2 shurikenPosition = new Vector2();
-
-                if (this.player.IsFacingRight)
-                {
-                    shurikenPosition = new Vector2(this.player.Bounds.Right,
-                        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
-                }
-                else
-                {
-                    shurikenPosition = new Vector2(this.player.Bounds.Left - 40,
-                        this.player.Position.Y + (this.player.Bounds.Height * 0.2f));
-                }
-
-                Shuriken newShuriken = new Shuriken(shurikenPosition, this.player.IsFacingRight);
-                this.level.ListOfShurikens.Add(newShuriken);
-
-                Sprite shurikenSprite = UIFactory.CreateSprite("Hero/shuriken", 0.15f);
-                this.shurikenSprites.Add(shurikenSprite);
-                this.SpritesInState.Add(shurikenSprite);
             }
         }
 

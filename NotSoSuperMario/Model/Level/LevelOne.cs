@@ -9,7 +9,6 @@
     {
         public LevelOne()
         {
-            this.ListOfShurikens = new List<Shuriken>();
             this.ListOfCrates = new List<Crate>
             {
                 new Crate(new Vector2(200, 969)),
