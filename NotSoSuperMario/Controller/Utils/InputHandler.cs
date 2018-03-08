@@ -1,7 +1,7 @@
 ﻿namespace NotSoSuperMario.Controller.Utils
 {
-    using Microsoft.Xna.Framework.Input;
     using System.Collections.Generic;
+    using Microsoft.Xna.Framework.Input;
 
     public class InputHandler
     {
@@ -31,15 +31,12 @@
             {
                 this.KeyToCheck = this.CurrentKeyboardState.GetPressedKeys()[i];
 
-                // Check the previous state of the button
-                // If the button is pressed
-                if (this.PreviousKeyboardState.IsKeyUp(this.KeyToCheck) && 
+                if (this.PreviousKeyboardState.IsKeyUp(this.KeyToCheck) &&
                     this.CurrentKeyboardState.IsKeyDown(this.KeyToCheck))
                 {
                     this.ActiveKeys.Add(new KeyboardButtonState(this.KeyToCheck));
                 }
-                // If the button is still pressed
-                else if(this.PreviousKeyboardState.IsKeyDown(this.KeyToCheck) &&
+                else if (this.PreviousKeyboardState.IsKeyDown(this.KeyToCheck) &&
                     this.CurrentKeyboardState.IsKeyDown(this.KeyToCheck))
                 {
                     foreach (KeyboardButtonState key in this.ActiveKeys)
@@ -51,7 +48,7 @@
                     }
                 }
             }
-            // Button is released
+
             for (int i = 0; i < this.ActiveKeys.Count; i++)
             {
                 if (this.PreviousKeyboardState.IsKeyUp(this.ActiveKeys[i].Button) &&

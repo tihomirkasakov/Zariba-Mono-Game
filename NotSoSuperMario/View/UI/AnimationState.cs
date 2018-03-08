@@ -8,8 +8,7 @@
         {
             this.Name = name;
             this.NumberOfFrames = numberOfFrames;
-            this.RowOfFrames = new Rectangle(0, (int)dimensions.Y * index, (int)dimensions.X * numberOfFrames,
-                (int)dimensions.Y);
+            this.RowOfFrames = new Rectangle(0, (int)dimensions.Y * index, (int)dimensions.X * numberOfFrames, (int)dimensions.Y);
         }
 
         public string Name { get; set; }

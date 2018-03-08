@@ -8,22 +8,23 @@
 
     public abstract class State
     {
-        private const int GAME_TIME = 300; // timeout
-        protected int currentLevel;
-        protected InputHandler inputHandler;
-        protected UIFactory uiFactory;
-        protected bool isDone;
-        protected bool isPlaying;
+        private const int GAME_TIME = 300;
+
         public Camera camera;
         public Viewport viewport;
         public SpriteFont fontLevel;
         public SpriteFont fontTimer;
         public int timer;
+        protected InputHandler inputHandler;
+        protected UIFactory uiFactory;
+        protected bool isDone;
+        protected bool isPlaying;
+        private int currentLevel;
         private int coeff = 0;
 
         public State(InputHandler inputHandler, UIFactory uiFactory, int currentLevel)
         {
-            this.currentLevel = currentLevel;
+            this.CurrentLevel = currentLevel;
             this.camera = new Camera(this.viewport);
             this.inputHandler = inputHandler;
             this.uiFactory = uiFactory;
@@ -34,6 +35,12 @@
             this.timer = GAME_TIME;
             this.fontLevel = Globals.Content.Load<SpriteFont>("Fonts/FontLevel");
             this.fontTimer = Globals.Content.Load<SpriteFont>("Fonts/FontTimer");
+        }
+
+        public int CurrentLevel
+        {
+            get { return this.currentLevel; }
+            set { this.currentLevel = value; }
         }
 
         public State NextState { get; set; }
@@ -64,7 +71,7 @@
 
                 renderer.DrawPlayState(this.SpritesInState, this.camera);
                 Globals.SpriteBatch.Begin();
-                this.uiFactory.TimerUI.Position = new Vector2(this.camera.center.X - 550, this.camera.center.Y - 400);
+                this.uiFactory.TimerUI.Position = new Vector2(this.camera.Center.X - 550, this.camera.Center.Y - 400);
                 this.SpritesInState.Add(this.uiFactory.TimerUI);
                 Globals.SpriteBatch.DrawString(this.fontTimer, this.timer.ToString(), new Vector2(this.camera.Transform.Left.X + 35, this.camera.Transform.Down.Y + 15), Color.Black);
                 Globals.SpriteBatch.DrawString(this.fontLevel, "World 1-" + this.currentLevel.ToString(), new Vector2(this.camera.Transform.Left.X + 450, this.camera.Transform.Down.Y + 15), Color.Black);

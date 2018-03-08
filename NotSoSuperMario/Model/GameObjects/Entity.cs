@@ -15,6 +15,5 @@
         public bool IsGrounded { get; set; }
 
         public int Health { get; set; }
-
     }
 }

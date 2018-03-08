@@ -1,19 +1,20 @@
 ﻿namespace NotSoSuperMario.Model.Level
 {
-    using Microsoft.Xna.Framework;
-    using NotSoSuperMario.Model.GameObjects;
-    using NotSoSuperMario.Model.Enemy;
-    using NotSoSuperMario.View.UI;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Microsoft.Xna.Framework;
+    using NotSoSuperMario.Model.Enemy;
+    using NotSoSuperMario.Model.GameObjects;
+    using NotSoSuperMario.View.UI;
 
     public abstract class Level
     {
         private const int SPIKES_OFFSET = 17;
         private const int EXIT_OFFSET = 10;
-        public int[,] mapTiles;
-        Vector2 dimensions;
+
+        private int[,] mapTiles;
+        private Vector2 dimensions;
         private int row = 0;
         private int width;
         private int height;
@@ -23,19 +24,30 @@
             this.Blocks = new List<Block>();
         }
 
+        public int[,] MapTiles => this.mapTiles;
+
+        public Vector2 Dimensions
+        {
+            get { return this.dimensions; }
+            set { this.dimensions = value; }
+        }
+
         public int Height
         {
-            get { return height; }
+            get { return this.height; }
         }
 
         public int Width
         {
-            get { return width; }
+            get { return this.width; }
         }
 
         public Sprite LevelBackground { get; set; }
+
         public List<Block> Blocks { get; set; }
+
         public List<Crate> ListOfCrates { get; set; }
+
         public List<Enemy> Enemies { get; set; }
 
         public void LoadContent(string filename)
@@ -43,20 +55,21 @@
             StreamReader reader = new StreamReader(filename);
             string line = reader.ReadLine();
             int[] lineArray = line.Split().Select(int.Parse).ToArray();
-            dimensions = new Vector2(lineArray[0], lineArray[1]);
+            this.dimensions = new Vector2(lineArray[0], lineArray[1]);
             int maxRows = lineArray[0];
-            mapTiles = new int[lineArray[0], lineArray[1]];
+            this.mapTiles = new int[lineArray[0], lineArray[1]];
             using (reader)
             {
-                while (row < maxRows)
+                while (this.row < maxRows)
                 {
                     line = reader.ReadLine();
                     lineArray = line.Split().Select(int.Parse).ToArray();
                     for (int col = 0; col < lineArray.Length; col++)
                     {
-                        mapTiles[row, col] = lineArray[col];
+                        this.mapTiles[this.row, col] = lineArray[col];
                     }
-                    row++;
+
+                    this.row++;
                 }
             }
         }
@@ -83,14 +96,15 @@
                             this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_4));
                             break;
                         case 5:
-                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + SPIKES_OFFSET), BlockType.spike));
+                            this.Blocks.Add(new Block(new Vector2(col * size, (row * size) + SPIKES_OFFSET), BlockType.spike));
                             break;
                         case 6:
-                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + EXIT_OFFSET), BlockType.exit));
+                            this.Blocks.Add(new Block(new Vector2(col * size, (row * size) + EXIT_OFFSET), BlockType.exit));
                             break;
                     }
-                    width = (col + 1) * size;
-                    height = (row + 1) * size;
+
+                    this.width = (col + 1) * size;
+                    this.height = (row + 1) * size;
                 }
             }
         }

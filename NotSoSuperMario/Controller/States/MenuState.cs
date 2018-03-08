@@ -82,7 +82,7 @@
         private void PlayGame()
         {
             this.isDone = true;
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.currentLevel);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.CurrentLevel);
         }
 
         private void ToggleFullscreen()

@@ -1,11 +1,11 @@
 ﻿namespace NotSoSuperMario.View.UI
 {
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using NotSoSuperMario.Controller;
-    using System.Collections.Generic;
-    using NotSoSuperMario.Model.Player;
     using NotSoSuperMario.Model.Enemy;
+    using NotSoSuperMario.Model.Player;
 
     public static class AnimationFactory
     {

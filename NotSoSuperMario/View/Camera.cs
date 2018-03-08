@@ -5,51 +5,51 @@
 
     public class Camera
     {
-        private Matrix transform;
-        public Vector2 center;
+        private Vector2 center;
         private Viewport viewport;
-        public Matrix Transform
-        {
-            get { return transform; }
-        }
+        private Matrix transform;
 
         public Camera(Viewport newViewport)
         {
-            viewport = newViewport;
+            this.viewport = newViewport;
+        }
+
+        public Vector2 Center => this.center;
+
+        public Matrix Transform
+        {
+            get { return this.transform; }
         }
 
         public void Update(Vector2 position, int offSetX, int offSetY)
         {
-            if (position.X < viewport.Width / 2)
+            if (position.X < this.viewport.Width / 2)
             {
-                center.X = viewport.Width / 2;
+                this.center.X = this.viewport.Width / 2;
             }
-            else if (position.X > offSetX - (viewport.Width / 2))
+            else if (position.X > offSetX - (this.viewport.Width / 2))
             {
-                center.X = offSetX - viewport.Width / 2;
-            }
-            else
-            {
-                center.X = position.X;
-            }
-
-            if (position.Y < viewport.Height / 2)
-            {
-                center.Y = viewport.Height / 2;
-            }
-            else if (position.Y > offSetY - (viewport.Height / 2))
-            {
-                center.Y = offSetY - viewport.Height / 2;
+                this.center.X = offSetX - (this.viewport.Width / 2);
             }
             else
             {
-                center.Y = position.Y;
+                this.center.X = position.X;
             }
 
+            if (position.Y < this.viewport.Height / 2)
+            {
+                this.center.Y = this.viewport.Height / 2;
+            }
+            else if (position.Y > offSetY - (this.viewport.Height / 2))
+            {
+                this.center.Y = offSetY - (this.viewport.Height / 2);
+            }
+            else
+            {
+                this.center.Y = position.Y;
+            }
 
-            transform = Matrix.CreateTranslation(new Vector3(-center.X + (viewport.Width / 2),
-                -center.Y + (viewport.Height / 2), 0));
+            this.transform = Matrix.CreateTranslation(new Vector3(-this.center.X + (this.viewport.Width / 2), -this.center.Y + (this.viewport.Height / 2), 0));
         }
-
     }
 }

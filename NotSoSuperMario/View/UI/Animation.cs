@@ -1,14 +1,13 @@
 ﻿namespace NotSoSuperMario.View
 {
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using NotSoSuperMario.Controller;
-    using System.Collections.Generic;
-    using NotSoSuperMario.View;
     using NotSoSuperMario.View.UI;
 
     public class Animation : IRenderable
-    {      
+    {
         private Texture2D texture;
 
         public Animation(Vector2 frameDimensions, Texture2D spriteSheet, int switchFrameTimer)
@@ -78,6 +77,5 @@
                 }
             }
         }
-
     }
 }

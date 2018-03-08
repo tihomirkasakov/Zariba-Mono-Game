@@ -1,11 +1,10 @@
 ﻿namespace NotSoSuperMario.Model.Enemy
 {
+    using System;
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework;
     using NotSoSuperMario.Controller;
     using NotSoSuperMario.Model.GameObjects;
-    using NotSoSuperMario.View;
-    using System;
-    using System.Collections.Generic;
 
     public enum EnemyStates
     {
@@ -18,21 +17,26 @@
         private const float MAX_WAIT_TIME = 0.5f;
         private const float MOVE_ACCELERATION = 0.15f;
 
-        private float moveSpeed;
         private float waitTime;
         private Vector2 velocity;
-        private bool isGrounded;
 
-        public Enemy(Vector2 position, Rectangle boundingBounds, float moveSpeed, bool isFacingRight) 
+        public Enemy(Vector2 position, Rectangle boundingBounds, float moveSpeed, bool isFacingRight)
             : base(position, isFacingRight)
         {
             this.Position = position;
             this.IsAlive = true;
-            this.isGrounded = false;
             this.BoundingRectangle = boundingBounds;
             this.IsFacingRight = isFacingRight;
             this.MoveSpeed = moveSpeed;
         }
+
+        public bool IsAlive { get; private set; }
+
+        public Rectangle BoundingRectangle { get; set; }
+
+        public float MoveSpeed { get; set; }
+
+        public EnemyStates State { get; private set; }
 
         public void Patrolling(List<Block> blocks)
         {
@@ -41,11 +45,16 @@
             this.Position += this.velocity;
         }
 
+        public override void ActOnCollision()
+        {
+            throw new System.NotImplementedException();
+        }
+
         private void CheckBounds()
         {
             float elapsed = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds;
 
-            if (!IsAlive)
+            if (!this.IsAlive)
             {
                 this.ActOnCollision();
                 return;
@@ -53,34 +62,35 @@
 
             if (this.Bounds.Left <= this.BoundingRectangle.X)
             {
-                // Wait for some amount of time.
-                if (waitTime > 0)
+                if (this.waitTime > 0)
                 {
                     this.State = EnemyStates.IDLE;
-                    this.waitTime = Math.Max(0.0f, waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
+                    this.waitTime = Math.Max(0.0f, this.waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
                 }
+
                 if (this.waitTime <= 0.0f)
                 {
-                    // Then turn around.
                     this.State = EnemyStates.WALK;
                     this.IsFacingRight = true;
                 }
-                this.velocity = new Vector2(this.velocity.X + MoveSpeed, this.velocity.Y);
+
+                this.velocity = new Vector2(this.velocity.X + this.MoveSpeed, this.velocity.Y);
             }
             else if (this.Bounds.Right >= this.BoundingRectangle.Right)
             {
-                if (waitTime > 0)
+                if (this.waitTime > 0)
                 {
                     this.State = EnemyStates.IDLE;
-                    this.waitTime = Math.Max(0.0f, waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
+                    this.waitTime = Math.Max(0.0f, this.waitTime - (float)Globals.GameTime.ElapsedGameTime.TotalSeconds);
                 }
+
                 if (this.waitTime <= 0.0f)
                 {
-                    // Then turn around.
                     this.IsFacingRight = false;
                     this.State = EnemyStates.WALK;
                 }
-                this.velocity = new Vector2(this.velocity.X - MoveSpeed, this.velocity.Y);
+
+                this.velocity = new Vector2(this.velocity.X - this.MoveSpeed, this.velocity.Y);
                 if (this.Bounds.Left == this.BoundingRectangle.X)
                 {
                     this.waitTime = MAX_WAIT_TIME;
@@ -90,14 +100,12 @@
 
         private void HandleBottomCollision(List<Block> blocks)
         {
-            this.isGrounded = false;
             this.ApplyGravity();
 
             foreach (var block in blocks)
             {
                 if (this.IsOnTopOf(block.Bounds))
                 {
-                    this.isGrounded = true;
                     this.velocity = new Vector2(this.velocity.X, 0);
                 }
             }
@@ -115,19 +123,5 @@
         {
             this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.15f);
         }
-
-        public override void ActOnCollision()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool IsAlive { get; private set; }
-
-        public Rectangle BoundingRectangle { get; set; }
-
-        public float MoveSpeed { get; set; }
-
-        public EnemyStates State { get; private set; }
-
     }
 }

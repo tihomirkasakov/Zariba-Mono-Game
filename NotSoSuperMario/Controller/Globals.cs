@@ -1,14 +1,12 @@
 ﻿namespace NotSoSuperMario.Controller
 {
+    using System;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-    using System;
 
-    class Globals
+    public class Globals
     {
-        public static Random Rng = new Random();
-
         public static GraphicsDeviceManager Graphics { get; set; }
 
         public static SpriteBatch SpriteBatch { get; set; }

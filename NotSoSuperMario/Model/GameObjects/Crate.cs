@@ -14,7 +14,7 @@
 
         public override void ActOnCollision()
         {
-            if (!HiddenPlayer)
+            if (!this.HiddenPlayer)
             {
                 this.HiddenPlayer = true;
             }

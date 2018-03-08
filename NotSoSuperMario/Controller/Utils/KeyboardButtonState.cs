@@ -21,7 +21,5 @@
         public Keys Button { get; set; }
 
         public KeyState ButtonState { get; set; }
-
-
     }
 }

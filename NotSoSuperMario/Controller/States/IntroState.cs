@@ -1,12 +1,9 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.View;
-    using System;
 
-    class IntroState : State
+    public class IntroState : State
     {
         public IntroState(InputHandler inputHandler, UIFactory uiFactory, int currentLevel)
             : base(inputHandler, uiFactory, currentLevel)
@@ -18,11 +15,11 @@
         {
             base.Update();
 
-            if (!isDone)
+            if (!this.isDone)
             {
                 if (inputHandler.ActiveKeys.Count > 0)
                 {
-                    GoToMenu();
+                    this.GoToMenu();
                 }
             }
         }
@@ -30,7 +27,7 @@
         private void GoToMenu()
         {
             this.isDone = true;
-            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.currentLevel);
+            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.CurrentLevel);
         }
     }
 }

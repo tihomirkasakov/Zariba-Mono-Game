@@ -16,7 +16,7 @@
     public class Block : GameObject
     {
         public Block(Vector2 position, BlockType type)
-            :base(position)
+            : base(position)
         {
             this.Type = type;
         }

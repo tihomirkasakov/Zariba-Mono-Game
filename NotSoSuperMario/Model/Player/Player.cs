@@ -5,7 +5,6 @@
     using Microsoft.Xna.Framework.Input;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.Model.GameObjects;
-    using NotSoSuperMario.Controller;
 
     public enum PlayerStates
     {
@@ -16,18 +15,17 @@
 
     public class Player : Entity
     {
+        private int screenRightBound;
+        public Vector2 velocity;
         private const float FRICTION_FORCE = 0.8f;
         private const float MAX_PLAYER_SPEED = 2;
         private const float PLAYER_ACCELERATION = 0.1f;
         private const int JUMP_VELOCITY = 8;
         private const float SCREEN_BOTTOM_BOUND = 1100;
         private const int SCREEN_LEFT_BOUND = 0;
-        public int screenRightBound;
         private const int MAX_PLAYER_HEALTH = 100;
-
         private Dictionary<string, Keys> controls;
         private bool isGrounded;
-        public Vector2 velocity;
         private bool isMoving;
 
         public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Vector2 position, bool isFacingRight)
@@ -46,6 +44,12 @@
             this.Position = position;
             this.isGrounded = false;
             this.IsHidden = false;
+        }
+
+        public int ScreenRightBound
+        {
+            get { return this.screenRightBound; }
+            set { this.screenRightBound = value; }
         }
 
         public PlayerStates State { get; private set; }
@@ -264,6 +268,6 @@
             {
                 this.velocity = new Vector2(this.velocity.X + PLAYER_ACCELERATION, this.velocity.Y);
             }
-        }      
+        }
     }
 }

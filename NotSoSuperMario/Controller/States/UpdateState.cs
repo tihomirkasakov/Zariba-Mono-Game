@@ -12,26 +12,26 @@
 
     public class UpdateState : State
     {
-        public GraphicsDeviceManager Graphics;
         private const int TILE_SIZE = 45;
+        private GraphicsDeviceManager graphics;
         private Level level;
         private Player player;
         private Animation playerAnimation;
         private List<Enemy> enemies;
         private List<Sprite> crateSprites;
-        private List<Animation> enemyAnimation;  
+        private List<Animation> enemyAnimation;
 
         public UpdateState(InputHandler inputHandler, UIFactory uiFactory, int currentLevel, Player playerData = null, List<Enemy> enemiesData = null)
             : base(inputHandler, uiFactory, currentLevel)
         {
             this.isPlaying = true;
-            if (this.currentLevel == 1)
+            if (this.CurrentLevel == 1)
             {
                 this.level = new LevelOne();
                 if (playerData == null)
                 {
                     this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 760), true);
-                    this.player.screenRightBound = this.level.Width;
+                    this.player.ScreenRightBound = this.level.Width;
                 }
                 else
                 {
@@ -55,14 +55,14 @@
             }
             else
             {
-                if (this.currentLevel == 2)
+                if (this.CurrentLevel == 2)
                 {
                     this.level = new LevelTwo();
                     this.enemies = new List<Enemy>();
                     if (playerData == null)
                     {
                         this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 1200), true);
-                        this.player.screenRightBound = this.level.Width;
+                        this.player.ScreenRightBound = this.level.Width;
                     }
                 }
                 else
@@ -71,7 +71,7 @@
                     if (playerData == null)
                     {
                         this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 1200), true);
-                        this.player.screenRightBound = this.level.Width;
+                        this.player.ScreenRightBound = this.level.Width;
                     }
                     else
                     {
@@ -104,14 +104,20 @@
             this.Initialize();
         }
 
+        public GraphicsDeviceManager Graphics
+        {
+            get { return this.graphics; }
+            set { this.graphics = value; }
+        }
+
         public void Initialize()
         {
             this.Graphics = Globals.Graphics;
             this.camera = new Camera(this.Graphics.GraphicsDevice.Viewport);
             this.SpritesInState.Add(this.level.LevelBackground);
-            this.level.LoadContent($"../../../../Content/Level{base.currentLevel}.txt");
-            this.level.GenerateMap(this.level.mapTiles, TILE_SIZE);
-            this.player.screenRightBound = this.level.Width;
+            this.level.LoadContent($"../../../../Content/Level{base.CurrentLevel}.txt");
+            this.level.GenerateMap(this.level.MapTiles, TILE_SIZE);
+            this.player.ScreenRightBound = this.level.Width;
 
             foreach (var block in this.level.Blocks)
             {
@@ -150,7 +156,7 @@
             this.SpritesInState.Add(thirdPig);
             this.enemyAnimation.Add(thirdPig);
 
-            if (this.currentLevel == 3)
+            if (this.CurrentLevel == 3)
             {
                 Animation forthPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
                 this.SpritesInState.Add(forthPig);
@@ -238,7 +244,7 @@
             {
                 if (this.player.Bounds.Intersects(this.enemies[i].Bounds) && !crate.HiddenPlayer && !this.player.IsHidden)
                 {
-                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.currentLevel);
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.CurrentLevel);
                 }
             }
         }
@@ -272,7 +278,7 @@
                 if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
                 {
                     this.isDone = true;
-                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.player, this.enemies, this.currentLevel);
+                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.player, this.enemies, this.CurrentLevel);
                 }
             }
         }
@@ -283,7 +289,7 @@
                 if (this.player.Health <= 0 || this.timer == 0)
                 {
                     this.isDone = true;
-                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.currentLevel);
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.CurrentLevel);
                 }
             }
         }
@@ -294,15 +300,15 @@
             {
                 if (this.player.Bounds.Intersects(block.Bounds) && block.Type.ToString() == "exit")
                 {
-                    int nextLevel = base.currentLevel + 1;
-                    if (base.currentLevel < 3)
+                    int nextLevel = this.CurrentLevel + 1;
+                    if (this.CurrentLevel < 3)
                     {
                         this.NextState = new UpdateState(this.inputHandler, this.uiFactory, nextLevel);
                     }
                     else
                     {
                         this.isDone = true;
-                        this.NextState = new GameWinState(this.inputHandler, this.uiFactory, base.currentLevel);
+                        this.NextState = new GameWinState(this.inputHandler, this.uiFactory, this.CurrentLevel);
                     }
                 }
             }

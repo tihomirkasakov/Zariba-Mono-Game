@@ -1,9 +1,7 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Input;
-    using Controller.States;
     using Controller.Utils;
+    using Microsoft.Xna.Framework.Input;
     using View;
 
     public class GameOverState : State
@@ -25,7 +23,7 @@
                     if ((key.Button == Keys.Enter || key.Button == Keys.Escape) && key.ButtonState == Utils.KeyState.Clicked)
                     {
                         this.isDone = true;
-                        this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.currentLevel);
+                        this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.CurrentLevel);
                     }
                 }
             }

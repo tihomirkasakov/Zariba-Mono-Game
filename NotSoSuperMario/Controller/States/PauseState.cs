@@ -12,14 +12,12 @@
     {
         private Player player;
         private List<Enemy> enemies;
-        private bool isChanged = false;
 
         public PauseState(InputHandler inputHandler, UIFactory uiFactory, Player playerData, List<Enemy> enemiesData, int currentLevel)
             : base(inputHandler, uiFactory, currentLevel)
         {
             this.player = playerData;
             this.enemies = enemiesData;
-
             this.SpritesInState.Add(this.uiFactory.PauseBackground);
             this.SpritesInState.Add(this.uiFactory.PauseBackgroundTransperant);
             this.SpritesInState.Add(this.uiFactory.ResumeButton.Sprite);
@@ -83,13 +81,13 @@
         private void ExitToMenu()
         {
             this.isDone = true;
-            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.currentLevel);
+            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.CurrentLevel);
         }
 
         private void ResumeGame()
         {
             this.isDone = true;
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.currentLevel, this.player, this.enemies);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.CurrentLevel, this.player, this.enemies);
         }
 
         private void ExitFromGame()
