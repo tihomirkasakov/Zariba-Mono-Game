@@ -8,8 +8,8 @@
 
     public class GameOverState : State
     {
-        public GameOverState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
-            : base(inputHandler, uiFactory, soundManager, currentLevel)
+        public GameOverState(InputHandler inputHandler, UIFactory uiFactory, int currentLevel)
+            : base(inputHandler, uiFactory, currentLevel)
         {
             this.SpritesInState.Add(this.uiFactory.GameOverBackground);
         }
@@ -25,7 +25,7 @@
                     if ((key.Button == Keys.Enter || key.Button == Keys.Escape) && key.ButtonState == Utils.KeyState.Clicked)
                     {
                         this.isDone = true;
-                        this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
+                        this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.currentLevel);
                     }
                 }
             }

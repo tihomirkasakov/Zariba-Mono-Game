@@ -1,9 +1,6 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Input;
-    using Microsoft.Xna.Framework.Media;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.View;
 
@@ -11,21 +8,22 @@
 
     public class MenuState : State
     {
-        public static event OnGameQuit OnExitPressed;
-
+        private bool isChanged = false;
         private int menuId;
 
-        public MenuState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
-            : base(inputHandler, uiFactory, soundManager, currentLevel)
+        public MenuState(InputHandler inputHandler, UIFactory uiFactory, int currentLevel)
+            : base(inputHandler, uiFactory, currentLevel)
         {
             this.SpritesInState.Add(this.uiFactory.MenuBackground);
             this.SpritesInState.Add(this.uiFactory.StartButton.Sprite);
-            this.SpritesInState.Add(this.uiFactory.OptionsButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.FullscreenButton.Sprite);
+            this.SpritesInState.Add(this.uiFactory.Checkbox.Sprite);
             this.SpritesInState.Add(this.uiFactory.ExitButton.Sprite);
-            //this.soundManager.Play("mainMenu");
 
             this.menuId = 1;
         }
+
+        public static event OnGameQuit OnExitPressed;
 
         public override void Update()
         {
@@ -62,7 +60,7 @@
                                 this.PlayGame();
                                 break;
                             case 2:
-                                this.GoToOptions();
+                                this.ToggleFullscreen();
                                 break;
                             case 3:
                                 this.ExitGame();
@@ -71,33 +69,45 @@
                     }
                 }
             }
+
             this.ChangeButtonState();
         }
 
         private void ExitGame()
         {
             this.isDone = true;
-            // Stop Sounds
             MenuState.OnExitPressed.Invoke();
         }
 
         private void PlayGame()
         {
             this.isDone = true;
-            // Pause Sound
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.currentLevel);
         }
 
-        private void GoToOptions()
+        private void ToggleFullscreen()
         {
-            this.isDone = true;
-            this.NextState = new OptionsState(inputHandler, uiFactory, soundManager,this.currentLevel);
+            if (Globals.Graphics.IsFullScreen && !this.isChanged)
+            {
+                this.isChanged = true;
+                Globals.Graphics.IsFullScreen = false;
+                Globals.Graphics.ApplyChanges();
+            }
+            else if (!Globals.Graphics.IsFullScreen && !this.isChanged)
+            {
+                this.isChanged = true;
+                Globals.Graphics.IsFullScreen = true;
+                Globals.Graphics.ApplyChanges();
+            }
+
+            this.isChanged = false;
+            this.uiFactory.Checkbox.ChangeToHoverImage();
         }
 
         private void ChangeButtonState()
         {
             this.uiFactory.StartButton.ChangeToNormalImage();
-            this.uiFactory.OptionsButton.ChangeToNormalImage();
+            this.uiFactory.FullscreenButton.ChangeToNormalImage();
             this.uiFactory.ExitButton.ChangeToNormalImage();
 
             switch (this.menuId)
@@ -106,7 +116,7 @@
                     this.uiFactory.StartButton.ChangeToHoverImage();
                     break;
                 case 2:
-                    this.uiFactory.OptionsButton.ChangeToHoverImage();
+                    this.uiFactory.FullscreenButton.ChangeToHoverImage();
                     break;
                 case 3:
                     this.uiFactory.ExitButton.ChangeToHoverImage();

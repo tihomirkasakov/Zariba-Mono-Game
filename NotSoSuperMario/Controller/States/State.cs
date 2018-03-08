@@ -12,7 +12,6 @@
         protected int currentLevel;
         protected InputHandler inputHandler;
         protected UIFactory uiFactory;
-        protected SoundManager soundManager;
         protected bool isDone;
         protected bool isPlaying;
         public Camera camera;
@@ -22,13 +21,12 @@
         public int timer;
         private int coeff = 0;
 
-        public State(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
+        public State(InputHandler inputHandler, UIFactory uiFactory, int currentLevel)
         {
             this.currentLevel = currentLevel;
             camera = new Camera(viewport);
             this.inputHandler = inputHandler;
             this.uiFactory = uiFactory;
-            this.soundManager = soundManager;
             this.NextState = this;
             this.SpritesInState = new List<IRenderable>();
             this.isDone = false;

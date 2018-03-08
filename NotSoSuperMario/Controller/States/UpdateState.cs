@@ -26,8 +26,8 @@
         private List<Animation> enemyAnimation;
         public GraphicsDeviceManager graphics;
 
-        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel, Player playerData = null, List<Enemy> enemiesData = null)
-            : base(inputHandler, uiFactory, soundManager, currentLevel)
+        public UpdateState(InputHandler inputHandler, UIFactory uiFactory, int currentLevel, Player playerData = null, List<Enemy> enemiesData = null)
+            : base(inputHandler, uiFactory, currentLevel)
         {
             isPlaying = true;
             if (this.currentLevel == 1)
@@ -35,7 +35,7 @@
                 this.level = new LevelOne();
                 if (playerData == null)
                 {
-                    this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 760), true);
+                    this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 760), true);
                     player.screenRightBound = level.Width;
                 }
                 else
@@ -66,7 +66,7 @@
                     this.enemies = new List<Enemy>();
                     if (playerData == null)
                     {
-                        this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 1200), true);
+                        this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 1200), true);
                         player.screenRightBound = level.Width;
                     }
                 }
@@ -75,7 +75,7 @@
                     this.level = new LevelThree();
                     if (playerData == null)
                     {
-                        this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 1200), true);
+                        this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 1200), true);
                         player.screenRightBound = level.Width;
                     }
                     else
@@ -251,7 +251,7 @@
             {
                 if (this.player.Bounds.Intersects(this.enemies[i].Bounds) && !crate.HiddenPlayer && !this.player.IsHidden)
                 {
-                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.currentLevel);
                 }
             }
         }
@@ -285,7 +285,7 @@
                 if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
                 {
                     this.isDone = true;
-                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies, this.currentLevel);
+                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.player, this.enemies, this.currentLevel);
                 }
             }
         }
@@ -296,7 +296,7 @@
                 if (player.Health <= 0 || this.timer == 0)
                 {
                     this.isDone = true;
-                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.currentLevel);
                 }
             }
         }
@@ -310,12 +310,12 @@
                     int nextLevel = base.currentLevel + 1;
                     if (base.currentLevel < 3)
                     {
-                        this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, nextLevel);
+                        this.NextState = new UpdateState(this.inputHandler, this.uiFactory, nextLevel);
                     }
                     else
                     {
                         this.isDone = true;
-                        this.NextState = new GameWinState(this.inputHandler, this.uiFactory, this.soundManager, base.currentLevel);
+                        this.NextState = new GameWinState(this.inputHandler, this.uiFactory, base.currentLevel);
                     }
                 }
             }

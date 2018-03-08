@@ -26,19 +26,11 @@
 
         public Button ResumeButton { get; set; }
 
-        public Button OptionsButton { get; set; }
-
-        public Button OptionsPausedButton { get; set; }
-
-        public Button VolumeButton { get; set; }
-
         public Button FullscreenButton { get; set; }
 
         public Button Checkbox { get; set; }
 
         public Button BackButton { get; set; }
-
-        public Button CreditsButton { get; set; }
 
         public Button ExitButton { get; set; }
 
@@ -57,14 +49,10 @@
             this.TimerUI = CreateSprite("UI/timer", 0.1f);
             this.StartButton = CreateButton("Controls/StartNormal", "Controls/StartHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 100));
             this.ResumeButton = CreateButton("Controls/ResumeNormal", "Controls/ResumeHover", new Vector2(Globals.Graphics.PreferredBackBufferHeight - 300 / 2, 100));
-            this.OptionsButton = CreateButton("Controls/OptionsNormal", "Controls/OptionsHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 200));
-            this.OptionsPausedButton = CreateButton("Controls/OptionsNormal", "Controls/OptionsHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 200));
-            this.VolumeButton = CreateButton("Controls/VolumeNormal", "Controls/VolumeHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 600) / 2, 100));
-            this.FullscreenButton = CreateButton("Controls/FullscreenNormal", "Controls/FullscreenHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 600) / 2, 200));
-            this.Checkbox = CreateButton("Controls/CheckboxNormal", "Controls/CheckboxTick", new Vector2((Globals.Graphics.PreferredBackBufferWidth) / 2, 220));
+            this.FullscreenButton = CreateButton("Controls/FullscreenNormal", "Controls/FullscreenHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 200));
+            this.Checkbox = CreateButton("Controls/CheckboxNormal", "Controls/CheckboxTick", new Vector2((Globals.Graphics.PreferredBackBufferWidth + 350) / 2, 220));
             this.BackButton = CreateButton("Controls/BackNormal", "Controls/BackHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 450));
             this.ExitButton = CreateButton("Controls/ExitNormal", "Controls/ExitHover", new Vector2((Globals.Graphics.PreferredBackBufferWidth - 300) / 2, 450));
-            //this.StartButton = CreateButton("CreditsNormal", "CreditsHover", new Vector2((Globals.Graphics.PreferredBackBufferHeight)))
             this.ExitToMenuButton = CreateButton("Controls/ExitToMenuNormal", "Controls/ExitToMenuHover", new Vector2((Globals.Graphics.PreferredBackBufferHeight - 300 / 2), 450));
             this.ExitFromGame = CreateButton("Controls/ExitFromGameNormal", "Controls/ExitFromGameHover", new Vector2((Globals.Graphics.PreferredBackBufferHeight - 300 / 2), 550));
         }

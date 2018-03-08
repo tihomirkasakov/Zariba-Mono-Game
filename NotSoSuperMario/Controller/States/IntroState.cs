@@ -8,8 +8,8 @@
 
     class IntroState : State
     {
-        public IntroState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, int currentLevel)
-            : base(inputHandler, uiFactory, soundManager, currentLevel)
+        public IntroState(InputHandler inputHandler, UIFactory uiFactory, int currentLevel)
+            : base(inputHandler, uiFactory, currentLevel)
         {
             this.SpritesInState.Add(this.uiFactory.IntroBackground);
         }
@@ -30,7 +30,7 @@
         private void GoToMenu()
         {
             this.isDone = true;
-            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
+            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.currentLevel);
         }
     }
 }

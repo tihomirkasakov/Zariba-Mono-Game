@@ -14,8 +14,8 @@
         private List<Enemy> enemies;
         private bool isChanged = false;
 
-        public PauseState(InputHandler inputHandler, UIFactory uiFactory, SoundManager soundManager, Player playerData, List<Enemy> enemiesData, int currentLevel)
-            : base(inputHandler, uiFactory, soundManager, currentLevel)
+        public PauseState(InputHandler inputHandler, UIFactory uiFactory, Player playerData, List<Enemy> enemiesData, int currentLevel)
+            : base(inputHandler, uiFactory, currentLevel)
         {
             this.player = playerData;
             this.enemies = enemiesData;
@@ -37,15 +37,11 @@
 
             if (!this.isDone)
             {
-
-                //this.soundManager.Resume("MenuSound");
-
                 foreach (KeyboardButtonState key in this.inputHandler.ActiveKeys)
                 {
                     if (key.Button == Keys.Down && key.ButtonState == Utils.KeyState.Clicked)
                     {
                         this.MenuId++;
-                        //this.soundManager.Play("MenuMove", 1.0f);
 
                         if (this.MenuId > 3)
                         {
@@ -56,7 +52,6 @@
                     if (key.Button == Keys.Up && key.ButtonState == Utils.KeyState.Clicked)
                     {
                         this.MenuId--;
-                        //this.soundManager.Play("MenuMove", 1.0f);
 
                         if (this.MenuId < 1)
                         {
@@ -88,19 +83,17 @@
         private void ExitToMenu()
         {
             this.isDone = true;
-            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
+            this.NextState = new MenuState(this.inputHandler, this.uiFactory, this.currentLevel);
         }
 
         private void ResumeGame()
         {
-            //this.soundManager.Pause("MenuSound");
             this.isDone = true;
-            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel, this.player, this.enemies);
+            this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.currentLevel, this.player, this.enemies);
         }
 
         private void ExitFromGame()
         {
-            // Stop Sounds
             Environment.Exit(0);
         }
 

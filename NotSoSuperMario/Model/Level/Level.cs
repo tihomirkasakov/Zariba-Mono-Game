@@ -35,7 +35,6 @@
 
         public Sprite LevelBackground { get; set; }
         public List<Block> Blocks { get; set; }
-        public List<Shuriken> ListOfShurikens { get; set; }
         public List<Crate> ListOfCrates { get; set; }
         public List<Enemy> Enemies { get; set; }
 

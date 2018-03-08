@@ -11,8 +11,6 @@
     {
         IDLE,
         WALK,
-        TROW,
-        DEAD
     }
 
     public class Enemy : Entity
@@ -118,13 +116,9 @@
             this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.15f);
         }
 
-
-
         public override void ActOnCollision()
         {
-            this.IsAlive = false;
-            this.State = EnemyStates.DEAD;
-            this.velocity = new Vector2(0, 0);
+            throw new System.NotImplementedException();
         }
 
         public bool IsAlive { get; private set; }

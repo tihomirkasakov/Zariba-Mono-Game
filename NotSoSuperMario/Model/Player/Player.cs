@@ -12,7 +12,6 @@
         IDLE,
         WALK,
         JUMP,
-        ATTACK
     }
     public class Player : Entity
     {
@@ -23,7 +22,6 @@
         private const float SCREEN_BOTTOM_BOUND = 1100;
         private const int SCREEN_LEFT_BOUND = 0;
         public int screenRightBound;
-        private const int DEFAULT_SHURIKEN = 3;
         private const int MAX_PLAYER_HEALTH = 100;
 
         private Dictionary<string, Keys> controls;
@@ -31,7 +29,7 @@
         public Vector2 velocity;
         private bool isMoving;
 
-        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Keys attack, Vector2 position, bool isFacingRight)
+        public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Vector2 position, bool isFacingRight)
             : base(position, isFacingRight)
         {
             this.State = PlayerStates.IDLE;
@@ -42,11 +40,9 @@
             this.controls.Add("Move Right", moveRight);
             this.controls.Add("Jump", jump);
             this.controls.Add("Hide", hide);
-            this.controls.Add("Attack", attack);
 
             this.Health = MAX_PLAYER_HEALTH;
             this.Position = position;
-            this.Shurikens = DEFAULT_SHURIKEN;
             this.isGrounded = false;
             this.IsHidden = false;
         }
@@ -62,15 +58,12 @@
 
             this.Hide(crates);
 
-            // Checking for collision with blocks underneath the player
             this.HandleTopCollision(blocks);
             this.Position += this.velocity;
 
-            // Movement
             this.HandleMovement(blocks, activeKeys);
             this.HandleBottomCollision(blocks);
 
-            // Side Collision
             this.HandleSideCollision(blocks);
         }
 
@@ -202,11 +195,6 @@
                 {
                     this.State = PlayerStates.IDLE;
                 }
-                else if (key.Button == this.controls["Attack"] && key.ButtonState == Controller.Utils.KeyState.Held)
-                {
-                    this.State = PlayerStates.ATTACK;
-                    this.Attack();
-                }
             }
 
             if (!this.isMoving)
@@ -239,13 +227,6 @@
         private void ApplyGravity()
         {
             this.velocity = new Vector2(this.velocity.X, this.velocity.Y + 0.2f);
-        }
-
-        private void Attack()
-        {
-
-            //this.IsAttacking = true;
-
         }
 
         private void Jump()
