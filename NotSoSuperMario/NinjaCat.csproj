@@ -64,6 +64,8 @@
     <Compile Include="Model\GameObjects\Shuriken.cs" />
     <Compile Include="Model\Level\Level.cs" />
     <Compile Include="Model\Level\LevelOne.cs" />
+    <Compile Include="Model\Level\LevelThree.cs" />
+    <Compile Include="Model\Level\LevelTwo.cs" />
     <Compile Include="Model\Player\Player.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\IRenderable.cs" />

@@ -10,6 +10,8 @@
 
     public abstract class Level
     {
+        private const int SPIKES_OFFSET = 17;
+        private const int EXIT_OFFSET = 10;
         public int[,] mapTiles;
         Vector2 dimensions;
         private int row = 0;
@@ -43,10 +45,11 @@
             string line = reader.ReadLine();
             int[] lineArray = line.Split().Select(int.Parse).ToArray();
             dimensions = new Vector2(lineArray[0], lineArray[1]);
+            int maxRows = lineArray[0];
             mapTiles = new int[lineArray[0], lineArray[1]];
             using (reader)
             {
-                while (!reader.EndOfStream)
+                while (row < maxRows)
                 {
                     line = reader.ReadLine();
                     lineArray = line.Split().Select(int.Parse).ToArray();
@@ -81,10 +84,10 @@
                             this.Blocks.Add(new Block(new Vector2(col * size, row * size), BlockType.tile_4));
                             break;
                         case 5:
-                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + 17), BlockType.spike));
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + SPIKES_OFFSET), BlockType.spike));
                             break;
                         case 6:
-                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + 10), BlockType.exit));
+                            this.Blocks.Add(new Block(new Vector2(col * size, row * size + EXIT_OFFSET), BlockType.exit));
                             break;
                     }
                     width = (col + 1) * size;

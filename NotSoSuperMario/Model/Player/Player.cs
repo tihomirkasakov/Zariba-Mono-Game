@@ -22,13 +22,13 @@
         private const int JUMP_VELOCITY = 8;
         private const float SCREEN_BOTTOM_BOUND = 1100;
         private const int SCREEN_LEFT_BOUND = 0;
-        private const int SCREEN_RIGHT_BOUND = 44 * 45;
+        public int screenRightBound;
         private const int DEFAULT_SHURIKEN = 3;
         private const int MAX_PLAYER_HEALTH = 100;
 
         private Dictionary<string, Keys> controls;
         private bool isGrounded;
-        private Vector2 velocity;
+        public Vector2 velocity;
         private bool isMoving;
 
         public Player(Keys moveLeft, Keys moveRight, Keys jump, Keys hide, Keys attack, Vector2 position, bool isFacingRight)
@@ -100,11 +100,6 @@
         {
             this.isGrounded = false;
 
-            if (this.Bounds.Bottom + this.velocity.Y >= SCREEN_BOTTOM_BOUND)
-            {
-                this.Health = 0;
-            }
-
             foreach (var block in blocks)
             {
 
@@ -127,9 +122,9 @@
             {
                 this.Position = new Vector2(-(this.Bounds.Width / 2), this.Position.Y);
             }
-            else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > SCREEN_RIGHT_BOUND)
+            else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > screenRightBound)
             {
-                this.Position = new Vector2(SCREEN_RIGHT_BOUND - (this.Bounds.Width / 2), this.Position.Y);
+                this.Position = new Vector2(screenRightBound - (this.Bounds.Width / 2), this.Position.Y);
             }
             else
             {

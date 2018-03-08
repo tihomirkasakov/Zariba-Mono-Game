@@ -16,7 +16,7 @@
                 new Crate(new Vector2(170, 474))
 
             };
-            this.LevelBackground = UIFactory.CreateSprite("Backgrounds/background", 1f);
+            this.LevelBackground = UIFactory.CreateSprite("Backgrounds/background", 1.1f);
         }
     }
 }

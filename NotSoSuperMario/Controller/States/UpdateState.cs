@@ -16,7 +16,6 @@
     class UpdateState : State
     {
         private const int TILE_SIZE = 45;
-        private int currentLevel = 1;
         private Level level;
         private Player player;
 
@@ -33,33 +32,95 @@
             : base(inputHandler, uiFactory, soundManager, currentLevel)
         {
             isPlaying = true;
-            this.level = new LevelOne();
-            if (playerData == null)
+            if (this.currentLevel==1)
             {
-                this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 760), true);
+                this.level = new LevelOne();
+                if (playerData == null)
+                {
+                    this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 760), true);
+                    player.screenRightBound = level.Width;
+                }
+                else
+                {
+                    this.player = playerData;
+                }
+                if (enemiesData == null)
+                {
+                    Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
+                    Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
+                    Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
+                    Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                    this.enemies = new List<Enemy>();
+                    this.enemies.Add(enemyPigLow);
+                    this.enemies.Add(enemyPigHigh);
+                    this.enemies.Add(enemyPigMiddle);
+                    //this.enemies.Add(enemyNinjaGirlHigh);
+                }
+                else
+                {
+                    this.enemies = enemiesData;
+                }
             }
-            else
+            if (this.currentLevel == 2)
             {
-                this.player = playerData;
-            }
-            if (enemiesData == null)
-            {
-                Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
-                Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
-                Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
-                Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
-                this.enemies = new List<Enemy>();
-                this.enemies.Add(enemyPigLow);
-                this.enemies.Add(enemyPigHigh);
-                this.enemies.Add(enemyPigMiddle);
-                //this.enemies.Add(enemyNinjaGirlHigh);
-            }
-            else
-            {
-                this.enemies = enemiesData;
+                this.level = new LevelTwo();
+                if (playerData == null)
+                {
+                    this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 1150), true);
+                    player.screenRightBound = level.Width;
+                }
+                else
+                {
+                    this.player = playerData;
+                }
+                if (enemiesData == null)
+                {
+                    Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
+                    Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
+                    Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
+                    Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                    this.enemies = new List<Enemy>();
+                    //this.enemies.Add(enemyPigLow);
+                    //this.enemies.Add(enemyPigHigh);
+                    //this.enemies.Add(enemyPigMiddle);
+                    //this.enemies.Add(enemyNinjaGirlHigh);
+                }
+                else
+                {
+                    this.enemies = enemiesData;
+                }
             }
 
-            this.shurikenSprites = new List<Sprite>();
+            if (this.currentLevel == 3)
+            {
+                this.level = new LevelThree();
+                if (playerData == null)
+                {
+                    this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, Keys.Space, new Vector2(45, 760), true);
+                    player.screenRightBound = level.Width;
+                }
+                else
+                {
+                    this.player = playerData;
+                }
+                if (enemiesData == null)
+                {
+                    Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
+                    Enemy enemyPigHigh = new Enemy(new Vector2(130, 450), new Rectangle(120, 0, 250, 0), 2f, true);
+                    Enemy enemyPigMiddle = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1.6f, true);
+                    Enemy enemyNinjaGirlHigh = new Enemy(new Vector2(900, 700), new Rectangle(900, 0, 200, 0), 1f, true);
+                    this.enemies = new List<Enemy>();
+                    this.enemies.Add(enemyPigLow);
+                    this.enemies.Add(enemyPigHigh);
+                    this.enemies.Add(enemyPigMiddle);
+                    //this.enemies.Add(enemyNinjaGirlHigh);
+                }
+                else
+                {
+                    this.enemies = enemiesData;
+                }
+            }
+
             this.Initialize();
         }
 
@@ -70,6 +131,7 @@
             this.SpritesInState.Add(this.level.LevelBackground);
             this.level.LoadContent($"../../../../Content/Level{base.currentLevel}.txt");
             this.level.GenerateMap(level.mapTiles, TILE_SIZE);
+            player.screenRightBound = level.Width;
 
             foreach (var block in this.level.Blocks)
             {
@@ -135,6 +197,11 @@
                 this.UpdatePlayer();
                 camera.Update(player.Position, level.Width, level.Height);
                 //this.PlayerAttack();
+            }
+
+            if (this.player.Bounds.Bottom + this.player.velocity.Y >= level.Height)
+            {
+                this.player.Health = 0;
             }
 
             for (int i = 0; i < this.level.ListOfShurikens.Count; i++)
@@ -209,11 +276,11 @@
         {
             foreach (var crate in this.level.ListOfCrates)
             {
-                if (this.player.Bounds.Intersects(this.enemies[i].Bounds)&& !crate.HiddenPlayer && !this.player.IsHidden )
+                if (this.player.Bounds.Intersects(this.enemies[i].Bounds) && !crate.HiddenPlayer && !this.player.IsHidden)
                 {
-                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
                 }
-            }         
+            }
         }
 
         private void CheckPlayerCrateCollision()
@@ -228,13 +295,13 @@
                         this.player.IsHidden = true;
                         this.playerAnimation.Tint = new Color(Color.White, 0.2f);
                     }
-                    else if(!crate.Bounds.Intersects(this.player.Bounds) && Keyboard.GetState().IsKeyDown(Keys.Down))
+                    else if (!crate.Bounds.Intersects(this.player.Bounds) && Keyboard.GetState().IsKeyDown(Keys.Down))
                     {
                         crate.HiddenPlayer = false;
                         this.player.IsHidden = false;
                         this.playerAnimation.Tint = new Color(Color.White, 1f);
                     }
-                }                
+                }
             }
         }
 
@@ -273,7 +340,7 @@
                 if (key.Button == Keys.Escape && key.ButtonState == Utils.KeyState.Clicked)
                 {
                     this.isDone = true;
-                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies,this.currentLevel);
+                    this.NextState = new PauseState(this.inputHandler, this.uiFactory, this.soundManager, this.player, this.enemies, this.currentLevel);
                 }
             }
         }
@@ -281,11 +348,11 @@
         private void CheckGameOver()
         {
             {
-                 if (player.Health <= 0 || this.timer == 0)
-                    {
-                        this.isDone = true;
-                        this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager,this.currentLevel);
-                    }
+                if (player.Health <= 0 || this.timer == 0)
+                {
+                    this.isDone = true;
+                    this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.soundManager, this.currentLevel);
+                }
             }
         }
 
@@ -295,7 +362,7 @@
             {
                 if (player.Bounds.Intersects(block.Bounds) && block.Type.ToString() == "exit")
                 {
-                    int nextLevel = base.currentLevel+1;
+                    int nextLevel = base.currentLevel + 1;
                     if (base.currentLevel < 3)
                     {
                         this.NextState = new UpdateState(this.inputHandler, this.uiFactory, this.soundManager, nextLevel);
