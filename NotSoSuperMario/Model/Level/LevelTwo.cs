@@ -1,15 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using NotSoSuperMario.Model.GameObjects;
-using NotSoSuperMario.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NotSoSuperMario.Model.Level
+﻿namespace NotSoSuperMario.Model.Level
 {
-    public class LevelTwo:Level
+    using System.Collections.Generic;
+    using NotSoSuperMario.Model.GameObjects;
+    using NotSoSuperMario.View;
+
+    public class LevelTwo : Level
     {
         public LevelTwo()
         {

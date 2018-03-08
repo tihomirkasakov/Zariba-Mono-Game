@@ -1,47 +1,43 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
-    using NotSoSuperMario.Controller.Utils;
-    using NotSoSuperMario.Model.GameObjects;
-    using NotSoSuperMario.Model.Level;
     using Model.Player;
+    using NotSoSuperMario.Controller.Utils;
+    using NotSoSuperMario.Model.Enemy;
+    using NotSoSuperMario.Model.Level;
     using NotSoSuperMario.View;
     using NotSoSuperMario.View.UI;
-    using System.Collections.Generic;
-    using System;
-    using NotSoSuperMario.Model.Enemy;
 
-    class UpdateState : State
+    public class UpdateState : State
     {
+        public GraphicsDeviceManager Graphics;
         private const int TILE_SIZE = 45;
         private Level level;
         private Player player;
-
         private Animation playerAnimation;
-
         private List<Enemy> enemies;
-
         private List<Sprite> crateSprites;
-        private List<Animation> enemyAnimation;
-        public GraphicsDeviceManager graphics;
+        private List<Animation> enemyAnimation;  
 
         public UpdateState(InputHandler inputHandler, UIFactory uiFactory, int currentLevel, Player playerData = null, List<Enemy> enemiesData = null)
             : base(inputHandler, uiFactory, currentLevel)
         {
-            isPlaying = true;
+            this.isPlaying = true;
             if (this.currentLevel == 1)
             {
                 this.level = new LevelOne();
                 if (playerData == null)
                 {
                     this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 760), true);
-                    player.screenRightBound = level.Width;
+                    this.player.screenRightBound = this.level.Width;
                 }
                 else
                 {
                     this.player = playerData;
                 }
+
                 if (enemiesData == null)
                 {
                     Enemy firstPig = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 0.6f, true);
@@ -57,7 +53,6 @@
                     this.enemies = enemiesData;
                 }
             }
-
             else
             {
                 if (this.currentLevel == 2)
@@ -67,7 +62,7 @@
                     if (playerData == null)
                     {
                         this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 1200), true);
-                        player.screenRightBound = level.Width;
+                        this.player.screenRightBound = this.level.Width;
                     }
                 }
                 else
@@ -76,12 +71,13 @@
                     if (playerData == null)
                     {
                         this.player = new Player(Keys.Left, Keys.Right, Keys.Up, Keys.Down, new Vector2(45, 1200), true);
-                        player.screenRightBound = level.Width;
+                        this.player.screenRightBound = this.level.Width;
                     }
                     else
                     {
                         this.player = playerData;
                     }
+
                     if (enemiesData == null)
                     {
                         Enemy enemyPigLow = new Enemy(new Vector2(100, 950), new Rectangle(100, 0, 300, 0), 2.6f, true);
@@ -102,7 +98,6 @@
                     {
                         this.enemies = enemiesData;
                     }
-
                 }
             }
 
@@ -111,12 +106,12 @@
 
         public void Initialize()
         {
-            graphics = Globals.Graphics;
-            camera = new Camera(graphics.GraphicsDevice.Viewport);
+            this.Graphics = Globals.Graphics;
+            this.camera = new Camera(this.Graphics.GraphicsDevice.Viewport);
             this.SpritesInState.Add(this.level.LevelBackground);
             this.level.LoadContent($"../../../../Content/Level{base.currentLevel}.txt");
-            this.level.GenerateMap(level.mapTiles, TILE_SIZE);
-            player.screenRightBound = level.Width;
+            this.level.GenerateMap(this.level.mapTiles, TILE_SIZE);
+            this.player.screenRightBound = this.level.Width;
 
             foreach (var block in this.level.Blocks)
             {
@@ -124,8 +119,7 @@
                 sprite.Position = block.Position;
                 double spriteWidth = sprite.Texture.Width * ((double)TILE_SIZE / (double)sprite.Texture.Width);
                 double spriteHeight = sprite.Texture.Height * ((double)TILE_SIZE / (double)sprite.Texture.Height);
-                block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y,
-                    (int)spriteWidth, (int)spriteHeight);
+                block.Bounds = new Rectangle((int)block.Position.X, (int)block.Position.Y, (int)spriteWidth, (int)spriteHeight);
                 this.SpritesInState.Add(sprite);
             }
 
@@ -134,8 +128,7 @@
             {
                 Sprite crateSprite = UIFactory.CreateSprite("Blocks/Crate", 0.6f);
                 crateSprite.Position = crate.Position;
-                crate.Bounds = new Rectangle((int)crate.Position.X, (int)crate.Position.Y,
-                    (int)(crateSprite.Texture.Width * 0.5), crateSprite.Texture.Height);
+                crate.Bounds = new Rectangle((int)crate.Position.X, (int)crate.Position.Y, (int)(crateSprite.Texture.Width * 0.5), crateSprite.Texture.Height);
                 this.SpritesInState.Add(crateSprite);
                 this.crateSprites.Add(crateSprite);
             }
@@ -157,7 +150,7 @@
             this.SpritesInState.Add(thirdPig);
             this.enemyAnimation.Add(thirdPig);
 
-            if (currentLevel==3)
+            if (this.currentLevel == 3)
             {
                 Animation forthPig = AnimationFactory.CreateEnemyAnimaton(Color.White);
                 this.SpritesInState.Add(forthPig);
@@ -191,31 +184,28 @@
 
                 this.HidePlayer();
                 this.UpdatePlayer();
-                camera.Update(player.Position, level.Width, level.Height);
-                //this.PlayerAttack();
+                camera.Update(this.player.Position, this.level.Width, this.level.Height);
             }
 
-            if (this.player.Bounds.Bottom + this.player.velocity.Y >= level.Height)
+            if (this.player.Bounds.Bottom + this.player.velocity.Y >= this.level.Height)
             {
                 this.player.Health = 0;
             }
-
         }
 
         public void UpdatePlayer()
         {
             if (Keyboard.GetState().IsKeyUp(Keys.Down))
             {
-                player.IsHidden = false;
+                this.player.IsHidden = false;
                 this.playerAnimation.Tint = new Color(Color.White, 1f);
             }
+
             this.player.Move(this.level.Blocks, this.level.ListOfCrates, this.inputHandler.ActiveKeys);
             this.playerAnimation.Update();
             this.playerAnimation.Position = this.player.Position;
             this.playerAnimation.IsFacingRight = this.player.IsFacingRight;
-            this.player.Bounds = new Rectangle((int)this.player.Position.X, (int)this.player.Position.Y,
-                (int)(this.playerAnimation.SourceRectangle.Width * 0.5),
-                (int)(this.playerAnimation.SourceRectangle.Height * 0.8));
+            this.player.Bounds = new Rectangle((int)this.player.Position.X, (int)this.player.Position.Y, (int)(this.playerAnimation.SourceRectangle.Width * 0.5), (int)(this.playerAnimation.SourceRectangle.Height * 0.8));
             this.playerAnimation.ChangeAnimation(this.player.State.ToString());
         }
 
@@ -225,11 +215,8 @@
             this.enemyAnimation[i].Update();
             this.enemyAnimation[i].Position = this.enemies[i].Position;
             this.enemyAnimation[i].IsFacingRight = this.enemies[i].IsFacingRight;
-            this.enemies[i].Bounds = new Rectangle((int)this.enemies[i].Position.X, (int)this.enemies[i].Position.Y,
-                (int)(this.enemyAnimation[i].SourceRectangle.Width * 0.7),
-                (int)(this.enemyAnimation[i].SourceRectangle.Height * 0.75));
+            this.enemies[i].Bounds = new Rectangle((int)this.enemies[i].Position.X, (int)this.enemies[i].Position.Y, (int)(this.enemyAnimation[i].SourceRectangle.Width * 0.7), (int)(this.enemyAnimation[i].SourceRectangle.Height * 0.75));
             this.enemyAnimation[i].ChangeAnimation(this.enemies[i].State.ToString());
-
         }
 
         private void HidePlayer()
@@ -293,7 +280,7 @@
         private void CheckGameOver()
         {
             {
-                if (player.Health <= 0 || this.timer == 0)
+                if (this.player.Health <= 0 || this.timer == 0)
                 {
                     this.isDone = true;
                     this.NextState = new GameOverState(this.inputHandler, this.uiFactory, this.currentLevel);
@@ -303,9 +290,9 @@
 
         private void CheckGameWin()
         {
-            foreach (var block in level.Blocks)
+            foreach (var block in this.level.Blocks)
             {
-                if (player.Bounds.Intersects(block.Bounds) && block.Type.ToString() == "exit")
+                if (this.player.Bounds.Intersects(block.Bounds) && block.Type.ToString() == "exit")
                 {
                     int nextLevel = base.currentLevel + 1;
                     if (base.currentLevel < 3)

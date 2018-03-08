@@ -1,9 +1,9 @@
 ﻿namespace NotSoSuperMario.View
 {
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using NotSoSuperMario.Controller;
-    using System.Collections.Generic;
 
     public class MonoGameRenderer
     {
@@ -14,13 +14,11 @@
             {
                 if (sprite.IsFacingRight)
                 {
-                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle,
-                    sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.None, 0);
+                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle, sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.None, 0);
                 }
                 else
                 {
-                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle,
-                    sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.FlipHorizontally, 0);
+                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle, sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.FlipHorizontally, 0);
                 }
             }
 
@@ -34,15 +32,12 @@
             {
                 if (sprite.IsFacingRight)
                 {
-                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle,
-                    sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.None, 0);
+                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle, sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.None, 0);
                 }
                 else
                 {
-                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle,
-                    sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.FlipHorizontally, 0);
+                    Globals.SpriteBatch.Draw(sprite.Texture, sprite.Position, sprite.SourceRectangle, sprite.Tint, 0.0f, Vector2.Zero, sprite.Scale, SpriteEffects.FlipHorizontally, 0);
                 }
-
             }
 
             Globals.SpriteBatch.End();

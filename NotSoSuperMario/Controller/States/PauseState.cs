@@ -1,13 +1,13 @@
 ﻿namespace NotSoSuperMario.Controller.States
 {
+    using System;
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework.Input;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.Model.Enemy;
     using NotSoSuperMario.Model.Player;
     using NotSoSuperMario.View;
-    using System;
-    using System.Collections.Generic;
-
+    
     public class PauseState : State
     {
         private Player player;

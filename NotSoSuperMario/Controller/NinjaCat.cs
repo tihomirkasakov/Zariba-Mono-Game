@@ -21,7 +21,7 @@
             Globals.Content = this.Content;
             Globals.Content.RootDirectory = "Content";
 
-            IsMouseVisible = false;
+            this.IsMouseVisible = false;
 
             Window.Title = "Ninja Cat";
 
@@ -33,12 +33,12 @@
 
         protected override void Initialize()
         {
-            currentLevel = 1;
+            this.currentLevel = 1;
             this.renderer = new MonoGameRenderer();
             this.inputHandler = new InputHandler();
             this.uiFactory = new UIFactory();
 
-            this.stateMachine = new StateMachine(this.inputHandler, this.uiFactory, currentLevel);
+            this.stateMachine = new StateMachine(this.inputHandler, this.uiFactory, this.currentLevel);
 
             base.Initialize();
         }
@@ -46,7 +46,6 @@
         protected override void LoadContent()
         {
             Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
-            //this.soundManager.LoadContent();
         }
 
         protected override void UnloadContent()
@@ -64,8 +63,7 @@
 
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.TransparentBlack);
-            this.stateMachine.Draw(renderer);
+            this.stateMachine.Draw(this.renderer);
 
             base.Draw(gameTime);
         }

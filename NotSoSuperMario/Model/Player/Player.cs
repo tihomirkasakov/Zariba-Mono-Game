@@ -1,10 +1,10 @@
 ﻿namespace NotSoSuperMario.Model.Player
 {
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
     using NotSoSuperMario.Controller.Utils;
     using NotSoSuperMario.Model.GameObjects;
-    using System.Collections.Generic;
     using NotSoSuperMario.Controller;
 
     public enum PlayerStates
@@ -13,6 +13,7 @@
         WALK,
         JUMP,
     }
+
     public class Player : Entity
     {
         private const float FRICTION_FORCE = 0.8f;
@@ -48,9 +49,15 @@
         }
 
         public PlayerStates State { get; private set; }
+
         public bool IsAttacking { get; set; }
+
         public bool IsHidden { get; set; }
-        public int Shurikens { get; set; }
+
+        public override void ActOnCollision()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public void Move(List<Block> blocks, List<Crate> crates, List<KeyboardButtonState> activeKeys)
         {
@@ -71,8 +78,7 @@
         {
             if (Keyboard.GetState().IsKeyDown(this.controls["Hide"]))
             {
-                Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width),
-                    (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
+                Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width), (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
 
                 foreach (var crate in crates)
                 {
@@ -95,15 +101,15 @@
 
             foreach (var block in blocks)
             {
-
                 Rectangle tempRect = new Rectangle((int)(this.Bounds.X + PLAYER_ACCELERATION + 1), (int)(this.Bounds.Bottom + this.velocity.Y), this.Bounds.Width, this.Bounds.Height / 3);
                 if (tempRect.Intersects(block.Bounds) && block.Type.ToString() == "spike")
                 {
                     this.Health = 0;
                 }
+
                 if (tempRect.Intersects(block.Bounds))
                 {
-                    isGrounded = true;
+                    this.isGrounded = true;
                     this.velocity = new Vector2(this.velocity.X, 0);
                 }
             }
@@ -115,16 +121,15 @@
             {
                 this.Position = new Vector2(-(this.Bounds.Width / 2), this.Position.Y);
             }
-            else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > screenRightBound)
+            else if ((this.Bounds.Right - (this.Bounds.Width / 2)) + this.velocity.X > this.screenRightBound)
             {
-                this.Position = new Vector2(screenRightBound - (this.Bounds.Width / 2), this.Position.Y);
+                this.Position = new Vector2(this.screenRightBound - (this.Bounds.Width / 2), this.Position.Y);
             }
             else
             {
-                if (IsFacingRight)
+                if (this.IsFacingRight)
                 {
-                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width + this.velocity.X + PLAYER_ACCELERATION),
-                        (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
+                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.Bounds.Width + this.velocity.X + PLAYER_ACCELERATION), (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
 
                     foreach (var block in blocks)
                     {
@@ -136,8 +141,7 @@
                 }
                 else
                 {
-                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.velocity.X + PLAYER_ACCELERATION),
-                        (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
+                    Rectangle tempRect = new Rectangle((int)(this.Bounds.X + this.velocity.X + PLAYER_ACCELERATION), (int)(this.Bounds.Y + this.velocity.Y), this.Bounds.Width, this.Bounds.Height);
 
                     foreach (var block in blocks)
                     {
@@ -146,7 +150,6 @@
                             this.velocity = new Vector2(0, this.velocity.Y);
                         }
                     }
-
                 }
             }
         }
@@ -221,7 +224,6 @@
             {
                 this.velocity = new Vector2(0, this.velocity.Y);
             }
-
         }
 
         private void ApplyGravity()
@@ -255,7 +257,6 @@
         {
             if (!Keyboard.GetState().IsKeyDown(this.controls["Move Left"]))
             {
-
                 this.IsFacingRight = true;
             }
 
@@ -263,11 +264,6 @@
             {
                 this.velocity = new Vector2(this.velocity.X + PLAYER_ACCELERATION, this.velocity.Y);
             }
-        }
-
-        public override void ActOnCollision()
-        {
-            throw new System.NotImplementedException();
-        }
+        }      
     }
 }

@@ -6,14 +6,12 @@
 
     public class StateMachine
     {
-        public State CurrentState { get; set; }
-
         public StateMachine(InputHandler inputHandler, UIFactory uiFactory, int currentLevel)
         {
-
-            // Initialize starting state
             this.CurrentState = new IntroState(inputHandler, uiFactory, currentLevel);
         }
+
+        public State CurrentState { get; set; }
 
         public void Update()
         {
